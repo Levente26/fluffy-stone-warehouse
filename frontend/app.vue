@@ -1,16 +1,8 @@
 <template>
+  <LanguageSwitcher />
   <div>
-    {{ data }}
+    <NuxtPage />
   </div>
 </template>
 
-<script setup>
-const { find } = useStrapi()
-
-const { data, pending, refresh, error } = await useAsyncData(
-  "warehouse",
-  () => find('warehouses')
-);
-
-console.log(data);
-</script>
+<script setup></script>
