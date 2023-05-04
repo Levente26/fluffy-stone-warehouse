@@ -6,4 +6,11 @@ export default defineNuxtConfig({
     locales: ["en", "hu"], // used in URL path prefix
     defaultLocale: "en", // default locale of your project for Nuxt pages and routings
   },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  css: ['~/assets/css/main.css'],
 });
