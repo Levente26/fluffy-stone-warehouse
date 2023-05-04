@@ -4,6 +4,5 @@
 </template>
 
 <script setup>
-const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 </script>
