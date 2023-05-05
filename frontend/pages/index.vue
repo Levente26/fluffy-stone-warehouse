@@ -24,7 +24,7 @@
       <IconPlus />
     </button>
   </section>
-    <!-- SEARCH INPUT -->
+  
   <section class="modal" :class="{ 'modal--active': showModal }">
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
     <div class="modal__form" :class="{ 'modal__form--active': showModal }">
