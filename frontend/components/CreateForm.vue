@@ -44,15 +44,6 @@
     />
     <div v-if="currentCapacityError">error happened</div>
 
-    <!-- packages -->
-    <!-- <input
-      class="mb-4 border-black border"
-      type="number"
-      v-model="packages"
-      @focusout="checkPackages"
-    />
-    <div v-if="packagesError">error happened</div> -->
-
     status
     <select v-model="status" @focusout="checkStatus">
       <option value="open">open</option>
@@ -100,7 +91,6 @@
         addressError ||
         maximumCapacityError ||
         currentCapacityError ||
-        // packagesError ||
         statusError ||
         packagesReceivedError ||
         packagesSentError ||
@@ -123,7 +113,6 @@ const name = ref(null);
 const address = ref(null);
 const maximumCapacity = ref(null);
 const currentCapacity = ref(null);
-// const packages = ref(null);
 const status = ref(null);
 const packagesReceived = ref(null);
 const packagesSent = ref(null);
@@ -133,7 +122,6 @@ const nameError = ref(false);
 const addressError = ref(false);
 const maximumCapacityError = ref(false);
 const currentCapacityError = ref(false);
-// const packagesError = ref(false);
 const statusError = ref(false);
 const packagesReceivedError = ref(false);
 const packagesSentError = ref(false);
@@ -172,14 +160,6 @@ const checkCurrentCapacity = () => {
   }
 };
 
-// const checkPackages = () => {
-//   if (packages.value === null || packages.value === "") {
-//     packagesError.value = true;
-//   } else {
-//     packagesError.value = false;
-//   }
-// };
-
 const checkStatus = () => {
   if (status.value === null) {
     statusError.value = true;
@@ -217,6 +197,7 @@ const createWarehouseObject = () => {
     name: name.value,
     address: address.value,
     maximumCapacity: maximumCapacity.value,
+    // if currentCapacity not null add products to obj
     currentCapacity: currentCapacity.value,
     packages: [],
     status: "open",
@@ -232,7 +213,6 @@ const onSubmit = () => {
   checkAddress();
   checkMaximumCapacity();
   checkCurrentCapacity();
-//   checkPackages();
   checkStatus();
   checkPackagesReceived();
   checkPackagesSent();
@@ -242,7 +222,6 @@ const onSubmit = () => {
     addressError.value ||
     maximumCapacityError.value ||
     currentCapacityError.value ||
-    // packagesError.value ||
     statusError.value ||
     packagesReceivedError.value ||
     packagesSentError.value ||
