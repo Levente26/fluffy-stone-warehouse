@@ -1,23 +1,33 @@
 <template>
   <section class="container" :class="{ 'pointer-events-none': showModal }">
     <h1>Warehouses by Fluffy Stone</h1>
-    <!-- SEARCH INPUT -->
+
+    <div>
+      Sort by
+      <select v-model="sortValue">
+        <option value="newest">Newest</option>
+        <option value="name">Name</option>
+        <option value="freecapacity-asc">Free capacity ASC</option>
+        <option value="freecapacity-desc">Free capacity DESC</option>
+      </select>
+    </div>
+
     <div v-if="data.data.length === 0">There are no warehouse yet</div>
     <div class="grid-list" v-if="data.data.length > 0">
-      <WarehouseCard v-for="warehouse in data.data" :warehouse="warehouse" />
+      <WarehouseCard
+        v-for="warehouse in sortedWarehouses"
+        :warehouse="warehouse"
+      />
     </div>
 
     <button @click="addNewWarehouse" class="plus-btn">
       <IconPlus />
     </button>
   </section>
-
+  
   <section class="modal" :class="{ 'modal--active': showModal }">
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
-    <div
-      class="modal__form"
-      :class="{ 'modal__form--active': showModal }"
-    >
+    <div class="modal__form" :class="{ 'modal__form--active': showModal }">
       <button @click="closeModal">
         <IconClose />
       </button>
@@ -47,6 +57,44 @@ const closeModal = () => {
   document.body.style.overflow = "auto";
   refresh();
 };
+
+const sortValue = ref("newest");
+
+const sortedWarehouses = computed(() => {
+  if (sortValue.value === "newest") {
+    return data.value.data.sort((a, b) => {
+      return (
+        new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+      );
+    });
+  }
+
+  if (sortValue.value === "name") {
+    return data.value.data.sort((a, b) => {
+      return a.attributes.name.localeCompare(b.attributes.name);
+    });
+  }
+
+  if (sortValue.value === "freecapacity-asc") {
+    return data.value.data.sort((a, b) => {
+      return (
+        a.attributes.maximumCapacity -
+        a.attributes.currentCapacity -
+        (b.attributes.maximumCapacity - b.attributes.currentCapacity)
+      );
+    });
+  }
+
+  if (sortValue.value === "freecapacity-desc") {
+    return data.value.data.sort((a, b) => {
+      return (
+        b.attributes.maximumCapacity -
+        b.attributes.currentCapacity -
+        (a.attributes.maximumCapacity - a.attributes.currentCapacity)
+      );
+    });
+  }
+});
 </script>
 
 <style lang="scss" scoped>
