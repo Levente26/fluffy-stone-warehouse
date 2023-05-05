@@ -1,9 +1,8 @@
 <template>
-  <LanguageSwitcher />
-  <div>
-    <Sidebar v-if="user" />
+  <Header />
+  <main>
     <NuxtPage />
-  </div>
+  </main>
 </template>
 
 <script setup>
@@ -19,3 +18,9 @@ onBeforeMount(() => {
   }
 });
 </script>
+
+<style lang="scss" scoped>
+main {
+  @apply flex flex-col max-w-screen-2xl mx-auto;
+}
+</style>
