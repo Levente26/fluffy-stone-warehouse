@@ -1,7 +1,6 @@
 <template>
-  <LanguageSwitcher />
+  <Header />
   <div>
-    <Sidebar v-if="user" />
     <NuxtPage />
   </div>
 </template>
