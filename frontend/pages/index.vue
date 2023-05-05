@@ -1,19 +1,32 @@
 <template>
-  <div class="container">
+  <section class="container" :class="{ 'pointer-events-none': showModal }">
     <h1>Warehouses by Fluffy Stone</h1>
+    <!-- SEARCH INPUT -->
     <div v-if="data.data.length === 0">There are no warehouse yet</div>
     <div class="grid-list" v-if="data.data.length > 0">
       <WarehouseCard v-for="warehouse in data.data" :warehouse="warehouse" />
     </div>
-    
-    <button class="mt-10 fixed bottom-4 right-4">Add new warehouse</button>
-    
-    <div></div>
-  </div>
+
+    <button @click="addNewWarehouse" class="plus-btn">
+      <IconPlus />
+    </button>
+  </section>
+
+  <section class="modal" :class="{ 'modal--active': showModal }">
+    <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
+    <div
+      class="modal__form"
+      :class="{ 'modal__form--active': showModal }"
+    >
+      <button @click="closeModal">
+        <IconClose />
+      </button>
+      <CreateForm @closeModal="closeModal" :warehouses="data" />
+    </div>
+  </section>
 </template>
 
 <script setup>
-import useDetectOutsideClick from "../composables/useDetectClickOutside";
 const { find } = useStrapi();
 
 const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
@@ -22,14 +35,80 @@ const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
   })
 );
 
-const componentRef = ref();
+const showModal = ref(false);
 
-useDetectOutsideClick(componentRef, () => {
-  console.log("hello");
-});
+const addNewWarehouse = () => {
+  showModal.value = true;
+  document.body.style.overflow = "hidden";
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  document.body.style.overflow = "auto";
+  refresh();
+};
 </script>
 
 <style lang="scss" scoped>
+.plus-btn {
+  @apply mt-10 fixed bottom-6 right-8;
+  @apply w-16 h-16;
+  @apply shadow-lg bg-blue-100 rounded-full shadow-gray-500;
+  @apply flex items-center justify-center;
+}
+.modal {
+  @apply bg-gray-800 bg-opacity-70;
+  @apply opacity-0 pointer-events-none transition-all duration-300;
+  @apply flex justify-end;
+  @apply fixed top-0 left-0 w-full h-full z-40;
+
+  &--active {
+    @apply translate-x-0 opacity-100 pointer-events-auto;
+  }
+
+  &--hidden-div {
+    @apply opacity-0 w-[20%];
+
+    @screen lg {
+      @apply w-[50%];
+    }
+
+    @screen xl {
+      @apply w-[55%];
+    }
+  }
+
+  &__form {
+    @apply bg-white;
+    @apply w-[80%] h-full p-8;
+    @apply flex flex-col;
+
+    button {
+      @apply ml-auto;
+    }
+
+    @screen lg {
+      @apply w-[50%];
+    }
+
+    @screen xl {
+      @apply w-[45%];
+    }
+
+    &--active {
+      animation: slideIn 0.4s ease-in-out forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+  }
+}
 .container {
   @apply flex flex-col;
   @apply max-w-screen-2xl w-full mx-auto;
@@ -39,7 +118,7 @@ useDetectOutsideClick(componentRef, () => {
     @apply text-2xl font-montserratBold text-center mb-10;
 
     @screen lg {
-      @apply text-4xl text-left; 
+      @apply text-4xl text-left;
     }
   }
 

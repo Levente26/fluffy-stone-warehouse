@@ -6,6 +6,8 @@
   <p>{{ data.data.attributes.maximumCapacity }}</p>
   <p>{{ data.data.attributes.currentCapacity }}</p>
 
+  <!-- SEARCH INPUT & SORT -->
+
   <div v-if="data.data.attributes.packages.data.length === 0">no packages</div>
   <div v-if="data.data.attributes.packages.data.length > 0">
     <PackageCard

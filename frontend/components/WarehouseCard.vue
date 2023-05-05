@@ -28,7 +28,7 @@ const goToSingleWarehouse = () => {
 
 <style lang="scss" scoped>
 .warehouse-card {
-  @apply border border-blue-950 p-8 rounded-md;
+  @apply border border-gray-300 p-8 rounded-md cursor-pointer;
 
   & > h2 {
     @apply text-2xl text-center font-montserratMedium mb-6; 
