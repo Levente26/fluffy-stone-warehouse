@@ -11,10 +11,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        ubuntu: ["Ubuntu", 'sans-serif'],
-        ubuntuBold: ["Ubuntu-Bold", 'sans-serif'],
-        ubuntuLight: ["Ubuntu-Light", 'sans-serif'],
-        ubuntuMedium: ["Ubuntu-Medium", 'sans-serif'],
+        montserrat: ["Montserrat", 'sans-serif'],
+        montserratBold: ["Montserrat-Bold", 'sans-serif'],
+        montserratLight: ["Montserrat-Light", 'sans-serif'],
+        montserratMedium: ["Montserrat-Medium", 'sans-serif'],
       }
     },
   },
