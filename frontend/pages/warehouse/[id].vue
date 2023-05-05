@@ -6,11 +6,11 @@
   <p>{{ data.data.attributes.maximumCapacity }}</p>
   <p>{{ data.data.attributes.currentCapacity }}</p>
 
-  <div v-if="data.data.attributes.products.data.length === 0">no products</div>
-  <div v-if="data.data.attributes.products.data.length > 0">
-    <ProductCard
-      v-for="product in data.data.attributes.products.data"
-      :product="product"
+  <div v-if="data.data.attributes.packages.data.length === 0">no packages</div>
+  <div v-if="data.data.attributes.packages.data.length > 0">
+    <PackageCard
+      v-for="singlePackage in data.data.attributes.packages.data"
+      :singlePackage="singlePackage"
     />
   </div>
 </template>
@@ -23,7 +23,7 @@ const { data, pending, refresh, error } = await useAsyncData(
   "singleWarehouse",
   () =>
     findOne("warehouses", route.params.id, {
-      populate: ["products.image"],
+      populate: ["packages.image"],
     })
 );
 </script>

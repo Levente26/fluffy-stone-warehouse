@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "products",
+  "collectionName": "packages",
   "info": {
-    "singularName": "product",
-    "pluralName": "products",
-    "displayName": "Product",
-    "description": ""
+    "singularName": "package",
+    "pluralName": "packages",
+    "displayName": "Package"
   },
   "options": {
     "draftAndPublish": false
@@ -13,12 +12,10 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "pluginOptions": {},
       "type": "string",
       "required": true
     },
     "price": {
-      "pluginOptions": {},
       "type": "decimal",
       "required": true
     },
@@ -26,24 +23,23 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::warehouse.warehouse",
-      "inversedBy": "products"
+      "inversedBy": "packages"
     },
     "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
       "allowedTypes": [
         "images"
       ],
-      "pluginOptions": {}
+      "type": "media",
+      "multiple": false,
+      "required": true
     },
-    "rating": {
-      "pluginOptions": {},
+    "rate": {
+      "required": true,
       "type": "decimal"
     },
-    "numberOfRatings": {
-      "pluginOptions": {},
-      "type": "integer"
+    "countRates": {
+      "type": "integer",
+      "required": true
     },
     "description": {
       "type": "text",
