@@ -22,27 +22,11 @@
       "type": "decimal",
       "required": true
     },
-    "quantity": {
-      "pluginOptions": {},
-      "type": "integer",
-      "required": true
-    },
     "warehouse": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::warehouse.warehouse",
       "inversedBy": "products"
-    },
-    "category": {
-      "pluginOptions": {},
-      "type": "enumeration",
-      "enum": [
-        "electronics",
-        "jewelery",
-        "men's clothing",
-        "women's clothing"
-      ],
-      "required": true
     },
     "image": {
       "type": "media",
@@ -60,6 +44,14 @@
     "numberOfRatings": {
       "pluginOptions": {},
       "type": "integer"
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "required": true
     }
   }
 }

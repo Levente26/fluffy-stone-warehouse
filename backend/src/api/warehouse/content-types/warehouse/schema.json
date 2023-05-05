@@ -53,6 +53,14 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::warehouse.warehouse"
+    },
+    "packagesReceived": {
+      "type": "integer",
+      "required": true
+    },
+    "packagesSent": {
+      "type": "integer",
+      "required": true
     }
   }
 }
