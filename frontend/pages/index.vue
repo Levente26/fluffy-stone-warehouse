@@ -1,20 +1,14 @@
 <template>
-  <div class="mb-10" ref="componentRef">
-    <p class="text-3xl font-bold underline">{{ $t("welcome") }}</p>
-  </div>
-
-  <div>
+  <div class="container">
     <h1>Warehouses by Fluffy Stone</h1>
-    <div v-if="data.data.length === 0">no worries</div>
-    <div v-if="data.data.length > 0">
+    <div v-if="data.data.length === 0">There are no warehouse yet</div>
+    <div class="grid-list" v-if="data.data.length > 0">
       <WarehouseCard v-for="warehouse in data.data" :warehouse="warehouse" />
     </div>
-  </div>
-
-  <button class="mt-20">Add new warehouse</button>
-
-  <div>
-    <!-- this will be the add new warehouse div -->
+    
+    <button class="mt-10 fixed bottom-4 right-4">Add new warehouse</button>
+    
+    <div></div>
   </div>
 </template>
 
@@ -36,9 +30,25 @@ useDetectOutsideClick(componentRef, () => {
 </script>
 
 <style lang="scss" scoped>
-div {
-  p {
-    @apply text-3xl text-blue-500 font-bold underline;
+.container {
+  @apply flex flex-col;
+  @apply max-w-screen-2xl w-full mx-auto;
+  @apply py-10 px-8;
+
+  & > h1 {
+    @apply text-2xl font-montserratBold text-center mb-10;
+
+    @screen lg {
+      @apply text-4xl text-left; 
+    }
+  }
+
+  .grid-list {
+    @apply grid grid-cols-1 gap-4;
+
+    @screen lg {
+      @apply grid-cols-2 gap-8;
+    }
   }
 }
 </style>
