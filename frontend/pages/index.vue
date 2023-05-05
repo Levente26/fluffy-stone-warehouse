@@ -21,7 +21,7 @@
       <button @click="closeModal">
         <IconClose />
       </button>
-      <CreateForm :warehouses="data" />
+      <CreateForm @closeModal="closeModal" :warehouses="data" />
     </div>
   </section>
 </template>
@@ -45,6 +45,7 @@ const addNewWarehouse = () => {
 const closeModal = () => {
   showModal.value = false;
   document.body.style.overflow = "auto";
+  refresh();
 };
 </script>
 

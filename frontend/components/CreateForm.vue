@@ -44,21 +44,21 @@
     />
     <div v-if="currentCapacityError">error happened</div>
 
-    packages
-    <input
+    <!-- packages -->
+    <!-- <input
       class="mb-4 border-black border"
       type="number"
       v-model="packages"
       @focusout="checkPackages"
     />
-    <div v-if="packagesError">error happened</div>
+    <div v-if="packagesError">error happened</div> -->
 
     status
     <select v-model="status" @focusout="checkStatus">
-      <option value="a">aaa</option>
-      <!-- <option v-for="status in statuses" :key="status.id">
-        {{ status.name }}
-      </option> -->
+      <option value="open">open</option>
+      <option value="full">full</option>
+      <option value="closed">closed</option>
+      <option value="empty">empty</option>
     </select>
     <div v-if="statusError">error happened</div>
 
@@ -82,10 +82,13 @@
 
     secondary warehouse
     <select v-model="secondaryWarehouse" @focusout="checkSecondaryWarehouse">
-      <option value="a">aaa</option>
-      <!-- <option v-for="warehouse in warehouses" :key="warehouse.id">
-        {{ warehouse.name }}
-      </option> -->
+      <option
+        v-for="warehouse in warehouses.data"
+        :key="warehouse.id"
+        :value="warehouse.id"
+      >
+        {{ warehouse.attributes.name }}
+      </option>
     </select>
     <div v-if="secondaryWarehouseError">error happened</div>
 
@@ -97,7 +100,7 @@
         addressError ||
         maximumCapacityError ||
         currentCapacityError ||
-        packagesError ||
+        // packagesError ||
         statusError ||
         packagesReceivedError ||
         packagesSentError ||
@@ -111,13 +114,16 @@
 
 <script setup>
 const { warehouses } = defineProps(["warehouses"]);
+const { create } = useStrapi();
+const emit = defineEmits(["closeModal"]);
+
 const selectedOption = ref(null);
 
 const name = ref(null);
 const address = ref(null);
 const maximumCapacity = ref(null);
 const currentCapacity = ref(null);
-const packages = ref(null);
+// const packages = ref(null);
 const status = ref(null);
 const packagesReceived = ref(null);
 const packagesSent = ref(null);
@@ -127,7 +133,7 @@ const nameError = ref(false);
 const addressError = ref(false);
 const maximumCapacityError = ref(false);
 const currentCapacityError = ref(false);
-const packagesError = ref(false);
+// const packagesError = ref(false);
 const statusError = ref(false);
 const packagesReceivedError = ref(false);
 const packagesSentError = ref(false);
@@ -166,13 +172,13 @@ const checkCurrentCapacity = () => {
   }
 };
 
-const checkPackages = () => {
-  if (packages.value === null || packages.value === "") {
-    packagesError.value = true;
-  } else {
-    packagesError.value = false;
-  }
-};
+// const checkPackages = () => {
+//   if (packages.value === null || packages.value === "") {
+//     packagesError.value = true;
+//   } else {
+//     packagesError.value = false;
+//   }
+// };
 
 const checkStatus = () => {
   if (status.value === null) {
@@ -212,13 +218,13 @@ const createWarehouseObject = () => {
     address: address.value,
     maximumCapacity: maximumCapacity.value,
     currentCapacity: currentCapacity.value,
-    packages: packages.value,
-    status: status.value,
+    packages: [],
+    status: "open",
     packagesReceived: packagesReceived.value,
     packagesSent: packagesSent.value,
-    secondaryWarehouse: secondaryWarehouse.value,
+    secondaryWarehouse: 1,
   };
-  createNewWarehouse();
+  createNewWarehouse(obj);
 };
 
 const onSubmit = () => {
@@ -226,7 +232,7 @@ const onSubmit = () => {
   checkAddress();
   checkMaximumCapacity();
   checkCurrentCapacity();
-  checkPackages();
+//   checkPackages();
   checkStatus();
   checkPackagesReceived();
   checkPackagesSent();
@@ -236,7 +242,7 @@ const onSubmit = () => {
     addressError.value ||
     maximumCapacityError.value ||
     currentCapacityError.value ||
-    packagesError.value ||
+    // packagesError.value ||
     statusError.value ||
     packagesReceivedError.value ||
     packagesSentError.value ||
@@ -244,13 +250,26 @@ const onSubmit = () => {
   ) {
     return;
   }
-  
+
   createWarehouseObject();
 };
 
 const createAutomatically = () => {
   selectedOption.value = 1;
-  createNewWarehouse();
+
+  const obj = {
+    name: "Warehouse 1",
+    address: "Address 1",
+    maximumCapacity: 100,
+    currentCapacity: 0,
+    packages: [],
+    status: "open",
+    packagesReceived: 0,
+    packagesSent: 0,
+    secondaryWarehouse: getRandomWarehouse(),
+  };
+
+  createNewWarehouse(obj);
 };
 
 const createManually = () => {
@@ -264,22 +283,12 @@ const getRandomWarehouse = () => {
   return randomWarehouse;
 };
 
-const createNewWarehouse = () => {
-  if (selectedOption.value === 1) {
-    // create automatically
-    const obj = {
-      name: "Warehouse 1",
-      address: "Address 1",
-      maximumCapacity: 100,
-      currentCapacity: 0,
-      packages: [],
-      status: "open",
-      packagesReceived: 0,
-      packagesSent: 0,
-      secondaryWarehouse: getRandomWarehouse(),
-    };
-  } else if (selectedOption.value === 2) {
-    // create manually
+const createNewWarehouse = async (obj) => {
+  try {
+    await create("warehouses", obj);
+    emit("closeModal");
+  } catch (error) {
+    serverError.value = true;
   }
 };
 </script>
