@@ -8,6 +8,7 @@ import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 export default {
+  props: ['currentCapacity', 'maximumCapacity'],
   mounted() {
     let root = am5.Root.new(this.$refs.chartdiv);
 
@@ -23,11 +24,11 @@ export default {
     let data = [
       {
         country: "Used Capacity",
-        sales: 100,
+        sales: this.currentCapacity,
       },
       {
         country: "Free Capacity",
-        sales: 80,
+        sales: this.maximumCapacity - this.currentCapacity,
       },
     ];
 

@@ -5,11 +5,17 @@
     <div class="divider mb-5"></div>
     <div class="warehouse-card__charts">
       <ClientOnly>
-        <ChartsPieChart />
+        <ChartsPieChart
+          :currentCapacity="warehouse.attributes.currentCapacity"
+          :maximumCapacity="warehouse.attributes.maximumCapacity"
+        />
       </ClientOnly>
       <div class="divider"></div>
       <ClientOnly>
-        <ChartsXYChart />
+        <ChartsXYChart
+          :receivedPackages="warehouse.attributes.packagesReceived"
+          :sentPackages="warehouse.attributes.packagesSent"
+        />
       </ClientOnly>
     </div>
   </div>
@@ -31,7 +37,7 @@ const goToSingleWarehouse = () => {
   @apply border border-gray-300 p-8 rounded-md cursor-pointer;
 
   & > h2 {
-    @apply text-2xl text-center font-montserratMedium mb-6; 
+    @apply text-2xl text-center font-montserratMedium mb-6;
   }
 
   & > p {
