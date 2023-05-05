@@ -4,6 +4,10 @@
     <p>{{ warehouse.attributes.status }}</p>
     <p>{{ warehouse.attributes.maximumCapacity }}</p>
     <p>{{ warehouse.attributes.currentCapacity }}</p>
+    
+    <ClientOnly>
+      <Chart />
+    </ClientOnly>
   </div>
 </template>
 
