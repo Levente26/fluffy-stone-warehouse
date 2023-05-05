@@ -17,29 +17,13 @@
 
 <script setup>
 const { findOne } = useStrapi();
-const { locale } = useI18n();
-const localePath = useLocalePath();
 const route = useRoute();
-const router = useRouter();
 
 const { data, pending, refresh, error } = await useAsyncData(
   "singleWarehouse",
   () =>
     findOne("warehouses", route.params.id, {
-      populate: ["products.image", "localizations"],
-      _locale: locale.value,
-    }),
-  {
-    watch: route,
-  }
+      populate: ["products.image"],
+    })
 );
-
-watch(locale, () => {
-  router.push(
-    localePath(
-      `/warehouse/${data.value.data.attributes.localizations.data[0].id}`,
-      locale.value
-    )
-  );
-});
 </script>

@@ -21,18 +21,11 @@
 <script setup>
 import useDetectOutsideClick from "../composables/useDetectClickOutside";
 const { find } = useStrapi();
-const { locale } = useI18n();
 
-const { data, pending, refresh, error } = await useAsyncData(
-  "warehouse",
-  () =>
-    find("warehouses", {
-      populate: "products.image",
-      locale: locale.value,
-    }),
-  {
-    watch: locale,
-  }
+const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
+  find("warehouses", {
+    populate: "products.image",
+  })
 );
 
 const componentRef = ref();
