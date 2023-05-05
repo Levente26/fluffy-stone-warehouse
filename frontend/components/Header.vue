@@ -27,7 +27,7 @@ const handleLogout = () => {
 section {
   @apply flex justify-between items-center;
   @apply w-[96%] mx-auto h-16 px-4 max-w-screen-2xl;
-  @apply mt-4 shadow-lg bg-blue-100 rounded-full shadow-gray-300 z-50;
+  @apply mt-4 shadow-lg bg-blue-100 rounded-full shadow-gray-300 z-10;
 
   @apply sticky top-0;
 
