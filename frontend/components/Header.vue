@@ -26,8 +26,9 @@ const handleLogout = () => {
 <style lang="scss" scoped>
 section {
   @apply flex justify-between items-center;
-  @apply w-full h-16 px-4;
-  @apply bg-orange-200;
+  @apply w-[96%] mx-auto h-16 px-4 max-w-screen-2xl;
+  @apply mt-4 shadow-lg bg-blue-100 rounded-full shadow-gray-300 z-50;
+
   @apply sticky top-0;
 
   & > * {
