@@ -8,6 +8,8 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 export default {
+  props: ['receivedPackages', 'sentPackages'],
+
   mounted() {
     let root = am5.Root.new(this.$refs.chartdiv);
 
@@ -24,11 +26,11 @@ export default {
     let data = [
       {
         category: "Received Packages",
-        value: 1000,
+        value: this.receivedPackages,
       },
       {
         category: "Sent Packages",
-        value: 1200,
+        value: this.sentPackages,
       },
     ];
 
