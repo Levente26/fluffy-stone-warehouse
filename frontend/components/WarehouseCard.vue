@@ -6,6 +6,7 @@
     <div class="warehouse-card__charts">
       <ClientOnly>
         <ChartsPieChart
+          :key="warehouse.id"
           :currentCapacity="warehouse.attributes.currentCapacity"
           :maximumCapacity="warehouse.attributes.maximumCapacity"
         />
@@ -13,6 +14,7 @@
       <div class="divider"></div>
       <ClientOnly>
         <ChartsXYChart
+          :key="warehouse.id"
           :receivedPackages="warehouse.attributes.packagesReceived"
           :sentPackages="warehouse.attributes.packagesSent"
         />
