@@ -3,8 +3,7 @@
     <h1>Warehouses by Fluffy Stone</h1>
 
     <div>
-      Status Colors: 
-      open
+      Status Colors: open
       <div class="status status--green"></div>
       closed
       <div class="status status--red"></div>
@@ -38,6 +37,7 @@
       <WarehouseCard
         v-for="warehouse in filteredWarehouses"
         :warehouse="warehouse"
+        :key="warehouse.id"
       />
     </div>
 
@@ -156,15 +156,15 @@ const filteredWarehouses = computed(() => {
   &--green {
     background-color: #2ecc71;
   }
-  
+
   &--yellow {
     background-color: #f1c40f;
   }
-  
+
   &--red {
     background-color: #e74c3c;
   }
-  
+
   &--blue {
     background-color: #3498db;
   }
