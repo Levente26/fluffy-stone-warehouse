@@ -4,23 +4,29 @@
 
     <ArchivePageStatusColorHelper />
 
-    <div>
-      Sort by
-      <select v-model="sortValue">
-        <option value="newest">Newest</option>
-        <option value="name">Name</option>
-        <option value="freecapacity-asc">Free capacity ASC</option>
-        <option value="freecapacity-desc">Free capacity DESC</option>
-      </select>
+    <div class="filter-wrapper">
+      <div class="select-wrapper">
+        <span>Sort by</span>
 
-      Filter by status
-      <select v-model="filterByStatusValue">
-        <option value="all">all</option>
-        <option value="open">open</option>
-        <option value="full">full</option>
-        <option value="closed">closed</option>
-        <option value="empty">empty</option>
-      </select>
+        <select v-model="sortValue">
+          <option value="newest">Newest</option>
+          <option value="name">Name</option>
+          <option value="freecapacity-asc">Free capacity ASC</option>
+          <option value="freecapacity-desc">Free capacity DESC</option>
+        </select>
+      </div>
+
+      <div class="select-wrapper">
+        <span>Filter by status</span>
+
+        <select v-model="filterByStatusValue">
+          <option value="all">all</option>
+          <option value="open">open</option>
+          <option value="full">full</option>
+          <option value="closed">closed</option>
+          <option value="empty">empty</option>
+        </select>
+      </div>
     </div>
 
     <div v-if="data.data.length === 0">There are no warehouse yet</div>
@@ -40,9 +46,14 @@
   <section class="modal" :class="{ 'modal--active': showModal }">
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
     <div class="modal__form" :class="{ 'modal__form--active': showModal }">
-      <button @click="closeModal">
-        <IconClose />
-      </button>
+      <div class="modal__top">
+        <h2>Create new Warehouse</h2>
+
+        <button @click="closeModal">
+          <IconClose />
+        </button>
+      </div>
+
       <ArchivePageCreateForm @closeModal="closeModal" :warehouses="data" />
     </div>
   </section>
@@ -146,7 +157,33 @@ const filteredWarehouses = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.filter-wrapper {
+  @apply flex flex-col;
 
+  @screen md {
+    @apply flex-row justify-start;
+  }
+
+  .select-wrapper {
+    @apply mb-8;
+    @apply flex flex-col;
+
+    @screen md {
+      @apply mr-8 mb-10;
+    }
+
+    span {
+      @apply font-montserratMedium;
+      @apply mb-2;
+    }
+
+    select {
+      @apply bg-white border border-gray-300 rounded-md;
+      @apply py-2 px-4;
+      @apply min-w-[250px];
+    }
+  }
+}
 .plus-btn {
   @apply mt-10 fixed bottom-6 right-8;
   @apply w-16 h-16;
@@ -158,24 +195,35 @@ const filteredWarehouses = computed(() => {
   @apply opacity-0 pointer-events-none transition-all duration-300;
   @apply flex justify-end;
   @apply fixed top-0 left-0 w-full h-full z-40;
-
+  
   &--active {
     @apply translate-x-0 opacity-100 pointer-events-auto;
   }
-
+  
   &--hidden-div {
     @apply opacity-0 w-[20%];
-
+    
     @screen lg {
       @apply w-[50%];
     }
-
+    
     @screen xl {
       @apply w-[55%];
     }
   }
 
+  &__top {
+    @apply flex items-center justify-between;
+    @apply mb-8;
+    
+    h2 {
+      @apply text-2xl font-montserratMedium;
+    }
+    
+  }
+
   &__form {
+    @apply overflow-y-auto;
     @apply bg-white;
     @apply w-[80%] h-full p-8;
     @apply flex flex-col;

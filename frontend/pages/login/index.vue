@@ -7,7 +7,7 @@
       v-model="email"
       @focusout="checkEmail"
     />
-    <div v-if="emailError">error happened</div>
+    <div v-if="emailError" class="form-error">error happened</div>
 
     password
     <input
@@ -16,9 +16,9 @@
       v-model="password"
       @focusout="checkPassword"
     />
-    <div v-if="passwordError">error happened</div>
+    <div v-if="passwordError" class="form-error">error happened</div>
 
-    <div v-if="serverError">server error happened</div>
+    <div v-if="serverError" class="form-error">server error happened</div>
 
     <button :disabled="emailError || passwordError">submit</button>
   </form>

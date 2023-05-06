@@ -11,13 +11,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        montserrat: ["Montserrat", 'sans-serif'],
-        montserratBold: ["Montserrat-Bold", 'sans-serif'],
-        montserratLight: ["Montserrat-Light", 'sans-serif'],
-        montserratMedium: ["Montserrat-Medium", 'sans-serif'],
-      }
+        montserrat: ["Montserrat", "sans-serif"],
+        montserratBold: ["Montserrat-Bold", "sans-serif"],
+        montserratLight: ["Montserrat-Light", "sans-serif"],
+        montserratMedium: ["Montserrat-Medium", "sans-serif"],
+      },
+      colors: {
+        font: "#000075",
+      },
     },
   },
   plugins: [],
-}
-
+};

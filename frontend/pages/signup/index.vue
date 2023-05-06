@@ -7,7 +7,7 @@
       v-model="username"
       @focusout="checkUsername"
     />
-    <div v-if="usernameError">error happened</div>
+    <div v-if="usernameError" class="form-error">error happened</div>
 
     email
     <input
@@ -16,7 +16,7 @@
       v-model="email"
       @focusout="checkEmail"
     />
-    <div v-if="emailError">error happened</div>
+    <div v-if="emailError" class="form-error">error happened</div>
     
     password
     <input
@@ -25,7 +25,7 @@
       v-model="password"
       @focusout="checkPassword"
     />
-    <div v-if="passwordError">error happened</div>
+    <div v-if="passwordError" class="form-error">error happened</div>
 
     
     password twice
@@ -35,7 +35,7 @@
       v-model="passwordTwice"
       @focusout="checkPasswordTwice"
     />
-    <div v-if="passwordTwiceError">error happened</div>
+    <div v-if="passwordTwiceError" class="form-error">error happened</div>
 
     
     phone
@@ -45,9 +45,9 @@
       v-model="phoneNumber"
       @focusout="checkPhone"
     />
-    <div v-if="phoneError">error happened</div>
+    <div v-if="phoneError" class="form-error">error happened</div>
 
-    <div v-if="serverError">server error happened</div>
+    <div v-if="serverError" class="form-error">server error happened</div>
 
     <button>submit</button>
   </form>
