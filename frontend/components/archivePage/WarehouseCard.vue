@@ -28,20 +28,18 @@ const localePath = useLocalePath();
 const { locale } = useI18n();
 
 const dynamicStatusClass = computed(() => {
-  if (warehouse.attributes.status === "open") {
-    return "warehouse-card__status--green";
-  }
+  switch (warehouse.attributes.status) {
+    case "open":
+      return "warehouse-card__status--green";
 
-  if (warehouse.attributes.status === "full") {
-    return "warehouse-card__status--yellow";
-  }
+    case "full":
+      return "warehouse-card__status--yellow";
 
-  if (warehouse.attributes.status === "closed") {
-    return "warehouse-card__status--red";
-  }
-
-  if (warehouse.attributes.status === "empty") {
-    return "warehouse-card__status--blue";
+    case "closed":
+      return "warehouse-card__status--red";
+      
+    case "empty":
+      return "warehouse-card__status--blue";
   }
 });
 

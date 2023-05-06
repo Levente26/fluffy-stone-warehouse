@@ -1,6 +1,6 @@
 <template>
   <section>
-    <LanguageSwitcher />
+    <HeaderLanguageSwitcher />
     <div>
       <button v-if="!user">Signup</button>
       <button v-if="!user">Login</button>
