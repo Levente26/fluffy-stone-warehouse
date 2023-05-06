@@ -116,7 +116,13 @@ const checkPhone = () => {
 };
 
 const onSubmit = async () => {
+  checkUsername();
+  checkEmail();
+  checkPassword();
+  checkPasswordTwice();
+  checkPhone();
   serverError.value = false;
+
   try {
     await register({
       username: username.value,
