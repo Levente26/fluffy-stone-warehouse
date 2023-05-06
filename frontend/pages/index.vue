@@ -3,6 +3,17 @@
     <h1>Warehouses by Fluffy Stone</h1>
 
     <div>
+      Status Colors: open
+      <div class="status status--green"></div>
+      closed
+      <div class="status status--red"></div>
+      full
+      <div class="status status--yellow"></div>
+      empty
+      <div class="status status--blue"></div>
+    </div>
+
+    <div>
       Sort by
       <select v-model="sortValue">
         <option value="newest">Newest</option>
@@ -26,6 +37,7 @@
       <WarehouseCard
         v-for="warehouse in filteredWarehouses"
         :warehouse="warehouse"
+        :key="warehouse.id"
       />
     </div>
 
@@ -138,6 +150,25 @@ const filteredWarehouses = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.status {
+  @apply w-5 h-5 rounded-full;
+
+  &--green {
+    background-color: #2ecc71;
+  }
+
+  &--yellow {
+    background-color: #f1c40f;
+  }
+
+  &--red {
+    background-color: #e74c3c;
+  }
+
+  &--blue {
+    background-color: #3498db;
+  }
+}
 .plus-btn {
   @apply mt-10 fixed bottom-6 right-8;
   @apply w-16 h-16;
