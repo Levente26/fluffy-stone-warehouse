@@ -55,7 +55,10 @@ const checkPassword = () => {
 };
 
 const onSubmit = async () => {
+  checkEmail();
+  checkPassword();
   serverError.value = false;
+  
   try {
     await login({ identifier: email.value, password: password.value });
     router.push(localePath("/", locale.value));
