@@ -2,16 +2,7 @@
   <section class="container" :class="{ 'pointer-events-none': showModal }">
     <h1>Warehouses by Fluffy Stone</h1>
 
-    <div>
-      Status Colors: open
-      <div class="status status--green"></div>
-      closed
-      <div class="status status--red"></div>
-      full
-      <div class="status status--yellow"></div>
-      empty
-      <div class="status status--blue"></div>
-    </div>
+    <ArchivePageStatusColorHelper />
 
     <div>
       Sort by
@@ -34,7 +25,7 @@
 
     <div v-if="data.data.length === 0">There are no warehouse yet</div>
     <div class="grid-list" v-if="data.data.length > 0">
-      <WarehouseCard
+      <ArchivePageWarehouseCard
         v-for="warehouse in filteredWarehouses"
         :warehouse="warehouse"
         :key="warehouse.id"
@@ -52,7 +43,7 @@
       <button @click="closeModal">
         <IconClose />
       </button>
-      <CreateForm @closeModal="closeModal" :warehouses="data" />
+      <ArchivePageCreateForm @closeModal="closeModal" :warehouses="data" />
     </div>
   </section>
 </template>
@@ -68,107 +59,94 @@ const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
 
 const showModal = ref(false);
 
-const addNewWarehouse = () => {
-  showModal.value = true;
-  document.body.style.overflow = "hidden";
-};
-
 const closeModal = () => {
   showModal.value = false;
   document.body.style.overflow = "auto";
   refresh();
 };
 
+const addNewWarehouse = () => {
+  showModal.value = true;
+  document.body.style.overflow = "hidden";
+};
+
 const sortValue = ref("newest");
 const filterByStatusValue = ref("all");
 
 const sortedWarehouses = computed(() => {
-  if (sortValue.value === "newest") {
-    return data.value.data.sort((a, b) => {
-      return (
-        new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
-      );
-    });
-  }
+  switch (sortValue.value) {
+    case "newest":
+      return data.value.data.sort((a, b) => {
+        return (
+          new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+        );
+      });
 
-  if (sortValue.value === "name") {
-    return data.value.data.sort((a, b) => {
-      return a.attributes.name.localeCompare(b.attributes.name);
-    });
-  }
+    case "name":
+      return data.value.data.sort((a, b) => {
+        return a.attributes.name.localeCompare(b.attributes.name);
+      });
 
-  if (sortValue.value === "freecapacity-asc") {
-    return data.value.data.sort((a, b) => {
-      return (
-        a.attributes.maximumCapacity -
-        a.attributes.currentCapacity -
-        (b.attributes.maximumCapacity - b.attributes.currentCapacity)
-      );
-    });
-  }
+    case "freecapacity-asc":
+      return data.value.data.sort((a, b) => {
+        return (
+          a.attributes.maximumCapacity -
+          a.attributes.currentCapacity -
+          (b.attributes.maximumCapacity - b.attributes.currentCapacity)
+        );
+      });
 
-  if (sortValue.value === "freecapacity-desc") {
-    return data.value.data.sort((a, b) => {
-      return (
-        b.attributes.maximumCapacity -
-        b.attributes.currentCapacity -
-        (a.attributes.maximumCapacity - a.attributes.currentCapacity)
-      );
-    });
+    case "freecapacity-desc":
+      return data.value.data.sort((a, b) => {
+        return (
+          b.attributes.maximumCapacity -
+          b.attributes.currentCapacity -
+          (a.attributes.maximumCapacity - a.attributes.currentCapacity)
+        );
+      });
+
+    default:
+      return data.value.data.sort((a, b) => {
+        return (
+          new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+        );
+      });
   }
 });
 
 const filteredWarehouses = computed(() => {
-  if (filterByStatusValue.value === "all") {
-    return sortedWarehouses.value;
-  }
+  switch (filterByStatusValue.value) {
+    case "all":
+      return sortedWarehouses.value;
 
-  if (filterByStatusValue.value === "open") {
-    return sortedWarehouses.value.filter(
-      (warehouse) => warehouse.attributes.status === "open"
-    );
-  }
+    case "open":
+      return sortedWarehouses.value.filter(
+        (warehouse) => warehouse.attributes.status === "open"
+      );
 
-  if (filterByStatusValue.value === "full") {
-    return sortedWarehouses.value.filter(
-      (warehouse) => warehouse.attributes.status === "full"
-    );
-  }
+    case "full":
+      return sortedWarehouses.value.filter(
+        (warehouse) => warehouse.attributes.status === "full"
+      );
 
-  if (filterByStatusValue.value === "closed") {
-    return sortedWarehouses.value.filter(
-      (warehouse) => warehouse.attributes.status === "closed"
-    );
-  }
+    case "closed":
+      return sortedWarehouses.value.filter(
+        (warehouse) => warehouse.attributes.status === "closed"
+      );
 
-  if (filterByStatusValue.value === "empty") {
-    return sortedWarehouses.value.filter(
-      (warehouse) => warehouse.attributes.status === "empty"
-    );
+    case "empty":
+      return sortedWarehouses.value.filter(
+        (warehouse) => warehouse.attributes.status === "empty"
+      );
+
+    default:
+      return sortedWarehouses.value;
   }
 });
 </script>
 
 <style lang="scss" scoped>
-.status {
-  @apply w-5 h-5 rounded-full;
 
-  &--green {
-    background-color: #2ecc71;
-  }
-
-  &--yellow {
-    background-color: #f1c40f;
-  }
-
-  &--red {
-    background-color: #e74c3c;
-  }
-
-  &--blue {
-    background-color: #3498db;
-  }
-}
 .plus-btn {
   @apply mt-10 fixed bottom-6 right-8;
   @apply w-16 h-16;
@@ -228,6 +206,7 @@ const filteredWarehouses = computed(() => {
     }
   }
 }
+
 .container {
   @apply flex flex-col;
   @apply max-w-screen-2xl w-full mx-auto;
