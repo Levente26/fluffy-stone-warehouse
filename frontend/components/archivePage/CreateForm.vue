@@ -3,76 +3,86 @@
     <button @click="createAutomatically">Create it automatically</button>
     <button @click="createManually">Create it manually</button>
   </div>
-  <form
-    v-if="selectedOption === 2"
-    @submit.prevent="onSubmit"
-    class="flex flex-col"
-  >
-    name
+  <form v-if="selectedOption === 2" @submit.prevent="onSubmit">
+    <label>Name</label>
     <input
       class="mb-4 border-black border"
       type="name"
       v-model="name"
       @focusout="checkName"
+      :class="{ 'form-field-error': nameError }"
     />
-    <div v-if="nameError">error happened</div>
+    <div v-if="nameError" class="form-error">error happened</div>
 
-    address
+    <label>Address</label>
     <input
       class="mb-4 border-black border"
       type="text"
       v-model="address"
       @focusout="checkAddress"
+      :class="{ 'form-field-error': addressError }"
     />
-    <div v-if="addressError">error happened</div>
+    <div v-if="addressError" class="form-error">error happened</div>
 
-    maximum capacity
+    <label>Maximum Capacity</label>
     <input
       class="mb-4 border-black border"
       type="number"
       v-model="maximumCapacity"
       @focusout="checkMaximumCapacity"
+      :class="{ 'form-field-error': maximumCapacityError }"
     />
-    <div v-if="maximumCapacityError">error happened</div>
+    <div v-if="maximumCapacityError" class="form-error">error happened</div>
 
-    current capacity
+    <label>Current Capacity</label>
     <input
       class="mb-4 border-black border"
       type="number"
       v-model="currentCapacity"
       @focusout="checkCurrentCapacity"
+      :class="{ 'form-field-error': currentCapacityError }"
     />
-    <div v-if="currentCapacityError">error happened</div>
+    <div v-if="currentCapacityError" class="form-error">error happened</div>
 
-    status
-    <select v-model="status" @focusout="checkStatus">
+    <label>Status</label>
+    <select
+      v-model="status"
+      @focusout="checkStatus"
+      :class="{ 'form-field-error': statusError }"
+    >
       <option value="open">open</option>
       <option value="full">full</option>
       <option value="closed">closed</option>
       <option value="empty">empty</option>
     </select>
-    <div v-if="statusError">error happened</div>
+    <div v-if="statusError" class="form-error">error happened</div>
 
-    packages received
+    <label>Received Packages</label>
     <input
       class="mb-4 border-black border"
       type="number"
       v-model="packagesReceived"
       @focusout="checkPackagesReceived"
+      :class="{ 'form-field-error': packagesReceivedError }"
     />
-    <div v-if="packagesReceivedError">error happened</div>
+    <div v-if="packagesReceivedError" class="form-error">error happened</div>
 
-    packages sent
+    <label>Packages Sent</label>
     <input
       class="mb-4 border-black border"
       type="number"
       v-model="packagesSent"
       @focusout="checkPackagesSent"
+      :class="{ 'form-field-error': packagesSentError }"
     />
-    <div v-if="packagesSentError">error happened</div>
+    <div v-if="packagesSentError" class="form-error">error happened</div>
 
-    secondary warehouse
-    <select v-model="secondaryWarehouse" @focusout="checkSecondaryWarehouse">
+    <label>Secondary Warehouse</label>
+    <select
+      v-model="secondaryWarehouse"
+      @focusout="checkSecondaryWarehouse"
+      :class="{ 'form-field-error': secondaryWarehouseError }"
+    >
       <option
         v-for="warehouse in warehouses.data"
         :key="warehouse.id"
@@ -81,9 +91,9 @@
         {{ warehouse.attributes.name }}
       </option>
     </select>
-    <div v-if="secondaryWarehouseError">error happened</div>
+    <div v-if="secondaryWarehouseError" class="form-error">error happened</div>
 
-    <div v-if="serverError">server error happened</div>
+    <div v-if="serverError" class="form-error">server error happened</div>
 
     <button
       :disabled="
@@ -205,7 +215,20 @@ const createWarehouseObject = () => {
     packagesSent: packagesSent.value,
     secondaryWarehouse: 1,
   };
+  
+  clearFormData();
   createNewWarehouse(obj);
+};
+
+const clearFormData = () => {
+  name.value = null;
+  address.value = null;
+  maximumCapacity.value = null;
+  currentCapacity.value = null;
+  status.value = null;
+  packagesReceived.value = null;
+  packagesSent.value = null;
+  secondaryWarehouse.value = null;
 };
 
 const onSubmit = () => {
@@ -237,12 +260,12 @@ const createAutomatically = () => {
   selectedOption.value = 1;
 
   const obj = {
-    name: "Warehouse 1",
-    address: "Address 1",
+    name: `Warehouse ${Math.floor(Math.random() * 1000)}`,
+    address: "Random street 1",
     maximumCapacity: 100,
     currentCapacity: 0,
     packages: [],
-    status: "open",
+    status: "empty",
     packagesReceived: 0,
     packagesSent: 0,
     secondaryWarehouse: getRandomWarehouse(),
@@ -273,11 +296,54 @@ const createNewWarehouse = async (obj) => {
 </script>
 
 <style lang="scss" scoped>
+h2 {
+  @apply text-2xl font-montserratMedium mt-0;
+}
 .btn-holder {
-  @apply flex justify-between items-center w-full mx-auto mt-10;
+  @apply flex flex-col items-center;
+  @apply w-full mx-auto my-10;
 
   @screen md {
-    @apply w-1/2;
+    @apply w-full;
+    @apply flex-row justify-between;
+  }
+
+  @screen 2xl {
+    @apply w-3/4;
+  }
+
+  & > button {
+    @apply w-full mx-2 mb-4 py-2 px-4 cursor-pointer;
+    @apply border border-font rounded-md;
+    @apply transition-all duration-300;
+
+    &:hover {
+      @apply bg-font text-white;
+    }
+  }
+}
+
+form {
+  @apply flex flex-col max-w-lg mx-auto w-full;
+
+  & > label {
+    @apply text-sm font-montserratLight;
+    @apply mb-1;
+  }
+
+  & > input,
+  select {
+    @apply w-full mb-4 py-2 px-4 border border-gray-300 bg-white rounded-md font-montserratLight;
+  }
+
+  & > button {
+    @apply w-max mx-auto my-4 py-2 px-6 cursor-pointer;
+    @apply border border-font bg-font text-white rounded-md;
+    @apply transition-all duration-300;
+
+    &:hover {
+      @apply bg-white text-font;
+    }
   }
 }
 </style>

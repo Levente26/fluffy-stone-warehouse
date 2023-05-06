@@ -3,30 +3,39 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "Montserrat";
-    src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
-    display: swap;
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.ttf") format("truetype");
+  display: swap;
 }
 
 @font-face {
-    font-family: "Montserrat-Medium";
-    src: url("../fonts/Montserrat-Medium.ttf") format("truetype");
-    display: swap;
+  font-family: "Montserrat-Medium";
+  src: url("../fonts/Montserrat-Medium.ttf") format("truetype");
+  display: swap;
 }
 
 @font-face {
-    font-family: "Montserrat-Light";
-    src: url("../fonts/Montserrat-Light.ttf") format("truetype");
-    display: swap;
+  font-family: "Montserrat-Light";
+  src: url("../fonts/Montserrat-Light.ttf") format("truetype");
+  display: swap;
 }
 
 @font-face {
-    font-family: "Montserrat-Bold";
-    src: url("../fonts/Montserrat-Bold.ttf") format("truetype");
-    display: swap;
+  font-family: "Montserrat-Bold";
+  src: url("../fonts/Montserrat-Bold.ttf") format("truetype");
+  display: swap;
 }
 
-html, body {
-    @apply font-montserrat text-[#000075];
-    scroll-behavior: smooth;
+html,
+body {
+  @apply font-montserrat text-font;
+  scroll-behavior: smooth;
+}
+
+.form-error {
+  @apply text-red-500 text-sm font-montserratLight -mt-2 mb-4;
+}
+
+.form-field-error {
+  @apply border-red-500 #{!important};
 }
