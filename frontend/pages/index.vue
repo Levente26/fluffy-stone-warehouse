@@ -10,12 +10,21 @@
         <option value="freecapacity-asc">Free capacity ASC</option>
         <option value="freecapacity-desc">Free capacity DESC</option>
       </select>
+
+      Filter by status
+      <select v-model="filterByStatusValue">
+        <option value="all">all</option>
+        <option value="open">open</option>
+        <option value="full">full</option>
+        <option value="closed">closed</option>
+        <option value="empty">empty</option>
+      </select>
     </div>
 
     <div v-if="data.data.length === 0">There are no warehouse yet</div>
     <div class="grid-list" v-if="data.data.length > 0">
       <WarehouseCard
-        v-for="warehouse in sortedWarehouses"
+        v-for="warehouse in filteredWarehouses"
         :warehouse="warehouse"
       />
     </div>
@@ -24,7 +33,7 @@
       <IconPlus />
     </button>
   </section>
-  
+
   <section class="modal" :class="{ 'modal--active': showModal }">
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
     <div class="modal__form" :class="{ 'modal__form--active': showModal }">
@@ -59,6 +68,7 @@ const closeModal = () => {
 };
 
 const sortValue = ref("newest");
+const filterByStatusValue = ref("all");
 
 const sortedWarehouses = computed(() => {
   if (sortValue.value === "newest") {
@@ -93,6 +103,36 @@ const sortedWarehouses = computed(() => {
         (a.attributes.maximumCapacity - a.attributes.currentCapacity)
       );
     });
+  }
+});
+
+const filteredWarehouses = computed(() => {
+  if (filterByStatusValue.value === "all") {
+    return sortedWarehouses.value;
+  }
+
+  if (filterByStatusValue.value === "open") {
+    return sortedWarehouses.value.filter(
+      (warehouse) => warehouse.attributes.status === "open"
+    );
+  }
+
+  if (filterByStatusValue.value === "full") {
+    return sortedWarehouses.value.filter(
+      (warehouse) => warehouse.attributes.status === "full"
+    );
+  }
+
+  if (filterByStatusValue.value === "closed") {
+    return sortedWarehouses.value.filter(
+      (warehouse) => warehouse.attributes.status === "closed"
+    );
+  }
+
+  if (filterByStatusValue.value === "empty") {
+    return sortedWarehouses.value.filter(
+      (warehouse) => warehouse.attributes.status === "empty"
+    );
   }
 });
 </script>
