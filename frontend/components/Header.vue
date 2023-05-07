@@ -2,8 +2,8 @@
   <section>
     <HeaderLanguageSwitcher />
     <div>
-      <button v-if="!user">Signup</button>
-      <button v-if="!user">Login</button>
+      <button v-if="!user" @click="handleSignup" class="mr-4">Signup</button>
+      <button v-if="!user" @click="handleLogin">Login</button>
       <button v-if="user" @click="handleLogout">Logout</button>
     </div>
 
@@ -21,6 +21,14 @@ const handleLogout = () => {
   logout();
   router.push(localePath("/login", locale.value));
 };
+
+const handleSignup = () => {
+  router.push(localePath("/signup", locale.value));
+};
+
+const handleLogin = () => {
+  router.push(localePath("/login", locale.value));
+};
 </script>
 
 <style lang="scss" scoped>
@@ -33,6 +41,18 @@ section {
 
   & > * {
     @apply mx-2;
+  }
+
+  & > div {
+    @apply flex items-center;
+  }
+
+  button {
+    @apply font-montserratMedium;
+
+    &:hover {
+      @apply underline;
+    }
   }
 }
 </style>
