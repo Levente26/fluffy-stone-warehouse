@@ -7,6 +7,7 @@
       :singlePackage="singlePackage"
       :key="singlePackage.id"
       :index="index"
+      @refresh="emit('refresh')"
     />
   </div>
   <button @click="showPopup" class="plus-btn"><IconPlus /></button>
