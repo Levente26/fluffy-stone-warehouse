@@ -2,8 +2,8 @@
   <section>
     <HeaderLanguageSwitcher />
     <div>
-      <button v-if="!user">Signup</button>
-      <button v-if="!user">Login</button>
+      <button v-if="!user" @click="handleSignup" class="mr-2">Signup</button>
+      <button v-if="!user" @click="handleLogin">Login</button>
       <button v-if="user" @click="handleLogout">Logout</button>
     </div>
 
@@ -19,6 +19,14 @@ const user = useStrapiUser();
 
 const handleLogout = () => {
   logout();
+  router.push(localePath("/login", locale.value));
+};
+
+const handleSignup = () => {
+  router.push(localePath("/signup", locale.value));
+};
+
+const handleLogin = () => {
   router.push(localePath("/login", locale.value));
 };
 </script>

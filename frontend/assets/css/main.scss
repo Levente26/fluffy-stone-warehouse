@@ -39,3 +39,7 @@ body {
 .form-field-error {
   @apply border-red-500 #{!important};
 }
+
+input {
+    @apply outline-none;
+}
