@@ -102,8 +102,8 @@ const sortedWarehouses = computed(() => {
       return data.value.data.sort((a, b) => {
         return (
           a.attributes.maximumCapacity -
-          a.attributes.currentCapacity -
-          (b.attributes.maximumCapacity - b.attributes.currentCapacity)
+          a.attributes.usedCapacity -
+          (b.attributes.maximumCapacity - b.attributes.usedCapacity)
         );
       });
 
@@ -111,8 +111,8 @@ const sortedWarehouses = computed(() => {
       return data.value.data.sort((a, b) => {
         return (
           b.attributes.maximumCapacity -
-          b.attributes.currentCapacity -
-          (a.attributes.maximumCapacity - a.attributes.currentCapacity)
+          b.attributes.usedCapacity -
+          (a.attributes.maximumCapacity - a.attributes.usedCapacity)
         );
       });
 

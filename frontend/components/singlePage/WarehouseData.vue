@@ -20,9 +20,9 @@
       </span>
     </div>
     <div>
-      <span> Current Capacity </span>
+      <span> Used Capacity </span>
       <span>
-        {{ data.data.attributes.currentCapacity }}
+        {{ data.data.attributes.usedCapacity }}
       </span>
     </div>
   </div>
@@ -32,7 +32,7 @@
   <div class="warehouse__charts">
     <ClientOnly>
       <ChartsPieChart
-        :currentCapacity="data.data.attributes.currentCapacity"
+        :usedCapacity="data.data.attributes.usedCapacity"
         :maximumCapacity="data.data.attributes.maximumCapacity"
       />
     </ClientOnly>

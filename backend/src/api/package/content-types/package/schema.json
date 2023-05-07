@@ -4,7 +4,8 @@
   "info": {
     "singularName": "package",
     "pluralName": "packages",
-    "displayName": "Package"
+    "displayName": "Package",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -26,12 +27,12 @@
       "inversedBy": "packages"
     },
     "image": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "rate": {
       "required": true,

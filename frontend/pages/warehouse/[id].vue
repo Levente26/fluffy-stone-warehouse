@@ -9,7 +9,7 @@
     </div>
 
     <div v-if="showPackages">
-      <SinglePagePackageList :packages="data.data.attributes.packages.data" />
+      <SinglePagePackageList @refresh="refresh" :warehouse="data.data" :packages="data.data.attributes.packages.data" />
     </div>
   </section>
 </template>

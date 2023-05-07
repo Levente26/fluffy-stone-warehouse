@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex gap-4">
     <h2>{{ singlePackage.attributes.name }}</h2>
     <p>{{ singlePackage.attributes.price }}</p>
     <p>{{ singlePackage.attributes.quantity }}</p>

@@ -39,7 +39,7 @@
       "type": "integer",
       "required": true
     },
-    "currentCapacity": {
+    "usedCapacity": {
       "pluginOptions": {},
       "type": "integer"
     },
