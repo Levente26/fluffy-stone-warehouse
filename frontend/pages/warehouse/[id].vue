@@ -7,6 +7,7 @@
     <div v-if="!showPackages">
       <SinglePageWarehouseData :data="data.data" />
     </div>
+
     <div v-if="showPackages">
       <SinglePagePackageList :packages="data.data.attributes.packages.data" />
     </div>
@@ -42,7 +43,7 @@ const togglePackages = (val) => {
   & > h1 {
     @apply text-2xl font-montserratBold text-center mb-10;
 
-    @screen lg {
+    @screen sm {
       @apply text-4xl text-left;
     }
   }

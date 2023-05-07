@@ -11,7 +11,11 @@ const emit = defineEmits(["togglePackages"]);
 
 <style lang="scss" scoped>
 .toggle-btn-holder {
-  @apply flex justify-start mb-10;
+  @apply flex justify-center mb-10;
+
+  @screen sm {
+    @apply justify-start;
+  }
 
   & > button {
     @apply px-4 py-2 rounded-md border border-font mr-4;
