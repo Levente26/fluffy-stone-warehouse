@@ -2,7 +2,7 @@
   <section>
     <HeaderLanguageSwitcher />
     <div>
-      <button v-if="!user" @click="handleSignup" class="mr-2">Signup</button>
+      <button v-if="!user" @click="handleSignup" class="mr-4">Signup</button>
       <button v-if="!user" @click="handleLogin">Login</button>
       <button v-if="user" @click="handleLogout">Logout</button>
     </div>
@@ -41,6 +41,18 @@ section {
 
   & > * {
     @apply mx-2;
+  }
+
+  & > div {
+    @apply flex items-center;
+  }
+
+  button {
+    @apply font-montserratMedium;
+
+    &:hover {
+      @apply underline;
+    }
   }
 }
 </style>
