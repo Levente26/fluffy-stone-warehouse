@@ -1,8 +1,7 @@
 <template>
-  <div>Package List</div>
   <!-- SEARCH INPUT & SORT -->
   <div v-if="packages.length === 0">no packages</div>
-  <div v-if="packages.length > 0">
+  <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
       v-for="(singlePackage, index) in packages"
       :singlePackage="singlePackage"
@@ -10,7 +9,7 @@
       :index="index"
     />
   </div>
-  <button @click="showPopup">Add Packages</button>
+  <button @click="showPopup" class="plus-btn"><IconPlus /></button>
 
   <div
     :class="{ 'popup--active': popupIsShown }"
@@ -109,6 +108,12 @@ const addPackages = async () => {
 </script>
 
 <style scoped lang="scss">
+.plus-btn {
+  @apply mt-10 fixed bottom-6 right-8;
+  @apply w-16 h-16;
+  @apply shadow-lg bg-blue-100 rounded-full shadow-gray-500;
+  @apply flex items-center justify-center;
+}
 .popup {
   @apply opacity-0 pointer-events-none;
   @apply fixed inset-0 z-50 flex items-center justify-center;
@@ -165,5 +170,9 @@ const addPackages = async () => {
       }
     }
   }
+}
+
+.packages-grid {
+  @apply grid grid-cols-1 gap-4;
 }
 </style>
