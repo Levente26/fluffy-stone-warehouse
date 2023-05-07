@@ -26,11 +26,22 @@
       <div class="popup__body">
         <div class="popup__body__input">
           <label for="quantity">Quantity (max 20)</label>
-          <input type="number" :class="{'form-field-error': quantity > 20 || quantity < 1}" v-model="quantity" />
-          <p class="form-error" v-if="quantity > 20 || quantity < 1">error happened</p>
+          <input
+            type="number"
+            :class="{ 'form-field-error': quantity > 20 || quantity < 1 }"
+            v-model="quantity"
+          />
+          <p class="form-error" v-if="quantity > 20 || quantity < 1">
+            error happened
+          </p>
         </div>
         <div class="popup__body__buttons">
-          <button :disabled="quantity > 20 || quantity < 1" @click="addPackages">Add</button>
+          <button
+            :disabled="quantity > 20 || quantity < 1"
+            @click="addPackages"
+          >
+            Add
+          </button>
         </div>
       </div>
     </div>
@@ -126,14 +137,22 @@ const addPackages = async () => {
 
   &__content {
     @apply bg-white rounded-md p-8;
-    @apply w-96;
+    @apply w-72;
+
+    @screen sm {
+      @apply w-96;
+    }
   }
 
   &__header {
     @apply flex justify-between items-center mb-4;
 
     & > h2 {
-      @apply text-2xl font-montserratBold;
+      @apply text-xl font-montserratBold;
+
+      @screen sm {
+        @apply text-2xl;
+      }
     }
 
     & > button {
