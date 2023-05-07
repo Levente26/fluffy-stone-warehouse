@@ -1,9 +1,33 @@
 <template>
+  <div class="filter-wrapper">
+    <div class="select-wrapper">
+      <span>Sort by</span>
+
+      <select v-model="sortValue">
+        <option value="newest">Newest</option>
+        <option value="name">Name</option>
+        <option value="id">ID</option>
+        <option value="price-asc">Price ASC</option>
+        <option value="price-desc">Price DESC</option>
+      </select>
+    </div>
+
+    <div class="select-wrapper">
+      <span>Filter by Category</span>
+
+      <select v-model="filterByCategoryValue">
+        <option value="all">all</option>
+        <option :value="category" v-for="category in getAllCategories()">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+  </div>
   <!-- SEARCH INPUT & SORT -->
   <div v-if="packages.length === 0">no packages</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
-      v-for="(singlePackage, index) in packages"
+      v-for="(singlePackage, index) in filteredPackages"
       :singlePackage="singlePackage"
       :key="singlePackage.id"
       :index="index"
@@ -116,9 +140,90 @@ const addPackages = async () => {
     console.log(error);
   }
 };
+
+const sortValue = ref("newest");
+const filterByCategoryValue = ref("all");
+
+const getAllCategories = () => {
+  const categories = [];
+
+  packages.map((singlePackage) => {
+    if (!categories.includes(singlePackage.attributes.category)) {
+      categories.push(singlePackage.attributes.category);
+    }
+  });
+
+  return categories;
+};
+
+const sortedPackages = computed(() => {
+  switch (sortValue.value) {
+    case "newest":
+      return packages.sort((a, b) => {
+        return (
+          new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+        );
+      });
+    case "name":
+      return packages.sort((a, b) => {
+        return a.attributes.name.localeCompare(b.attributes.name);
+      });
+    case "id":
+      return packages.sort((a, b) => {
+        return a.id - b.id;
+      });
+    case "price-asc":
+      return packages.sort((a, b) => {
+        return a.attributes.price - b.attributes.price;
+      });
+    case "price-desc":
+      return packages.sort((a, b) => {
+        return b.attributes.price - a.attributes.price;
+      });
+  }
+});
+
+const filteredPackages = computed(() => {
+  if (filterByCategoryValue.value === "all") {
+    return sortedPackages.value;
+  } else {
+    return sortedPackages.value.filter((singlePackage) => {
+      return (
+        singlePackage.attributes.category === filterByCategoryValue.value
+      );
+    });
+  }
+});
 </script>
 
 <style scoped lang="scss">
+.filter-wrapper {
+  @apply flex flex-col;
+
+  @screen md {
+    @apply flex-row justify-start;
+  }
+
+  .select-wrapper {
+    @apply mb-8;
+    @apply flex flex-col;
+
+    @screen md {
+      @apply mr-8 mb-10;
+    }
+
+    span {
+      @apply font-montserratMedium;
+      @apply mb-2;
+    }
+
+    select {
+      @apply bg-white border border-gray-300 rounded-md;
+      @apply py-2 px-4;
+      @apply min-w-[250px];
+    }
+  }
+}
 .plus-btn {
   @apply mt-10 fixed bottom-6 right-8;
   @apply w-16 h-16;

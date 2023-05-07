@@ -40,6 +40,6 @@ body {
   @apply border-red-500 #{!important};
 }
 
-input {
+input, select {
     @apply outline-none;
 }
