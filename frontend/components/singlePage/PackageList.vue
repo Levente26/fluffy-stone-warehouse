@@ -54,9 +54,8 @@ const { packages, warehouse } = defineProps(["packages", "warehouse"]);
 const emit = defineEmits(["refresh"]);
 const { create, update } = useStrapi();
 
-const popupIsShown = ref(false);
 const quantity = ref(1);
-const quantityError = ref(false);
+const popupIsShown = ref(false);
 
 const showPopup = () => {
   popupIsShown.value = true;
@@ -191,7 +190,6 @@ const addPackages = async () => {
     }
   }
 }
-
 .packages-grid {
   @apply grid grid-cols-1 gap-4;
 }

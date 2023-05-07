@@ -16,7 +16,7 @@
     </div>
     <div class="package-card__crud">
       <IconEdit @click="showModal = true" />
-      <IconDelete />
+      <IconDelete @click="showDeletePopup" />
     </div>
   </div>
 
@@ -34,14 +34,37 @@
       <SinglePageUpdatePackageForm
         @closeModal="closeModal"
         :singlePackage="singlePackage"
-        />
+      />
     </div>
   </section>
+
+  <div
+    :class="{ 'popup--active': deletePopupIsShown }"
+    class="popup"
+    @click="closePopup"
+  >
+    <div class="popup__content">
+      <div class="popup__header">
+        <h2>Delete Package</h2>
+        <button @click="forceClosePopup">
+          <IconClose />
+        </button>
+      </div>
+      <div class="popup__body">
+        <p>Are you sure you want to delete the selected package?</p>
+        <div class="popup__body__buttons">
+          <button @click="forceClosePopup">Cancel</button>
+          <button @click="deletePackage" class="delete-btn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 const { singlePackage, index } = defineProps(["singlePackage", "index"]);
 const emit = defineEmits(["refresh"]);
+const { delete: _delete } = useStrapi();
 
 const showModal = ref(false);
 
@@ -50,9 +73,101 @@ const closeModal = () => {
   document.body.style.overflow = "auto";
   emit("refresh");
 };
+
+const deletePopupIsShown = ref(false);
+
+const showDeletePopup = () => {
+  deletePopupIsShown.value = true;
+  document.body.style.overflow = "hidden";
+};
+
+const deletePackage = async () => {
+  await _delete("packages", singlePackage.id)
+  deletePopupIsShown.value = false;
+  document.body.style.overflow = "auto";
+  emit("refresh");
+};
+
+const closePopup = ($event) => {
+  const containingElement = document.querySelector(".popup__content");
+
+  if (!containingElement.contains($event.target)) {
+    deletePopupIsShown.value = false;
+    document.body.style.overflow = "auto";
+  }
+};
+
+const forceClosePopup = () => {
+  deletePopupIsShown.value = false;
+  document.body.style.overflow = "auto";
+};
 </script>
 
 <style scoped lang="scss">
+.delete-btn {
+  @apply bg-red-700 border-red-700 #{!important};
+
+  &:hover {
+    @apply bg-white text-red-700 #{!important};
+  }
+}
+.popup {
+  @apply opacity-0 pointer-events-none;
+  @apply fixed inset-0 z-50 flex items-center justify-center;
+  @apply transition-all duration-300 ease-in-out;
+  @apply bg-black bg-opacity-50;
+
+  &--active {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  &__content {
+    @apply bg-white rounded-md p-8;
+    @apply w-72;
+
+    @screen sm {
+      @apply w-96;
+    }
+  }
+
+  &__header {
+    @apply flex justify-between items-center mb-4;
+
+    & > h2 {
+      @apply text-xl font-montserratBold;
+
+      @screen sm {
+        @apply text-2xl;
+      }
+    }
+
+    & > button {
+      @apply text-2xl font-montserratBold;
+    }
+  }
+
+  &__body {
+    @apply flex flex-col;
+
+    p {
+      @apply my-4 font-montserratLight;
+    }
+
+    &__buttons {
+      @apply flex justify-center;
+
+      & > button {
+        @apply bg-font text-white rounded-md px-4 py-2 mx-2;
+        @apply transition-all duration-300 ease-in-out;
+        @apply border border-font;
+
+        &:hover {
+          @apply bg-white text-font;
+        }
+      }
+    }
+  }
+}
 .package-card {
   @apply p-4 rounded-md w-full;
   @apply flex flex-col justify-between;
