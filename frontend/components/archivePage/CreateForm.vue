@@ -34,15 +34,15 @@
     />
     <div v-if="maximumCapacityError" class="form-error">error happened</div>
 
-    <label>Current Capacity</label>
+    <label>Used Capacity</label>
     <input
       class="mb-4 border-black border"
       type="number"
-      v-model="currentCapacity"
-      @focusout="checkCurrentCapacity"
-      :class="{ 'form-field-error': currentCapacityError }"
+      v-model="usedCapacity"
+      @focusout="checkUsedCapacity"
+      :class="{ 'form-field-error': usedCapacityError }"
     />
-    <div v-if="currentCapacityError" class="form-error">error happened</div>
+    <div v-if="usedCapacityError" class="form-error">error happened</div>
 
     <label>Status</label>
     <select
@@ -100,7 +100,7 @@
         nameError ||
         addressError ||
         maximumCapacityError ||
-        currentCapacityError ||
+        usedCapacityError ||
         statusError ||
         packagesReceivedError ||
         packagesSentError ||
@@ -122,7 +122,7 @@ const selectedOption = ref(null);
 const name = ref(null);
 const address = ref(null);
 const maximumCapacity = ref(null);
-const currentCapacity = ref(null);
+const usedCapacity = ref(null);
 const status = ref(null);
 const packagesReceived = ref(null);
 const packagesSent = ref(null);
@@ -131,7 +131,7 @@ const secondaryWarehouse = ref(null);
 const nameError = ref(false);
 const addressError = ref(false);
 const maximumCapacityError = ref(false);
-const currentCapacityError = ref(false);
+const usedCapacityError = ref(false);
 const statusError = ref(false);
 const packagesReceivedError = ref(false);
 const packagesSentError = ref(false);
@@ -162,11 +162,11 @@ const checkMaximumCapacity = () => {
   }
 };
 
-const checkCurrentCapacity = () => {
-  if (currentCapacity.value === null || currentCapacity.value === "") {
-    currentCapacityError.value = true;
+const checkUsedCapacity = () => {
+  if (usedCapacity.value === null || usedCapacity.value === "") {
+    usedCapacityError.value = true;
   } else {
-    currentCapacityError.value = false;
+    usedCapacityError.value = false;
   }
 };
 
@@ -207,8 +207,8 @@ const createWarehouseObject = () => {
     name: name.value,
     address: address.value,
     maximumCapacity: maximumCapacity.value,
-    // if currentCapacity not null add products to obj
-    currentCapacity: currentCapacity.value,
+    // if usedCapacity not null add products to obj
+    usedCapacity: usedCapacity.value,
     packages: [],
     status: "open",
     packagesReceived: packagesReceived.value,
@@ -224,7 +224,7 @@ const clearFormData = () => {
   name.value = null;
   address.value = null;
   maximumCapacity.value = null;
-  currentCapacity.value = null;
+  usedCapacity.value = null;
   status.value = null;
   packagesReceived.value = null;
   packagesSent.value = null;
@@ -235,7 +235,7 @@ const onSubmit = () => {
   checkName();
   checkAddress();
   checkMaximumCapacity();
-  checkCurrentCapacity();
+  checkUsedCapacity();
   checkStatus();
   checkPackagesReceived();
   checkPackagesSent();
@@ -244,7 +244,7 @@ const onSubmit = () => {
     nameError.value ||
     addressError.value ||
     maximumCapacityError.value ||
-    currentCapacityError.value ||
+    usedCapacityError.value ||
     statusError.value ||
     packagesReceivedError.value ||
     packagesSentError.value ||
@@ -263,7 +263,7 @@ const createAutomatically = () => {
     name: `Warehouse ${Math.floor(Math.random() * 1000)}`,
     address: "Random street 1",
     maximumCapacity: 100,
-    currentCapacity: 0,
+    usedCapacity: 0,
     packages: [],
     status: "empty",
     packagesReceived: 0,

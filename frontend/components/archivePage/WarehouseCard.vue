@@ -6,7 +6,7 @@
     <div class="warehouse-card__charts">
       <ClientOnly>
         <ChartsPieChart
-          :currentCapacity="warehouse.attributes.currentCapacity"
+          :usedCapacity="warehouse.attributes.usedCapacity"
           :maximumCapacity="warehouse.attributes.maximumCapacity"
         />
       </ClientOnly>

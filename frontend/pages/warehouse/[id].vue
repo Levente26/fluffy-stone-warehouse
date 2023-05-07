@@ -1,20 +1,17 @@
 <template>
-  <h1>Warehouse {{ data.data.attributes.name }} by Fluffy Stone</h1>
-  <h2>{{ data.data.attributes.name }}</h2>
-  <p>{{ data.data.attributes.address }}</p>
-  <p>{{ data.data.attributes.status }}</p>
-  <p>{{ data.data.attributes.maximumCapacity }}</p>
-  <p>{{ data.data.attributes.currentCapacity }}</p>
+  <section class="container">
+    <h1>{{ data.data.attributes.name }}</h1>
 
-  <!-- SEARCH INPUT & SORT -->
+    <SinglePageToggleButtons @togglePackages="togglePackages" />
 
-  <div v-if="data.data.attributes.packages.data.length === 0">no packages</div>
-  <div v-if="data.data.attributes.packages.data.length > 0">
-    <PackageCard
-      v-for="singlePackage in data.data.attributes.packages.data"
-      :singlePackage="singlePackage"
-    />
-  </div>
+    <div v-if="!showPackages">
+      <SinglePageWarehouseData :data="data.data" />
+    </div>
+
+    <div v-if="showPackages">
+      <SinglePagePackageList @refresh="refresh" :warehouse="data.data" :packages="data.data.attributes.packages.data" />
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -28,4 +25,27 @@ const { data, pending, refresh, error } = await useAsyncData(
       populate: ["packages.image"],
     })
 );
+
+const showPackages = ref(false);
+
+const togglePackages = (val) => {
+  showPackages.value = val;
+};
 </script>
+
+<style scoped lang="scss">
+
+.container {
+  @apply flex flex-col;
+  @apply max-w-screen-2xl w-full mx-auto;
+  @apply py-10 px-8;
+
+  & > h1 {
+    @apply text-2xl font-montserratBold text-center mb-10;
+
+    @screen sm {
+      @apply text-4xl text-left;
+    }
+  }
+}
+</style>
