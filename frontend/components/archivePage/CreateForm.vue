@@ -50,32 +50,12 @@
       @focusout="checkStatus"
       :class="{ 'form-field-error': statusError }"
     >
-      <option value="open">open</option>
-      <option value="full">full</option>
+      <option value="open" v-if="usedCapacity < maximumCapacity">open</option>
+      <option value="full" v-if="usedCapacity === maximumCapacity">full</option>
       <option value="closed">closed</option>
-      <option value="empty">empty</option>
+      <option value="empty" v-if="usedCapacity < 1">empty</option>
     </select>
     <div v-if="statusError" class="form-error">error happened</div>
-
-    <label>Received Packages</label>
-    <input
-      class="mb-4 border-black border"
-      type="number"
-      v-model="packagesReceived"
-      @focusout="checkPackagesReceived"
-      :class="{ 'form-field-error': packagesReceivedError }"
-    />
-    <div v-if="packagesReceivedError" class="form-error">error happened</div>
-
-    <label>Packages Sent</label>
-    <input
-      class="mb-4 border-black border"
-      type="number"
-      v-model="packagesSent"
-      @focusout="checkPackagesSent"
-      :class="{ 'form-field-error': packagesSentError }"
-    />
-    <div v-if="packagesSentError" class="form-error">error happened</div>
 
     <label>Secondary Warehouse</label>
     <select
@@ -102,8 +82,6 @@
         maximumCapacityError ||
         usedCapacityError ||
         statusError ||
-        packagesReceivedError ||
-        packagesSentError ||
         secondaryWarehouseError
       "
     >
@@ -124,8 +102,6 @@ const address = ref(null);
 const maximumCapacity = ref(null);
 const usedCapacity = ref(null);
 const status = ref(null);
-const packagesReceived = ref(null);
-const packagesSent = ref(null);
 const secondaryWarehouse = ref(null);
 
 const nameError = ref(false);
@@ -133,8 +109,6 @@ const addressError = ref(false);
 const maximumCapacityError = ref(false);
 const usedCapacityError = ref(false);
 const statusError = ref(false);
-const packagesReceivedError = ref(false);
-const packagesSentError = ref(false);
 const secondaryWarehouseError = ref(false);
 const serverError = ref(false);
 
@@ -155,15 +129,17 @@ const checkAddress = () => {
 };
 
 const checkMaximumCapacity = () => {
-  if (maximumCapacity.value === null || maximumCapacity.value === "") {
+  if (maximumCapacity.value === null || maximumCapacity.value === "" || maximumCapacity.value < 1) {
     maximumCapacityError.value = true;
   } else {
     maximumCapacityError.value = false;
   }
+
+  checkUsedCapacity();
 };
 
 const checkUsedCapacity = () => {
-  if (usedCapacity.value === null || usedCapacity.value === "") {
+  if (usedCapacity.value > maximumCapacity.value) {
     usedCapacityError.value = true;
   } else {
     usedCapacityError.value = false;
@@ -175,22 +151,6 @@ const checkStatus = () => {
     statusError.value = true;
   } else {
     statusError.value = false;
-  }
-};
-
-const checkPackagesReceived = () => {
-  if (packagesReceived.value === null || packagesReceived.value === "") {
-    packagesReceivedError.value = true;
-  } else {
-    packagesReceivedError.value = false;
-  }
-};
-
-const checkPackagesSent = () => {
-  if (packagesSent.value === null || packagesSent.value === "") {
-    packagesSentError.value = true;
-  } else {
-    packagesSentError.value = false;
   }
 };
 
@@ -207,12 +167,11 @@ const createWarehouseObject = () => {
     name: name.value,
     address: address.value,
     maximumCapacity: maximumCapacity.value,
-    // if usedCapacity not null add products to obj
     usedCapacity: usedCapacity.value,
     packages: [],
     status: "open",
-    packagesReceived: packagesReceived.value,
-    packagesSent: packagesSent.value,
+    packagesReceived: usedCapacity.value,
+    packagesSent: 0,
     secondaryWarehouse: secondaryWarehouse.value,
   };
   
@@ -226,8 +185,6 @@ const clearFormData = () => {
   maximumCapacity.value = null;
   usedCapacity.value = null;
   status.value = null;
-  packagesReceived.value = null;
-  packagesSent.value = null;
   secondaryWarehouse.value = null;
 };
 
@@ -237,8 +194,6 @@ const onSubmit = () => {
   checkMaximumCapacity();
   checkUsedCapacity();
   checkStatus();
-  checkPackagesReceived();
-  checkPackagesSent();
   checkSecondaryWarehouse();
   if (
     nameError.value ||
@@ -246,8 +201,6 @@ const onSubmit = () => {
     maximumCapacityError.value ||
     usedCapacityError.value ||
     statusError.value ||
-    packagesReceivedError.value ||
-    packagesSentError.value ||
     secondaryWarehouseError.value
   ) {
     return;

@@ -156,11 +156,7 @@ const addPackages = async () => {
     const obj = {
       name: product.title,
       price: product.price,
-      quantity: 1,
       category: product.category,
-      rate: product.rating.rate,
-      countRates: product.rating.count,
-      description: product.description,
       warehouse: warehouse.id,
     };
 
