@@ -47,8 +47,21 @@
       :key="singlePackage.id"
       :index="index"
       @refresh="emit('refresh')"
-    />
+      />
   </div>
+
+  <!-- <div class="pagination">
+    <button @click="backPage">prev</button>
+    <button
+      v-for="item in Math.ceil(data.length / perPage)"
+      :key="item"
+      @click="() => goToPage(item)"
+    >
+      {{ item }}
+    </button>
+    <button @click="nextPage">next</button>
+  </div> -->
+
   <button @click="showPopup" class="plus-btn"><IconPlus /></button>
 
   <div
@@ -89,6 +102,8 @@
 </template>
 
 <script setup>
+import usePagination from "@/composables/usePagination";
+
 const { packages, warehouse } = defineProps(["packages", "warehouse"]);
 const emit = defineEmits(["refresh"]);
 const { create, update } = useStrapi();
@@ -104,7 +119,7 @@ const showPopup = () => {
 const closePopup = ($event) => {
   const containingElement = document.querySelector(".popup__content");
 
-  if (!containingElement.contains($event.target)) {
+  if (!containingElement.contains($event.target) || !$event.target === containingElement) {
     popupIsShown.value = false;
     document.body.style.overflow = "auto";
   }
@@ -149,7 +164,7 @@ const addPackages = async () => {
     });
 
     quantity.value = 1;
-
+    
     emit("refresh");
   } catch (error) {
     console.log(error);
@@ -221,6 +236,9 @@ const searchPackages = computed(() => {
   }
 });
 
+// const handlePaginationValue = usePagination(searchPackages);
+// console.log(handlePaginationValue);
+
 const searchInputIsShown = ref(false);
 
 const toggleSearchInput = () => {
@@ -237,31 +255,30 @@ const toggleSearchInput = () => {
   }
   .filter-wrapper {
     @apply flex flex-col;
-  
+
     @screen lg {
       @apply flex-row justify-start;
     }
-  
+
     .select-wrapper {
       @apply mb-8;
       @apply flex flex-col;
-  
+
       @screen md {
         @apply mr-8 mb-10;
       }
-  
+
       span {
         @apply font-montserratMedium;
         @apply mb-2;
       }
-  
+
       select {
         @apply bg-white border border-gray-300 rounded-md;
         @apply py-2 px-4;
         @apply min-w-[250px];
       }
     }
-  
   }
   .search-wrapper {
     @apply flex items-center justify-center;
@@ -302,12 +319,12 @@ const toggleSearchInput = () => {
 }
 .popup {
   @apply opacity-0 pointer-events-none;
-  @apply fixed inset-0 z-50 flex items-center justify-center;
+  @apply fixed inset-0 -z-10 flex items-center justify-center;
   @apply transition-all duration-300 ease-in-out;
   @apply bg-black bg-opacity-50;
 
   &--active {
-    @apply opacity-100 pointer-events-auto;
+    @apply opacity-100 pointer-events-auto z-50;
   }
 
   &__content {

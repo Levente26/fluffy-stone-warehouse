@@ -43,7 +43,7 @@
     class="popup"
     @click="closePopup"
   >
-    <div class="popup__content">
+    <div class="popup__content-del">
       <div class="popup__header">
         <h2>Delete Package</h2>
         <button @click="forceClosePopup">
@@ -89,7 +89,7 @@ const deletePackage = async () => {
 };
 
 const closePopup = ($event) => {
-  const containingElement = document.querySelector(".popup__content");
+  const containingElement = document.querySelector(".popup__content-del");
 
   if (!containingElement.contains($event.target)) {
     deletePopupIsShown.value = false;
@@ -113,15 +113,15 @@ const forceClosePopup = () => {
 }
 .popup {
   @apply opacity-0 pointer-events-none;
-  @apply fixed inset-0 z-50 flex items-center justify-center;
+  @apply fixed inset-0 -z-10 flex items-center justify-center;
   @apply transition-all duration-300 ease-in-out;
   @apply bg-black bg-opacity-50;
 
   &--active {
-    @apply opacity-100 pointer-events-auto;
+    @apply opacity-100 pointer-events-auto z-50;
   }
 
-  &__content {
+  &__content-del {
     @apply bg-white rounded-md p-8;
     @apply w-72;
 
