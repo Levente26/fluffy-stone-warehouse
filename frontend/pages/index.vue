@@ -60,6 +60,17 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: function (to, from) {
+    const user = useStrapiUser();
+    const token = useStrapiToken();
+
+    if (!user.value || !token.value) {
+      return navigateTo("/login");
+    }
+  },
+});
+
 const { find } = useStrapi();
 const router = useRouter();
 const route = useRoute();

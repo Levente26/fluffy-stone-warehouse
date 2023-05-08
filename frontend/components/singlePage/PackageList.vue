@@ -310,7 +310,7 @@ const toggleSearchInput = () => {
 
 <style scoped lang="scss">
 .pagination {
-  @apply flex justify-center items-center mt-6;
+  @apply flex justify-center items-center mt-6 flex-wrap;
 
   &__button {
     @apply bg-white text-font rounded-md px-4 py-2;
