@@ -1,33 +1,48 @@
 <template>
-  <div class="filter-wrapper">
-    <div class="select-wrapper">
-      <span>Sort by</span>
+  <div class="filter-wrapper-main">
+    <div class="filter-wrapper">
+      <div class="select-wrapper">
+        <span>Sort by</span>
 
-      <select v-model="sortValue">
-        <option value="newest">Newest</option>
-        <option value="name">Name</option>
-        <option value="id">ID</option>
-        <option value="price-asc">Price ASC</option>
-        <option value="price-desc">Price DESC</option>
-      </select>
+        <select v-model="sortValue">
+          <option value="newest">Newest</option>
+          <option value="name">Name</option>
+          <option value="id">ID</option>
+          <option value="price-asc">Price ASC</option>
+          <option value="price-desc">Price DESC</option>
+        </select>
+      </div>
+
+      <div class="select-wrapper">
+        <span>Filter by Category</span>
+
+        <select v-model="filterByCategoryValue">
+          <option value="all">all</option>
+          <option :value="category" v-for="category in getAllCategories()">
+            {{ category }}
+          </option>
+        </select>
+      </div>
     </div>
 
-    <div class="select-wrapper">
-      <span>Filter by Category</span>
+    <div class="search-wrapper">
+      <input
+        type="serach"
+        placeholder="Search by name or ID"
+        v-model="searchValue"
+        @input="search"
+        class="search-wrapper__input"
+        :class="{ 'search-wrapper__input--active': searchInputIsShown }"
+      />
 
-      <select v-model="filterByCategoryValue">
-        <option value="all">all</option>
-        <option :value="category" v-for="category in getAllCategories()">
-          {{ category }}
-        </option>
-      </select>
+      <IconSearch @click="toggleSearchInput" />
     </div>
   </div>
   <!-- SEARCH INPUT & SORT -->
   <div v-if="packages.length === 0">no packages</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
-      v-for="(singlePackage, index) in filteredPackages"
+      v-for="(singlePackage, index) in searchPackages"
       :singlePackage="singlePackage"
       :key="singlePackage.id"
       :index="index"
@@ -143,6 +158,7 @@ const addPackages = async () => {
 
 const sortValue = ref("newest");
 const filterByCategoryValue = ref("all");
+const searchValue = ref("");
 
 const getAllCategories = () => {
   const categories = [];
@@ -188,39 +204,93 @@ const filteredPackages = computed(() => {
     return sortedPackages.value;
   } else {
     return sortedPackages.value.filter((singlePackage) => {
-      return (
-        singlePackage.attributes.category === filterByCategoryValue.value
-      );
+      return singlePackage.attributes.category === filterByCategoryValue.value;
     });
   }
 });
+
+const searchPackages = computed(() => {
+  if (searchValue.value === "") {
+    return filteredPackages.value;
+  } else {
+    return filteredPackages.value.filter((singlePackage) => {
+      return singlePackage.attributes.name
+        .toLowerCase()
+        .includes(searchValue.value.toLowerCase());
+    });
+  }
+});
+
+const searchInputIsShown = ref(false);
+
+const toggleSearchInput = () => {
+  searchInputIsShown.value = !searchInputIsShown.value;
+};
 </script>
 
 <style scoped lang="scss">
-.filter-wrapper {
-  @apply flex flex-col;
+.filter-wrapper-main {
+  @apply flex flex-col mb-10;
 
   @screen md {
-    @apply flex-row justify-start;
+    @apply flex-row justify-between;
   }
-
-  .select-wrapper {
-    @apply mb-8;
+  .filter-wrapper {
     @apply flex flex-col;
+  
+    @screen lg {
+      @apply flex-row justify-start;
+    }
+  
+    .select-wrapper {
+      @apply mb-8;
+      @apply flex flex-col;
+  
+      @screen md {
+        @apply mr-8 mb-10;
+      }
+  
+      span {
+        @apply font-montserratMedium;
+        @apply mb-2;
+      }
+  
+      select {
+        @apply bg-white border border-gray-300 rounded-md;
+        @apply py-2 px-4;
+        @apply min-w-[250px];
+      }
+    }
+  
+  }
+  .search-wrapper {
+    @apply flex items-center justify-center;
 
-    @screen md {
-      @apply mr-8 mb-10;
+    @screen lg {
+      @apply items-start mt-7;
     }
 
-    span {
-      @apply font-montserratMedium;
-      @apply mb-2;
-    }
-
-    select {
+    &__input {
       @apply bg-white border border-gray-300 rounded-md;
       @apply py-2 px-4;
-      @apply min-w-[250px];
+      @apply w-full mr-4;
+      @apply opacity-100 pointer-events-none;
+      @apply transition-all duration-300 ease-in-out;
+
+      @screen lg {
+        @apply opacity-0;
+      }
+
+      &--active {
+        @apply opacity-100 pointer-events-auto;
+      }
+    }
+
+    svg {
+      @apply cursor-pointer;
+      @screen lg {
+        @apply mt-1 mr-10;
+      }
     }
   }
 }
