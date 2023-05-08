@@ -38,7 +38,7 @@
       <IconSearch @click="toggleSearchInput" />
     </div>
   </div>
-  <!-- SEARCH INPUT & SORT -->
+
   <div v-if="packages.length === 0">no packages</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
@@ -60,7 +60,7 @@
         handlePaginationValue.data.length / handlePaginationValue.perPage
       )"
       :key="item"
-      :class="{ 'pagination__item--active': item == pageNum }"
+      :class="{ 'pagination__item--active': item === pageNum }"
       class="pagination__item"
       @click="() => handlePaginationValue.goToPage(item)"
     >
@@ -241,9 +241,12 @@ const searchPackages = computed(() => {
     return filteredPackages.value;
   } else {
     return filteredPackages.value.filter((singlePackage) => {
-      return singlePackage.attributes.name
-        .toLowerCase()
-        .includes(searchValue.value.toLowerCase());
+      return (
+        singlePackage.attributes.name
+          .toLowerCase()
+          .includes(searchValue.value.toLowerCase()) ||
+        singlePackage.id.toString().includes(searchValue.value)
+      );
     });
   }
 });
@@ -252,14 +255,18 @@ const handlePaginationValue = computed(() => {
   return usePagination(searchPackages);
 });
 
+const pageNum = ref(handlePaginationValue.value.page.value);
+
+watch(handlePaginationValue.value.paginatedData, () => {
+  pageNum.value = handlePaginationValue.value.page.value;
+});
+
 const refreshData = () => {
   if (JSON.stringify(packages) !== JSON.stringify(handlePaginationValue.data)) {
-    console.log("changed");
     emit("refresh");
+    pageNum.value = ref(handlePaginationValue.value.page.value);
   }
 };
-
-const pageNum = ref(handlePaginationValue.page);
 
 const searchInputIsShown = ref(false);
 
