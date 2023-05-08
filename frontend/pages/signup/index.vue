@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <label>Username</label>
+    <label>{{ $t("auth.username") }}</label>
     <input
       class="mb-4 border-black border"
       type="text"
@@ -8,9 +8,9 @@
       @focusout="checkUsername"
       :class="{ 'form-field-error': usernameError }"
     />
-    <div v-if="usernameError" class="form-error">error happened</div>
+    <div v-if="usernameError" class="form-error">{{ $t("auth.usernameError") }}</div>
 
-    <label>Email</label>
+    <label>{{ $t("auth.email") }}</label>
     <input
       class="mb-4 border-black border"
       type="email"
@@ -18,9 +18,9 @@
       @focusout="checkEmail"
       :class="{ 'form-field-error': emailError }"
     />
-    <div v-if="emailError" class="form-error">error happened</div>
+    <div v-if="emailError" class="form-error">{{ $t("auth.emailError") }}</div>
 
-    <label>Password</label>
+    <label>{{ $t("auth.password") }}</label>
     <input
       class="mb-4 border-black border"
       type="password"
@@ -28,9 +28,9 @@
       @focusout="checkPassword"
       :class="{ 'form-field-error': passwordError }"
     />
-    <div v-if="passwordError" class="form-error">error happened</div>
+    <div v-if="passwordError" class="form-error">{{ $t("auth.password") }}</div>
 
-    <label>Repeat Password</label>
+    <label>{{ $t("auth.passwordTwice") }}</label>
     <input
       class="mb-4 border-black border"
       type="password"
@@ -38,9 +38,9 @@
       @focusout="checkPasswordTwice"
       :class="{ 'form-field-error': passwordTwiceError }"
     />
-    <div v-if="passwordTwiceError" class="form-error">error happened</div>
+    <div v-if="passwordTwiceError" class="form-error">{{ $t("auth.passwordTwiceError") }}</div>
 
-    <label>Phone Number</label>
+    <label>{{ $t("auth.phone") }}</label>
     <input
       class="mb-4 border-black border"
       type="number"
@@ -48,16 +48,16 @@
       @focusout="checkPhone"
       :class="{ 'form-field-error': phoneError }"
     />
-    <div v-if="phoneError" class="form-error">error happened</div>
+    <div v-if="phoneError" class="form-error">{{ $t("auth.phoneError") }}</div>
 
-    <div v-if="serverError" class="form-error">server error happened</div>
+    <div v-if="serverError" class="form-error">{{ $t("auth.serverError") }}</div>
 
-    <button>submit</button>
+    <button>{{ $t("auth.signupBtn") }}</button>
   </form>
 
   <div class="signup__login-instead">
-    <p>already have an account? log in!</p>
-    <nuxt-link :to="localePath('/login', locale)">log in</nuxt-link>
+    <p>{{ $t("auth.loginInstead") }}</p>
+    <nuxt-link :to="localePath('/login', locale)">{{ $t("auth.loginBtn") }}</nuxt-link>
   </div>
 </template>
 

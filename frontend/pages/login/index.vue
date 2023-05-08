@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <label>Email</label>
+    <label>{{ $t("auth.email") }}</label>
     <input
       class="mb-4 border-black border"
       type="email"
@@ -8,9 +8,9 @@
       @focusout="checkEmail"
       :class="{ 'form-field-error': emailError }"
     />
-    <div v-if="emailError" class="form-error">error happened</div>
+    <div v-if="emailError" class="form-error">{{ $t("auth.emailError") }}</div>
 
-    <label>Password</label>
+    <label>{{ $t("auth.password") }}</label>
     <input
       class="mb-4 border-black border"
       type="password"
@@ -18,16 +18,22 @@
       @focusout="checkPassword"
       :class="{ 'form-field-error': passwordError }"
     />
-    <div v-if="passwordError" class="form-error">error happened</div>
+    <div v-if="passwordError" class="form-error">
+      {{ $t("auth.passwordError") }}
+    </div>
 
-    <div v-if="serverError" class="form-error">server error happened</div>
+    <div v-if="serverError" class="form-error">{{ $t("serverError") }}</div>
 
-    <button :disabled="emailError || passwordError">submit</button>
+    <button :disabled="emailError || passwordError">
+      {{ $t("auth.loginBtn") }}
+    </button>
   </form>
 
   <div class="login__signup-instead">
-    <p>dont have an account? sign up now!</p>
-    <nuxt-link :to="localePath('/signup', locale)">sign up</nuxt-link>
+    <p>{{ $t("auth.signupInstead") }}</p>
+    <nuxt-link :to="localePath('/signup', locale)">{{
+      $t("auth.signupBtn")
+    }}</nuxt-link>
   </div>
 </template>
 
@@ -64,8 +70,8 @@ const onSubmit = async () => {
   checkPassword();
   serverError.value = false;
 
-  if(emailError.value || passwordError.value) return;
-  
+  if (emailError.value || passwordError.value) return;
+
   try {
     await login({ identifier: email.value, password: password.value });
     router.push(localePath("/", locale.value));

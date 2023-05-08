@@ -1,30 +1,29 @@
 <template>
   <div class="status-colors">
-    <h3>Status Colors</h3>
+    <h3>{{ $t("status.color") }}</h3>
     <p>
-      The status colors are used to indicate the status of a warehouse. The
-      colors are used in the warehouse list and in the warehouse details page.
+      {{ $t("status.description") }}
     </p>
 
     <section>
       <div class="wrapper">
         <div class="status status--green"></div>
-        <span>open</span>
+        <span> {{ $t("status.open") }}</span>
       </div>
 
       <div class="wrapper">
         <div class="status status--red"></div>
-        <span>closed</span>
+        <span> {{ $t("status.closed") }}</span>
       </div>
 
       <div class="wrapper">
         <div class="status status--yellow"></div>
-        <span>full</span>
+        <span> {{ $t("status.full") }}</span>
       </div>
 
       <div class="wrapper">
         <div class="status status--blue"></div>
-        <span>empty</span>
+        <span> {{ $t("status.empty") }}</span>
       </div>
     </section>
   </div>

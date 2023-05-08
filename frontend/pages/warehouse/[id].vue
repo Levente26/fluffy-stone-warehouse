@@ -6,7 +6,7 @@
 
     <button class="back-btn" @click="backToWarehouses">
       <IconBack />
-      <span> Back to warehouses </span>
+      <span>{{ $t("backToBtn") }}</span>
     </button>
 
     <div v-if="!showPackages">

@@ -1,0 +1,89 @@
+{
+  "header": {
+    "signup": "Regisztráció",
+    "login": "Bejelentkezés",
+    "logout": "Kijelentkezés"
+  },
+  "auth": {
+    "email": "Email cím",
+    "emailError": "Email cím nem megfelelő",
+    "password": "Jelszó",
+    "passwordError": "Jelszó nem megfelelő",
+    "loginBtn": "Bejelentkezés",
+    "signupInstead": "Nincs még fiókod? Regisztrálj most!",
+    "signupBtn": "Regisztráció",
+    "username": "Felhasználónév",
+    "usernameError": "Felhasználónév nem lehet üres",
+    "passwordTwice": "Jelszó újra",
+    "passwordTwiceError": "Jelszavak nem egyeznek",
+    "phone": "Telefonszám",
+    "phoneError": "Telefonszám nem lehet üres",
+    "loginInstead": "Van már fiókod? Jelentkezz be!"
+  },
+  "serverError": "Szerver hiba, kérlek próbáld újra később!",
+  "archive": {
+    "title": "Raktárkezelés",
+    "sortby": "Rendezés",
+    "sortbyVal": {
+      "newest": "Legújabb",
+      "name": "Név",
+      "free-cap-asc": "Szabad kapacitás Növekvő",
+      "free-cap-desc": "Szabad kapacitás Csökkenő"
+    },
+    "filterby": "Szűrés státusz szerint",
+    "filterbyVal": {
+      "all": "Összes",
+      "open": "Nyitott",
+      "closed": "Zárt",
+      "empty": "Üres",
+      "full": "Teli"
+    },
+    "no-wh": "Úgy tűnik, hogy még nincs raktárad. Kattints a gombra, hogy létrehozz egyet!",
+    "create-wh": "Új raktár létrehozása"
+  },
+  "status": {
+    "color": "Státusz színek",
+    "description": "A státusz színek a raktárkártyákon jelennek meg. A színek alapján könnyen átlátható, hogy melyik raktár milyen státuszú.",
+    "open": "Nyitott",
+    "closed": "Zárt",
+    "empty": "Üres",
+    "full": "Teli"
+  },
+  "create": {
+    "automatically": "Létrehozás automatikusan",
+    "manually": "Létrehozás manuálisan",
+    "name": "Név",
+    "nameError": "Név nem lehet üres",
+    "address": "Cím",
+    "addressError": "Cím nem lehet üres",
+    "max-cap": "Maximális kapacitás",
+    "max-capError": "Maximális kapacitás nem lehet 0",
+    "used-cap": "Használt kapacitás",
+    "used-capError": "Használt kapacitás nem lehet kisebb mint a maximális kapacitás",
+    "status": "Státusz",
+    "statusError": "Kérlek válassz egy státuszt",
+    "secondaryWh": "Másodlagos raktár",
+    "secondaryWhError": "Kérlek válassz egy másodlagos raktárat",
+    "btn": "Létrehozás"
+  },
+  "warehouse": {
+    "usedCapacity": "Használt kapacitás",
+    "maximumCapacity": "Maximális kapacitás",
+    "receivedPackages": "Kapott csomagok",
+    "sentPackages": "Elküldött csomagok"
+  },
+  "backToBtn": "Vissza a raktárakhoz",
+  "wh-data": {
+    "title": "Raktár adatok",
+    "address": "Cím",
+    "status": "Státusz",
+    "max-cap": "Maximális kapacitás",
+    "used-cap": "Használt kapacitás",
+    "received-packages": "Kapott csomagok",
+    "sent-packages": "Elküldött csomagok"
+  },
+  "wh-btns": {
+    "wh-data": "Raktár adatok",
+    "packages": "Csomagok"
+  }
+}

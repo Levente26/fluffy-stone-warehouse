@@ -7,14 +7,18 @@
       <ClientOnly>
         <ChartsPieChart
           :usedCapacity="warehouse.attributes.usedCapacity"
+          :usedCapacityText="$t('warehouse.usedCapacity')"
           :maximumCapacity="warehouse.attributes.maximumCapacity"
+          :maximumCapacityText="$t('warehouse.maximumCapacity')"
         />
       </ClientOnly>
       <div class="divider"></div>
       <ClientOnly>
         <ChartsXYChart
           :receivedPackages="warehouse.attributes.packagesReceived"
+          :receivedPackagesText="$t('warehouse.receivedPackages')"
           :sentPackages="warehouse.attributes.packagesSent"
+          :sentPackagesText="$t('warehouse.sentPackages')"
         />
       </ClientOnly>
     </div>
