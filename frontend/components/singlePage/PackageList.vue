@@ -47,7 +47,7 @@
       :singlePackage="singlePackage"
       :key="singlePackage.id"
       :index="index"
-      @refresh="emit('refresh')"
+      @refresh="refreshData"
     />
   </div>
 
@@ -177,7 +177,7 @@ const addPackages = async () => {
 
     quantity.value = 1;
 
-    emit("refresh");
+    refreshData();
   } catch (error) {
     console.log(error);
   }
@@ -251,6 +251,13 @@ const searchPackages = computed(() => {
 const handlePaginationValue = computed(() => {
   return usePagination(searchPackages);
 });
+
+const refreshData = () => {
+  if (JSON.stringify(packages) !== JSON.stringify(handlePaginationValue.data)) {
+    console.log("changed");
+    emit("refresh");
+  }
+};
 
 const pageNum = ref(handlePaginationValue.page);
 
