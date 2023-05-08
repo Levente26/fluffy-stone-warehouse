@@ -61,14 +61,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: function (to, from) {
-    const user = useStrapiUser();
-    const token = useStrapiToken();
-
-    if (!user.value || !token.value) {
-      return navigateTo("/login");
-    }
-  },
+  middleware: ['auth'],
 });
 
 const { find } = useStrapi();
