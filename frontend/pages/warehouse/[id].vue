@@ -35,7 +35,7 @@ const { data, pending, refresh, error } = await useAsyncData(
   "singleWarehouse",
   () =>
     findOne("warehouses", route.params.id, {
-      populate: ["packages.image"],
+      populate: ["packages"],
     })
 );
 

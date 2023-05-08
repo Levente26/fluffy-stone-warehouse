@@ -61,7 +61,7 @@
 
 <script setup>
 definePageMeta({
-  middleware: ['auth'],
+  middleware: ["auth"],
 });
 
 const { find } = useStrapi();
@@ -69,9 +69,7 @@ const router = useRouter();
 const route = useRoute();
 
 const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
-  find("warehouses", {
-    populate: "packages.image",
-  })
+  find("warehouses")
 );
 
 const showModal = ref(false);
