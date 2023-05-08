@@ -173,6 +173,10 @@ const addPackages = async () => {
     await update("warehouses", warehouse.id, {
       usedCapacity: (warehouse.attributes.usedCapacity =
         warehouse.attributes.usedCapacity + quantity.value),
+      status:
+        warehouse.attributes.usedCapacity + quantity.value > 0
+          ? "open"
+          : "empty",
     });
 
     quantity.value = 1;
