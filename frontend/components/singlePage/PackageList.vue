@@ -248,7 +248,9 @@ const searchPackages = computed(() => {
   }
 });
 
-const handlePaginationValue = usePagination(searchPackages);
+const handlePaginationValue = computed(() => {
+  return usePagination(searchPackages);
+});
 
 const pageNum = ref(handlePaginationValue.page);
 
