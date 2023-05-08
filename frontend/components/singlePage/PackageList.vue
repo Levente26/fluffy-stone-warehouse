@@ -38,7 +38,7 @@
       <IconSearch @click="toggleSearchInput" />
     </div>
   </div>
-  <!-- SEARCH INPUT & SORT -->
+
   <div v-if="packages.length === 0">no packages</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
@@ -47,11 +47,11 @@
       :singlePackage="singlePackage"
       :key="singlePackage.id"
       :index="index"
-      @refresh="emit('refresh')"
+      @refresh="refreshData"
     />
   </div>
 
-  <div class="pagination">
+  <div class="pagination" v-if="packages.length > 0">
     <button class="pagination__button" @click="handlePaginationValue.backPage">
       prev
     </button>
@@ -60,7 +60,7 @@
         handlePaginationValue.data.length / handlePaginationValue.perPage
       )"
       :key="item"
-      :class="{ 'pagination__item--active': item == pageNum }"
+      :class="{ 'pagination__item--active': item === pageNum }"
       class="pagination__item"
       @click="() => handlePaginationValue.goToPage(item)"
     >
@@ -116,6 +116,8 @@ import usePagination from "@/composables/usePagination";
 const { packages, warehouse } = defineProps(["packages", "warehouse"]);
 const emit = defineEmits(["refresh"]);
 const { create, update } = useStrapi();
+const router = useRouter();
+const route = useRoute();
 
 const quantity = ref(1);
 const popupIsShown = ref(false);
@@ -173,11 +175,15 @@ const addPackages = async () => {
     await update("warehouses", warehouse.id, {
       usedCapacity: (warehouse.attributes.usedCapacity =
         warehouse.attributes.usedCapacity + quantity.value),
+      status:
+        warehouse.attributes.usedCapacity + quantity.value > 0
+          ? "open"
+          : "empty",
     });
 
     quantity.value = 1;
 
-    emit("refresh");
+    refreshData();
   } catch (error) {
     console.log(error);
   }
@@ -241,16 +247,59 @@ const searchPackages = computed(() => {
     return filteredPackages.value;
   } else {
     return filteredPackages.value.filter((singlePackage) => {
-      return singlePackage.attributes.name
-        .toLowerCase()
-        .includes(searchValue.value.toLowerCase());
+      return (
+        singlePackage.attributes.name
+          .toLowerCase()
+          .includes(searchValue.value.toLowerCase()) ||
+        singlePackage.id.toString().includes(searchValue.value)
+      );
     });
   }
 });
 
-const handlePaginationValue = usePagination(searchPackages);
+const handlePaginationValue = computed(() => {
+  return usePagination(searchPackages);
+});
 
-const pageNum = ref(handlePaginationValue.page);
+const pageNum = ref(handlePaginationValue.value.page.value);
+
+watch(handlePaginationValue.value.paginatedData, () => {
+  pageNum.value = handlePaginationValue.value.page.value;
+});
+
+watch([sortValue, filterByCategoryValue, searchValue], () => {
+  router.push({
+    path: route.path,
+    query: { sort: sortValue.value, category: filterByCategoryValue.value, search: searchValue.value },
+  });
+});
+
+onMounted(() => {
+  router.push({
+    path: route.path,
+    query: { sort: sortValue.value, category: filterByCategoryValue.value, search: searchValue.value },
+  });
+
+  if (route.query.sort) {
+    sortValue.value = route.query.sort;
+  }
+
+  if (route.query.status) {
+    filterByCategoryValue.value = route.query.category;
+  }
+
+  if (route.query.search) {
+    searchValue.value = route.query.search;
+    searchInputIsShown.value = true;
+  }
+});
+
+const refreshData = () => {
+  if (JSON.stringify(packages) !== JSON.stringify(handlePaginationValue.data)) {
+    emit("refresh");
+    pageNum.value = ref(handlePaginationValue.value.page.value);
+  }
+};
 
 const searchInputIsShown = ref(false);
 
@@ -261,7 +310,7 @@ const toggleSearchInput = () => {
 
 <style scoped lang="scss">
 .pagination {
-  @apply flex justify-center items-center mt-6;
+  @apply flex justify-center items-center mt-6 flex-wrap;
 
   &__button {
     @apply bg-white text-font rounded-md px-4 py-2;

@@ -17,16 +17,19 @@ export default function usePagination(list) {
     if (page.value !== Math.ceil(data.length / perPage)) {
       page.value += 1;
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const backPage = () => {
     if (page.value !== 1) {
       page.value -= 1;
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const goToPage = (numPage) => {
     page.value = numPage;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return { data, paginatedData, perPage, page, nextPage, backPage, goToPage };

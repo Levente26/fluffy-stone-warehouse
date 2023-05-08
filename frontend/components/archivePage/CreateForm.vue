@@ -213,7 +213,7 @@ const createWarehouseObject = () => {
     status: "open",
     packagesReceived: packagesReceived.value,
     packagesSent: packagesSent.value,
-    secondaryWarehouse: 1,
+    secondaryWarehouse: secondaryWarehouse.value,
   };
   
   clearFormData();
@@ -290,6 +290,7 @@ const createNewWarehouse = async (obj) => {
     await create("warehouses", obj);
     emit("closeModal");
   } catch (error) {
+    console.log(error);
     serverError.value = true;
   }
 };

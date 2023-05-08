@@ -20,7 +20,7 @@
     />
     <div v-if="categoryError" class="form-error">error happened</div>
 
-    <label>Maximum Capacity</label>
+    <label>Price</label>
     <input
       class="mb-4 border-black border"
       type="number"
