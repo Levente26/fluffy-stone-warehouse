@@ -42,25 +42,34 @@
   <div v-if="packages.length === 0">no packages</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
-      v-for="(singlePackage, index) in searchPackages"
+      v-for="(singlePackage, index) in handlePaginationValue.paginatedData
+        .value"
       :singlePackage="singlePackage"
       :key="singlePackage.id"
       :index="index"
       @refresh="emit('refresh')"
-      />
+    />
   </div>
 
-  <!-- <div class="pagination">
-    <button @click="backPage">prev</button>
+  <div class="pagination">
+    <button class="pagination__button" @click="handlePaginationValue.backPage">
+      prev
+    </button>
     <button
-      v-for="item in Math.ceil(data.length / perPage)"
+      v-for="item in Math.ceil(
+        handlePaginationValue.data.length / handlePaginationValue.perPage
+      )"
       :key="item"
-      @click="() => goToPage(item)"
+      :class="{ 'pagination__item--active': item == pageNum }"
+      class="pagination__item"
+      @click="() => handlePaginationValue.goToPage(item)"
     >
       {{ item }}
     </button>
-    <button @click="nextPage">next</button>
-  </div> -->
+    <button class="pagination__button" @click="handlePaginationValue.nextPage">
+      next
+    </button>
+  </div>
 
   <button @click="showPopup" class="plus-btn"><IconPlus /></button>
 
@@ -119,7 +128,10 @@ const showPopup = () => {
 const closePopup = ($event) => {
   const containingElement = document.querySelector(".popup__content");
 
-  if (!containingElement.contains($event.target) || !$event.target === containingElement) {
+  if (
+    !containingElement.contains($event.target) ||
+    !$event.target === containingElement
+  ) {
     popupIsShown.value = false;
     document.body.style.overflow = "auto";
   }
@@ -164,7 +176,7 @@ const addPackages = async () => {
     });
 
     quantity.value = 1;
-    
+
     emit("refresh");
   } catch (error) {
     console.log(error);
@@ -236,8 +248,9 @@ const searchPackages = computed(() => {
   }
 });
 
-// const handlePaginationValue = usePagination(searchPackages);
-// console.log(handlePaginationValue);
+const handlePaginationValue = usePagination(searchPackages);
+
+const pageNum = ref(handlePaginationValue.page);
 
 const searchInputIsShown = ref(false);
 
@@ -247,6 +260,31 @@ const toggleSearchInput = () => {
 </script>
 
 <style scoped lang="scss">
+.pagination {
+  @apply flex justify-center items-center mt-6;
+
+  &__button {
+    @apply bg-white text-font rounded-md px-4 py-2;
+    @apply transition-all duration-300 ease-in-out;
+    @apply border border-font mx-4;
+
+    &:hover {
+      @apply bg-font text-white;
+    }
+  }
+
+  &__item {
+    @apply mx-2 font-montserrat;
+
+    &--active {
+      @apply font-montserratBold;
+    }
+
+    &:hover {
+      @apply underline;
+    }
+  }
+}
 .filter-wrapper-main {
   @apply flex flex-col mb-10;
 

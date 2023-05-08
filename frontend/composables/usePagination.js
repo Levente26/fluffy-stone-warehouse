@@ -3,8 +3,8 @@ import { ref, computed } from "vue";
 export default function usePagination(list) {
   let page = ref(1);
 
-  const data = list.value.map((item, index) => {
-    return { index: index, value: item };
+  const data = list.value.map((item) => {
+    return item;
   });
 
   const perPage = 10;
