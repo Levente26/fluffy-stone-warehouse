@@ -4,12 +4,22 @@
 
     <SinglePageToggleButtons @togglePackages="togglePackages" />
 
+    <button class="back-btn" @click="backToWarehouses">
+      <IconBack />
+      <span> Back to warehouses </span>
+    </button>
+
     <div v-if="!showPackages">
       <SinglePageWarehouseData :data="data.data" />
     </div>
 
     <div v-if="showPackages">
-      <SinglePagePackageList @refresh="refresh" :warehouse="data.data" :packages="data.data.attributes.packages.data" :key="data" />
+      <SinglePagePackageList
+        @refresh="refresh"
+        :warehouse="data.data"
+        :packages="data.data.attributes.packages.data"
+        :key="data"
+      />
     </div>
   </section>
 </template>
@@ -17,6 +27,9 @@
 <script setup>
 const { findOne } = useStrapi();
 const route = useRoute();
+const router = useRouter();
+const { locale } = useI18n();
+const localePath = useLocalePath();
 
 const { data, pending, refresh, error } = await useAsyncData(
   "singleWarehouse",
@@ -31,10 +44,13 @@ const showPackages = ref(false);
 const togglePackages = (val) => {
   showPackages.value = val;
 };
+
+const backToWarehouses = () => {
+  router.push(localePath("/", locale.value));
+};
 </script>
 
 <style scoped lang="scss">
-
 .container {
   @apply flex flex-col;
   @apply max-w-screen-2xl w-full mx-auto;
@@ -45,6 +61,22 @@ const togglePackages = (val) => {
 
     @screen sm {
       @apply text-4xl text-left;
+    }
+  }
+}
+
+.back-btn {
+  @apply flex justify-start items-center mb-10;
+
+  & > * {
+    @apply mr-2;
+  }
+
+  & > span {
+    @apply font-montserratMedium;
+
+    &:hover {
+      @apply underline;
     }
   }
 }

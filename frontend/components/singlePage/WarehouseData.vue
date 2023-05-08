@@ -1,48 +1,75 @@
 <template>
   <h2>Warehouse Data</h2>
   <div class="warehouse__data">
-    <div>
-      <span> Address: </span>
-      <span>
-        {{ data.data.attributes.address }}
-      </span>
-    </div>
-    <div>
-      <span> Current Status </span>
-      <span>
-        {{ data.data.attributes.status }}
-      </span>
-    </div>
-    <div>
-      <span> Maximum Capacity </span>
-      <span>
-        {{ data.data.attributes.maximumCapacity }}
-      </span>
-    </div>
-    <div>
-      <span> Used Capacity </span>
-      <span>
-        {{ data.data.attributes.usedCapacity }}
-      </span>
-    </div>
-  </div>
+    <section>
+      <article>
+        <div>
+          <span> Address: </span>
+          <span>
+            {{ data.data.attributes.address }}
+          </span>
+        </div>
+        <div>
+          <span> Current Status </span>
+          <span>
+            {{ data.data.attributes.status }}
+          </span>
+        </div>
+      </article>
+    </section>
 
-  <div class="divider"></div>
-
-  <div class="warehouse__charts">
-    <ClientOnly>
-      <ChartsPieChart
-        :usedCapacity="data.data.attributes.usedCapacity"
-        :maximumCapacity="data.data.attributes.maximumCapacity"
-      />
-    </ClientOnly>
     <div class="divider"></div>
-    <ClientOnly>
-      <ChartsXYChart
-        :receivedPackages="data.data.attributes.packagesReceived"
-        :sentPackages="data.data.attributes.packagesSent"
-      />
-    </ClientOnly>
+
+    <section>
+      <article>
+        <div>
+          <span> Maximum Capacity </span>
+          <span>
+            {{ data.data.attributes.maximumCapacity }}
+          </span>
+        </div>
+        <div>
+          <span> Used Capacity </span>
+          <span>
+            {{ data.data.attributes.usedCapacity }}
+          </span>
+        </div>
+      </article>
+
+      <ClientOnly>
+        <ChartsPieChart
+          :usedCapacity="data.data.attributes.usedCapacity"
+          :maximumCapacity="data.data.attributes.maximumCapacity"
+        />
+      </ClientOnly>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <article>
+        <div>
+          <span>Number of received packages</span>
+          <span>
+            {{ data.data.attributes.packagesReceived }}
+          </span>
+        </div>
+
+        <div>
+          <span>Number of sent packages</span>
+          <span>
+            {{ data.data.attributes.packagesSent }}
+          </span>
+        </div>
+      </article>
+
+      <ClientOnly>
+        <ChartsXYChart
+          :receivedPackages="data.data.attributes.packagesReceived"
+          :sentPackages="data.data.attributes.packagesSent"
+        />
+      </ClientOnly>
+    </section>
   </div>
 </template>
 
@@ -56,26 +83,44 @@ h2 {
 }
 
 .divider {
-  @apply h-[1px] w-[90%] mx-auto bg-gray-300 my-10;
+  @apply h-[1px] w-full mx-auto bg-gray-300 my-10;
 }
 
 .warehouse {
   &__data {
     @apply flex flex-col;
-    & > div {
-      @apply flex flex-col mb-4;
 
-      &:last-child {
-        @apply mb-0;
+    & section {
+      @apply flex flex-col mb-10;
+
+      @screen lg {
+        @apply flex-row;
+
+        & > * {
+          @apply w-1/2;
+        }
       }
 
-      & > span {
-        &:first-child {
-          @apply font-montserratMedium mb-1;
-        }
+      & article {
+        @apply flex flex-col gap-4;
 
-        &:last-child {
-          @apply font-montserratLight;
+
+        & > div {
+          @apply flex flex-col mb-4;
+
+          &:last-child {
+            @apply mb-0;
+          }
+
+          & > span {
+            &:first-child {
+              @apply font-montserratMedium mb-1;
+            }
+
+            &:last-child {
+              @apply font-montserratLight;
+            }
+          }
         }
       }
     }

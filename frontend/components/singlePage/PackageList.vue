@@ -51,7 +51,7 @@
     />
   </div>
 
-  <div class="pagination">
+  <div class="pagination" v-if="packages.length > 0">
     <button class="pagination__button" @click="handlePaginationValue.backPage">
       prev
     </button>
