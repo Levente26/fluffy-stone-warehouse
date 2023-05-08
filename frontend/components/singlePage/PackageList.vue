@@ -116,6 +116,8 @@ import usePagination from "@/composables/usePagination";
 const { packages, warehouse } = defineProps(["packages", "warehouse"]);
 const emit = defineEmits(["refresh"]);
 const { create, update } = useStrapi();
+const router = useRouter();
+const route = useRoute();
 
 const quantity = ref(1);
 const popupIsShown = ref(false);
@@ -263,6 +265,33 @@ const pageNum = ref(handlePaginationValue.value.page.value);
 
 watch(handlePaginationValue.value.paginatedData, () => {
   pageNum.value = handlePaginationValue.value.page.value;
+});
+
+watch([sortValue, filterByCategoryValue, searchValue], () => {
+  router.push({
+    path: route.path,
+    query: { sort: sortValue.value, category: filterByCategoryValue.value, search: searchValue.value },
+  });
+});
+
+onMounted(() => {
+  router.push({
+    path: route.path,
+    query: { sort: sortValue.value, category: filterByCategoryValue.value, search: searchValue.value },
+  });
+
+  if (route.query.sort) {
+    sortValue.value = route.query.sort;
+  }
+
+  if (route.query.status) {
+    filterByCategoryValue.value = route.query.category;
+  }
+
+  if (route.query.search) {
+    searchValue.value = route.query.search;
+    searchInputIsShown.value = true;
+  }
 });
 
 const refreshData = () => {

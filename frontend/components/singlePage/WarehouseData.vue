@@ -75,6 +75,15 @@
 
 <script setup>
 const data = defineProps(["data"]);
+const router = useRouter();
+const route = useRoute();
+
+onMounted(() => {
+  router.push({
+    path: route.path,
+    query: { warehouse: data.data.attributes.name },
+  });
+});
 </script>
 
 <style lang="scss" scoped>

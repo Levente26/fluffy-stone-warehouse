@@ -61,6 +61,8 @@
 
 <script setup>
 const { find } = useStrapi();
+const router = useRouter();
+const route = useRoute();
 
 const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
   find("warehouses", {
@@ -83,6 +85,13 @@ const addNewWarehouse = () => {
 
 const sortValue = ref("newest");
 const filterByStatusValue = ref("all");
+
+watch([sortValue, filterByStatusValue], () => {
+  router.push({
+    path: route.path,
+    query: { sort: sortValue.value, status: filterByStatusValue.value },
+  });
+});
 
 const sortedWarehouses = computed(() => {
   switch (sortValue.value) {
@@ -154,6 +163,21 @@ const filteredWarehouses = computed(() => {
       return sortedWarehouses.value;
   }
 });
+
+onMounted(() => {
+  router.push({
+    path: route.path,
+    query: { sort: sortValue.value, status: filterByStatusValue.value },
+  });
+
+  if (route.query.sort) {
+    sortValue.value = route.query.sort;
+  }
+
+  if (route.query.status) {
+    filterByStatusValue.value = route.query.status;
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -195,18 +219,18 @@ const filteredWarehouses = computed(() => {
   @apply opacity-0 pointer-events-none transition-all duration-300;
   @apply flex justify-end;
   @apply fixed top-0 left-0 w-full h-full z-40;
-  
+
   &--active {
     @apply translate-x-0 opacity-100 pointer-events-auto;
   }
-  
+
   &--hidden-div {
     @apply opacity-0 w-[20%];
-    
+
     @screen lg {
       @apply w-[50%];
     }
-    
+
     @screen xl {
       @apply w-[55%];
     }
@@ -215,11 +239,10 @@ const filteredWarehouses = computed(() => {
   &__top {
     @apply flex items-center justify-between;
     @apply mb-8;
-    
+
     h2 {
       @apply text-2xl font-montserratMedium;
     }
-    
   }
 
   &__form {
