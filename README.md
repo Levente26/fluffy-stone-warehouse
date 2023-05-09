@@ -1,8 +1,8 @@
 # Welcome to my Warehouse Managment Application
 
 # First step
-First of all clone the repository
-Once cloning is ready please open a terminal and follow these steps:
+First of all clone the repository. 
+Once cloning is ready please open a terminal and follow these steps. 
 Navigate to the cloned project and then:
 
 ## Installation (Backend)
