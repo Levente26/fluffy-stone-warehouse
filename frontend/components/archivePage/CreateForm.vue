@@ -81,8 +81,8 @@
         addressError ||
         maximumCapacityError ||
         usedCapacityError ||
-        statusError ||
-        secondaryWarehouseError
+        statusError 
+        // secondaryWarehouseError
       "
     >
     {{ $t("create.btn") }}
@@ -154,13 +154,13 @@ const checkStatus = () => {
   }
 };
 
-const checkSecondaryWarehouse = () => {
-  if (secondaryWarehouse.value === null) {
-    secondaryWarehouseError.value = true;
-  } else {
-    secondaryWarehouseError.value = false;
-  }
-};
+// const checkSecondaryWarehouse = () => {
+//   if (secondaryWarehouse.value === null) {
+//     secondaryWarehouseError.value = true;
+//   } else {
+//     secondaryWarehouseError.value = false;
+//   }
+// };
 
 const createWarehouseObject = () => {
   const obj = {
@@ -194,14 +194,14 @@ const onSubmit = () => {
   checkMaximumCapacity();
   checkUsedCapacity();
   checkStatus();
-  checkSecondaryWarehouse();
+  // checkSecondaryWarehouse();
   if (
     nameError.value ||
     addressError.value ||
     maximumCapacityError.value ||
     usedCapacityError.value ||
-    statusError.value ||
-    secondaryWarehouseError.value
+    statusError.value 
+    // secondaryWarehouseError.value
   ) {
     return;
   }

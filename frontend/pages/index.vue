@@ -31,11 +31,6 @@
           <option value="empty">{{ $t("archive.filterbyVal.empty") }}</option>
         </select>
       </div>
-
-      <button @click="simulateWarehouseOperations">Simulate</button>
-      <button class="ml-4" @click="stopSimulateWarehouseOperations">
-        Stop Simulate
-      </button>
     </div>
 
     <div v-if="data.data.length === 0">{{ $t("archive.no-wh") }}</div>
@@ -43,7 +38,7 @@
       <ArchivePageWarehouseCard
         v-for="warehouse in filteredWarehouses"
         :warehouse="warehouse"
-        :key="warehouse"
+        :key="warehouse.id"
       />
     </div>
 
@@ -73,7 +68,7 @@ definePageMeta({
   middleware: ["auth"],
 });
 
-const { find, create, delete: _delete, update } = useStrapi();
+const { find } = useStrapi();
 const router = useRouter();
 const route = useRoute();
 
@@ -82,101 +77,6 @@ const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
     populate: ["packages"],
   })
 );
-
-const getRandomWarehouse = () => {
-  const randomWarehouse =
-    data.value.data[Math.floor(Math.random() * data.value.data.length)];
-  return randomWarehouse;
-};
-
-const receivePackage = async (wh) => {
-  const randomPackage = Math.floor(Math.random() * 20);
-
-  if (
-    wh.attributes.usedCapacity + randomPackage >
-    wh.attributes.maximumCapacity
-  ) {
-    console.log("warehouse is full");
-    return;
-  } else {
-    const fetchedProducts = await useFetch(
-      `https://fakestoreapi.com/products?limit=${randomPackage}`
-    );
-
-    fetchedProducts.data.value.map(async (product) => {
-      const obj = {
-        name: product.title,
-        price: product.price,
-        category: product.category,
-        warehouse: wh.id,
-      };
-
-      try {
-        await create("packages", obj);
-        await update("warehouses", wh.id, {
-          usedCapacity: wh.attributes.usedCapacity + randomPackage,
-          packagesReceived: wh.attributes.packagesReceived + randomPackage,
-        });
-
-        refresh();
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  }
-};
-
-const getRandomPackageFromWarehouse = async (wh, numberOfPackages) => {
-  Array(numberOfPackages).map(async () => {
-    const packages = wh.attributes.packages.data;
-    const randomPackageId =
-      packages[Math.floor(Math.random() * packages.length)].id;
-
-    try {
-      await _delete("packages", randomPackageId);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-};
-
-const sendPackage = async (wh) => {
-  const randomPackage = Math.floor(Math.random() * 20);
-
-  if (wh.attributes.usedCapacity - randomPackage < 0) {
-    console.log("warehouse is empty");
-    return;
-  } else {
-    try {
-      await getRandomPackageFromWarehouse(wh, randomPackage);
-      await update("warehouses", wh.id, {
-        usedCapacity: wh.attributes.usedCapacity - randomPackage,
-        packagesSent: wh.attributes.packagesSent + randomPackage,
-      });
-      refresh();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
-
-const intervalId = ref(null);
-const simulateWarehouseOperations = () => {
-  intervalId.value = setInterval(() => {
-    const randomWarehouse = getRandomWarehouse();
-
-    const randomOperation = Math.floor(Math.random() * 2);
-    if (randomOperation === 0) {
-      receivePackage(randomWarehouse);
-    } else {
-      sendPackage(randomWarehouse);
-    }
-  }, 1000);
-};
-
-const stopSimulateWarehouseOperations = () => {
-  clearInterval(intervalId.value);
-};
 
 const showModal = ref(false);
 
