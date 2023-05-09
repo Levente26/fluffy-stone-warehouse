@@ -85,5 +85,46 @@
   "wh-btns": {
     "wh-data": "Raktár adatok",
     "packages": "Csomagok"
+  },
+  "package": {
+    "id": "Csomagkód",
+    "price": "Ár",
+    "category": "Kategória",
+    "update": "Csomag frissítése",
+    "delete": "Csomag törlése",
+    "deleteText": "Biztosan törölni szeretnéd a csomagot?",
+    "deleteBtn": "Törlés",
+    "cancelBtn": "Mégse"
+  },
+  "list": {
+    "sortby": "Rendezés",
+    "sortbyVal": {
+      "newest": "Legújabb",
+      "name": "Név",
+      "id": "Csomagkód",
+      "price-asc": "Ár Növekvő",
+      "price-desc": "Ár Csökkenő"
+    },
+    "filterby": "Szűrés kategória szerint",
+    "filterbyVal": {
+      "all": "Összes"
+    },
+    "search": "Keresés név vagy ID alapján",
+    "noPackages": "Úgy tűnik, hogy még nincsenek csomagok a raktárban. Kattints a gombra, hogy hozzáadj egyet!",
+    "prev": "Előző",
+    "next": "Következő",
+    "addPackage": "Új csomag hozzáadása",
+    "quantity": "Mennyiség",
+    "quantityError": "Mennyiség nem lehet kiseeb mint 0 vagy nagyobb mint 20",
+    "addBtn": "Hozzáadás"
+  },
+  "update": {
+    "name": "Név",
+    "nameError": "Név nem lehet üres",
+    "price": "Ár",
+    "priceError": "Ár nem lehet üres",
+    "category": "Kategória",
+    "categoryError": "Kategória nem lehet üres",
+    "updateBtn": "Frissítés"
   }
 }

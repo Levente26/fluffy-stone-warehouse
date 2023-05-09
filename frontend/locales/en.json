@@ -85,5 +85,46 @@
   "wh-btns": {
     "wh-data": "Warehouse Data",
     "packages": "Packages"
+  },
+  "package": {
+    "id": "Package code",
+    "price": "Price",
+    "category": "Category",
+    "update": "Update Package",
+    "delete": "Delete Package",
+    "deleteText": "Are you sure you want to delete this package?",
+    "deleteBtn": "Delete",
+    "cancelBtn": "Cancel"
+  },
+  "list": {
+    "sortby": "Sort by",
+    "sortbyVal": {
+      "newest": "Newest",
+      "name": "Name",
+      "id": "ID",
+      "price-asc": "Price Ascending",
+      "price-desc": "Price Descending"
+    },
+    "filterby": "Filter by category",
+    "filterbyVal": {
+      "all": "All"
+    },
+    "search": "Search by name or ID",
+    "noPackages": "It seems that you don't have any package yet, create one now!",
+    "prev": "Previous",
+    "next": "Next",
+    "addPackage": "Add new package",
+    "quantity": "Quantity",
+    "quantityError": "Quantity can not be smaller than 0 and can not be greater than 20",
+    "addBtn": "Add"
+  },
+  "update": {
+    "name": "Name",
+    "nameError": "Name can not be empty",
+    "price": "Price",
+    "priceError": "Price can not be empty",
+    "category": "Category",
+    "categoryError": "Category can not be empty",
+    "updateBtn": "Update"
   }
 }

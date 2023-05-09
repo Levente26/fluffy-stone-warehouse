@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <label>Name</label>
+    <label>{{ $t("update.name") }}</label>
     <input
       class="mb-4 border-black border"
       type="name"
@@ -8,9 +8,9 @@
       @focusout="checkName"
       :class="{ 'form-field-error': nameError }"
     />
-    <div v-if="nameError" class="form-error">error happened</div>
+    <div v-if="nameError" class="form-error">{{ $t("update.nameError") }}</div>
 
-    <label>Category</label>
+    <label>{{ $t("update.category") }}</label>
     <input
       class="mb-4 border-black border"
       type="text"
@@ -18,9 +18,9 @@
       @focusout="checkCategory"
       :class="{ 'form-field-error': categoryError }"
     />
-    <div v-if="categoryError" class="form-error">error happened</div>
+    <div v-if="categoryError" class="form-error">{{ $t("update.categoryError") }}</div>
 
-    <label>Price</label>
+    <label>{{ $t("update.price") }}</label>
     <input
       class="mb-4 border-black border"
       type="number"
@@ -29,11 +29,11 @@
       :class="{ 'form-field-error': priceError }"
       step=".01"
     />
-    <div v-if="priceError" class="form-error">error happened</div>
+    <div v-if="priceError" class="form-error">{{ $t("update.priceError") }}</div>
 
-    <div v-if="serverError" class="form-error">server error happened</div>
+    <div v-if="serverError" class="form-error">{{ $t("serverError") }}</div>
 
-    <button :disabled="nameError || categoryError || priceError">submit</button>
+    <button :disabled="nameError || categoryError || priceError">{{ $t("update.updateBtn") }}</button>
   </form>
 </template>
 
