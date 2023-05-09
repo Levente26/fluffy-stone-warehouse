@@ -10,6 +10,7 @@
 
         <select v-model="sortValue">
           <option value="newest">{{ $t("archive.sortbyVal.newest") }}</option>
+          <option value="oldest">{{ $t("archive.sortbyVal.oldest") }}</option>
           <option value="name">{{ $t("archive.sortbyVal.name") }}</option>
           <option value="freecapacity-asc">
             {{ $t("archive.sortbyVal.free-cap-asc") }}
@@ -107,6 +108,13 @@ const sortedWarehouses = computed(() => {
       return data.value.data.sort((a, b) => {
         return (
           new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+        );
+      });
+
+    case "oldest":
+      return data.value.data.sort((a, b) => {
+        return (
+          new Date(a.attributes.createdAt) - new Date(b.attributes.createdAt)
         );
       });
 

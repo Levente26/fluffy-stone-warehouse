@@ -26,6 +26,7 @@
     "sortby": "Rendezés",
     "sortbyVal": {
       "newest": "Legújabb",
+      "oldest": "Legrégebbi",
       "name": "Név",
       "free-cap-asc": "Szabad kapacitás Növekvő",
       "free-cap-desc": "Szabad kapacitás Csökkenő"
@@ -102,6 +103,7 @@
     "sortby": "Rendezés",
     "sortbyVal": {
       "newest": "Legújabb",
+      "oldest": "Legrégebbi",
       "name": "Név",
       "id": "Csomagkód",
       "price-asc": "Ár Növekvő",

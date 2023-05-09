@@ -2,22 +2,27 @@
   <div class="filter-wrapper-main">
     <div class="filter-wrapper">
       <div class="select-wrapper">
-        <span>{{ $t('list.sortby') }}</span>
+        <span>{{ $t("list.sortby") }}</span>
 
         <select v-model="sortValue">
-          <option value="newest">{{ $t('list.sortbyVal.newest') }}</option>
-          <option value="name">{{ $t('list.sortbyVal.name') }}</option>
-          <option value="id">{{ $t('list.sortbyVal.id') }}</option>
-          <option value="price-asc">{{ $t('list.sortbyVal.price-asc') }}</option>
-          <option value="price-desc">{{ $t('list.sortbyVal.price-desc') }}</option>
+          <option value="newest">{{ $t("list.sortbyVal.newest") }}</option>
+          <option value="oldest">{{ $t("list.sortbyVal.oldest") }}</option>
+          <option value="name">{{ $t("list.sortbyVal.name") }}</option>
+          <option value="id">{{ $t("list.sortbyVal.id") }}</option>
+          <option value="price-asc">
+            {{ $t("list.sortbyVal.price-asc") }}
+          </option>
+          <option value="price-desc">
+            {{ $t("list.sortbyVal.price-desc") }}
+          </option>
         </select>
       </div>
 
       <div class="select-wrapper">
-        <span>{{ $t('list.filterby') }}</span>
+        <span>{{ $t("list.filterby") }}</span>
 
         <select v-model="filterByCategoryValue">
-          <option value="all">{{ $t('list.filterbyVal.all') }}</option>
+          <option value="all">{{ $t("list.filterbyVal.all") }}</option>
           <option :value="category" v-for="category in getAllCategories()">
             {{ category }}
           </option>
@@ -39,7 +44,7 @@
     </div>
   </div>
 
-  <div v-if="packages.length === 0">{{ $t('list.noPackages') }}</div>
+  <div v-if="packages.length === 0">{{ $t("list.noPackages") }}</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
       v-for="(singlePackage, index) in handlePaginationValue.paginatedData
@@ -53,7 +58,7 @@
 
   <div class="pagination" v-if="packages.length > 0">
     <button class="pagination__button" @click="handlePaginationValue.backPage">
-      {{ $t('list.prev') }}
+      {{ $t("list.prev") }}
     </button>
     <button
       v-for="item in Math.ceil(
@@ -67,7 +72,7 @@
       {{ item }}
     </button>
     <button class="pagination__button" @click="handlePaginationValue.nextPage">
-      {{ $t('list.next') }}
+      {{ $t("list.next") }}
     </button>
   </div>
 
@@ -80,21 +85,21 @@
   >
     <div class="popup__content">
       <div class="popup__header">
-        <h2>{{ $t('list.addPackage') }}</h2>
+        <h2>{{ $t("list.addPackage") }}</h2>
         <button @click="forceClosePopup">
           <IconClose />
         </button>
       </div>
       <div class="popup__body">
         <div class="popup__body__input">
-          <label for="quantity">{{ $t('list.quantity') }}</label>
+          <label for="quantity">{{ $t("list.quantity") }}</label>
           <input
             type="number"
             :class="{ 'form-field-error': quantity > 20 || quantity < 1 }"
             v-model="quantity"
           />
           <p class="form-error" v-if="quantity > 20 || quantity < 1">
-            {{ $t('list.quantityError') }}
+            {{ $t("list.quantityError") }}
           </p>
         </div>
         <div class="popup__body__buttons">
@@ -102,7 +107,7 @@
             :disabled="quantity > 20 || quantity < 1"
             @click="addPackages"
           >
-          {{ $t('list.addBtn') }}
+            {{ $t("list.addBtn") }}
           </button>
         </div>
       </div>
@@ -209,6 +214,12 @@ const sortedPackages = computed(() => {
           new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
         );
       });
+    case "oldest":
+      return packages.sort((a, b) => {
+        return (
+          new Date(a.attributes.createdAt) - new Date(b.attributes.createdAt)
+        );
+      });
     case "name":
       return packages.sort((a, b) => {
         return a.attributes.name.localeCompare(b.attributes.name);
@@ -266,14 +277,22 @@ watch(handlePaginationValue.value.paginatedData, () => {
 watch([sortValue, filterByCategoryValue, searchValue], () => {
   router.push({
     path: route.path,
-    query: { sort: sortValue.value, category: filterByCategoryValue.value, search: searchValue.value },
+    query: {
+      sort: sortValue.value,
+      category: filterByCategoryValue.value,
+      search: searchValue.value,
+    },
   });
 });
 
 onMounted(() => {
   router.push({
     path: route.path,
-    query: { sort: sortValue.value, category: filterByCategoryValue.value, search: searchValue.value },
+    query: {
+      sort: sortValue.value,
+      category: filterByCategoryValue.value,
+      search: searchValue.value,
+    },
   });
 
   if (route.query.sort) {

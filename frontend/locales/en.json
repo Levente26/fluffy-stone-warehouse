@@ -26,6 +26,7 @@
     "sortby": "Sort by",
     "sortbyVal": {
       "newest": "Newest",
+      "oldest": "Oldest",
       "name": "Name",
       "free-cap-asc": "Free Capacity Ascending",
       "free-cap-desc": "Free Capacity Descending"
@@ -102,6 +103,7 @@
     "sortby": "Sort by",
     "sortbyVal": {
       "newest": "Newest",
+      "oldest": "Oldest",
       "name": "Name",
       "id": "ID",
       "price-asc": "Price Ascending",
