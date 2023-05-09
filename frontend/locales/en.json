@@ -43,7 +43,7 @@
   },
   "status": {
     "color": "Status Colors",
-    "description": "The status colors are used to indicate the status of a warehouse. The colors are used in the warehouse list.",
+    "description": "The status colors are used to indicate the status of a warehouse. The colors are used in the warehouse list, and in the single warehouse page.",
     "open": "Open",
     "closed": "Closed",
     "empty": "Empty",
@@ -80,7 +80,9 @@
     "max-cap": "Maximum Capacity",
     "used-cap": "Used Capacity",
     "received-packages": "Received Packages",
-    "sent-packages": "Sent Packages"
+    "sent-packages": "Sent Packages",
+    "packageReceivedNotification": "Package received",
+    "packageSentNotification": "Package sent"
   },
   "wh-btns": {
     "wh-data": "Warehouse Data",
@@ -126,5 +128,9 @@
     "category": "Category",
     "categoryError": "Category can not be empty",
     "updateBtn": "Update"
+  }, 
+  "simulate": {
+    "start": "Start simulate warehouse traffic",
+    "stop": "Stop simulation"
   }
 }

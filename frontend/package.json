@@ -20,6 +20,7 @@
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
-    "@amcharts/amcharts5": "^5.3.11"
+    "@amcharts/amcharts5": "^5.3.11",
+    "@kyvg/vue3-notification": "^2.9.0"
   }
 }

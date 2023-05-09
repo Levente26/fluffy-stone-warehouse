@@ -12,15 +12,20 @@
         <div>
           <span> {{ $t("wh-data.status") }} </span>
           <span :key="data.data.attributes.status">
-            <!-- {{ data.data.attributes.status }} -->
             <div class="warehouse__status" :class="dynamicStatusClass"></div>
           </span>
         </div>
       </article>
 
-      <button @click="simulateWarehouseOperations">Simulate</button>
-      <button class="ml-4" @click="stopSimulateWarehouseOperations">
-        Stop Simulate
+      <button v-if="!isSimulating" @click="simulateWarehouseOperations">
+        {{ $t("simulate.start") }}
+      </button>
+      <button
+        v-if="isSimulating"
+        class="ml-4"
+        @click="stopSimulateWarehouseOperations"
+      >
+        {{ $t("simulate.stop") }}
       </button>
     </section>
 
@@ -59,44 +64,49 @@
       <article>
         <div>
           <span>{{ $t("wh-data.received-packages") }}</span>
-          <span :key="data.data.attributes.packagesReceived">
-            {{ data.data.attributes.packagesReceived }}
+          <span>
+            {{ packagesReceivedRef }}
           </span>
         </div>
 
         <div>
           <span>{{ $t("wh-data.sent-packages") }}</span>
-          <span :key="data.data.attributes.packagesSent">
-            {{ data.data.attributes.packagesSent }}
+          <span>
+            {{ packagesSentRef }}
           </span>
         </div>
       </article>
 
       <ClientOnly>
         <ChartsXYChart
-          :receivedPackages="data.data.attributes.packagesReceived"
+          :receivedPackages="packagesReceivedRef"
           :receivedPackagesText="$t('warehouse.receivedPackages')"
-          :sentPackages="data.data.attributes.packagesSent"
+          :sentPackages="packagesSentRef"
           :sentPackagesText="$t('warehouse.sentPackages')"
-          :key="
-            data.data.attributes.packagesReceived +
-            data.data.attributes.packagesSent
-          "
+          :key="usedCapacityRef"
         />
       </ClientOnly>
     </section>
   </div>
+
+  <notifications position="bottom right" />
 </template>
 
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+
+const { notify } = useNotification();
 const data = defineProps(["data"]);
 const router = useRouter();
 const route = useRoute();
 const { create, delete: _delete, update } = useStrapi();
 const emit = defineEmits(["refresh"]);
+const i18n = useI18n();
 const usedCapacityRef = ref(data.data.attributes.usedCapacity);
 const packagesReceivedRef = ref(data.data.attributes.packagesReceived);
 const packagesSentRef = ref(data.data.attributes.packagesSent);
+const isSimulating = ref(false);
+
 
 const receivePackage = async (wh) => {
   const freeCapacity = wh.attributes.maximumCapacity - usedCapacityRef.value;
@@ -127,6 +137,17 @@ const receivePackage = async (wh) => {
       console.log(error);
     }
   });
+
+  if (randomPackagesCount > 0) {
+    notify({
+      text:
+        randomPackagesCount +
+        " " +
+        i18n.t("wh-data.packageReceivedNotification"),
+      type: "success",
+      duration: 1500,
+    });
+  }
 };
 
 const getRandomPackageFromWarehouse = async (wh, numberOfPackages) => {
@@ -157,11 +178,22 @@ const sendPackage = async (wh) => {
   } catch (error) {
     console.log(error);
   }
+
+  if (randomPackagesCount > 0) {
+    notify({
+      text:
+        randomPackagesCount + " " + i18n.t("wh-data.packageSentNotification"),
+      type: "success",
+      duration: 1500,
+    });
+  }
 };
 
 const intervalId = ref(null);
 
 const simulateWarehouseOperations = () => {
+  isSimulating.value = true;
+
   intervalId.value = setInterval(async () => {
     const randomOperation = Math.floor(Math.random() * 2);
 
@@ -191,10 +223,11 @@ const simulateWarehouseOperations = () => {
     }
 
     emit("refresh");
-  }, 3000);
+  }, 1000);
 };
 
 const stopSimulateWarehouseOperations = () => {
+  isSimulating.value = false;
   clearInterval(intervalId.value);
 };
 
@@ -339,6 +372,22 @@ h2 {
 
         & > * {
           @apply w-1/2;
+        }
+      }
+
+      & button {
+        @apply w-max h-max rounded-md bg-font text-white font-montserratMedium;
+        @apply flex items-center justify-center self-center;
+        @apply px-4 py-4 mt-14;
+        @apply border border-font;
+        @apply transition-all duration-300 ease-in-out;
+
+        &:hover {
+          @apply bg-white text-font;
+        }
+
+        @screen lg {
+          @apply ml-auto mt-0 mr-20;
         }
       }
 

@@ -43,7 +43,7 @@
   },
   "status": {
     "color": "Státusz színek",
-    "description": "A státusz színek a raktárkártyákon jelennek meg. A színek alapján könnyen átlátható, hogy melyik raktár milyen státuszú.",
+    "description": "A státusz színek a raktárkártyákon és a raktár oldalán jelennek meg. A színek alapján könnyen átlátható, hogy melyik raktár milyen státuszú.",
     "open": "Nyitott",
     "closed": "Zárt",
     "empty": "Üres",
@@ -80,7 +80,9 @@
     "max-cap": "Maximális kapacitás",
     "used-cap": "Használt kapacitás",
     "received-packages": "Kapott csomagok",
-    "sent-packages": "Elküldött csomagok"
+    "sent-packages": "Elküldött csomagok",
+    "packageReceivedNotification": "Csomag érkezett",
+    "packageSentNotification": "Csomag elküldve"
   },
   "wh-btns": {
     "wh-data": "Raktár adatok",
@@ -126,5 +128,9 @@
     "category": "Kategória",
     "categoryError": "Kategória nem lehet üres",
     "updateBtn": "Frissítés"
+  },
+  "simulate": {
+    "start": "Raktár forgalom szimulálása",
+    "stop": "Szimuláció leállítása"
   }
 }
