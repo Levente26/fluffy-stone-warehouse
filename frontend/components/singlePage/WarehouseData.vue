@@ -189,6 +189,16 @@ const sendPackage = async (wh) => {
   }
 };
 
+const updateStatus = () => {
+  if(usedCapacityRef.value === 0) {
+    statusRef.value = "empty";
+  } else if(usedCapacityRef.value === data.data.attributes.maximumCapacity) {
+    statusRef.value = "full";
+  } else if(usedCapacityRef.value > 0 && usedCapacityRef.value < data.data.attributes.maximumCapacity) {
+    statusRef.value = "open";
+  }
+};
+
 const intervalId = ref(null);
 
 const simulateWarehouseOperations = () => {
@@ -222,15 +232,7 @@ const simulateWarehouseOperations = () => {
       console.log(error);
     }
 
-    switch (usedCapacityRef.value) {
-      case usedCapacityRef.value === 0:
-        statusRef.value = "empty";
-      case usedCapacityRef.value === data.data.attributes.maximumCapacity:
-        statusRef.value = "full";
-      case usedCapacityRef.value > 0 &&
-        usedCapacityRef.value < data.data.attributes.maximumCapacity:
-        statusRef.value = "open";
-    }
+    updateStatus();
 
     emit("refresh");
   }, 1000);
