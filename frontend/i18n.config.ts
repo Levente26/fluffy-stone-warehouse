@@ -5,7 +5,7 @@ export default defineI18nConfig((nuxt) => ({
   legacy: false,
   locale: "en",
   messages: {
-    en: en,
-    hu: hu,
+    en,
+    hu,
   },
 }));
