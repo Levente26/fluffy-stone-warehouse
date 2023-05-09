@@ -1,16 +1,16 @@
 <template>
-  <h2>Warehouse Data</h2>
+  <h2>{{ $t("wh-data.title") }}</h2>
   <div class="warehouse__data">
     <section>
       <article>
         <div>
-          <span> Address: </span>
+          <span> {{ $t("wh-data.address") }} </span>
           <span>
             {{ data.data.attributes.address }}
           </span>
         </div>
         <div>
-          <span> Current Status </span>
+          <span> {{ $t("wh-data.status") }} </span>
           <span>
             {{ data.data.attributes.status }}
           </span>
@@ -23,13 +23,13 @@
     <section>
       <article>
         <div>
-          <span> Maximum Capacity </span>
+          <span> {{ $t("wh-data.max-cap") }} </span>
           <span>
             {{ data.data.attributes.maximumCapacity }}
           </span>
         </div>
         <div>
-          <span> Used Capacity </span>
+          <span> {{ $t("wh-data.used-cap") }} </span>
           <span>
             {{ data.data.attributes.usedCapacity }}
           </span>
@@ -39,7 +39,9 @@
       <ClientOnly>
         <ChartsPieChart
           :usedCapacity="data.data.attributes.usedCapacity"
+          :usedCapacityText="$t('warehouse.usedCapacity')"
           :maximumCapacity="data.data.attributes.maximumCapacity"
+          :maximumCapacityText="$t('warehouse.maximumCapacity')"
         />
       </ClientOnly>
     </section>
@@ -49,14 +51,14 @@
     <section>
       <article>
         <div>
-          <span>Number of received packages</span>
+          <span>{{ $t("wh-data.received-packages") }}</span>
           <span>
             {{ data.data.attributes.packagesReceived }}
           </span>
         </div>
 
         <div>
-          <span>Number of sent packages</span>
+          <span>{{ $t("wh-data.sent-packages") }}</span>
           <span>
             {{ data.data.attributes.packagesSent }}
           </span>
@@ -66,7 +68,9 @@
       <ClientOnly>
         <ChartsXYChart
           :receivedPackages="data.data.attributes.packagesReceived"
+          :receivedPackagesText="$t('warehouse.receivedPackages')"
           :sentPackages="data.data.attributes.packagesSent"
+          :sentPackagesText="$t('warehouse.sentPackages')"
         />
       </ClientOnly>
     </section>

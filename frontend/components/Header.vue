@@ -2,11 +2,12 @@
   <section>
     <HeaderLanguageSwitcher />
     <div>
-      <button v-if="!user" @click="handleSignup" class="mr-4">Signup</button>
-      <button v-if="!user" @click="handleLogin">Login</button>
-      <button v-if="user" @click="handleLogout">Logout</button>
+      <button v-if="!user" @click="handleSignup" class="mr-4">
+        {{ $t("header.signup") }}
+      </button>
+      <button v-if="!user" @click="handleLogin">{{ $t("header.login") }}</button>
+      <button v-if="user" @click="handleLogout">{{ $t("header.logout") }}</button>
     </div>
-
   </section>
 </template>
 

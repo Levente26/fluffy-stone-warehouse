@@ -8,7 +8,7 @@ import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 export default {
-  props: ['usedCapacity', 'maximumCapacity'],
+  props: ['usedCapacity', 'maximumCapacity', 'usedCapacityText', 'maximumCapacityText'],
   mounted() {
     let root = am5.Root.new(this.$refs.chartdiv);
 
@@ -23,12 +23,12 @@ export default {
     // Define data
     let data = [
       {
-        country: "Used Capacity",
-        sales: this.usedCapacity,
+        text: this.usedCapacityText,
+        value: this.usedCapacity,
       },
       {
-        country: "Free Capacity",
-        sales: this.maximumCapacity - this.usedCapacity,
+        text: this.maximumCapacityText,
+        value: this.maximumCapacity - this.usedCapacity,
       },
     ];
 
@@ -36,8 +36,8 @@ export default {
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
         name: "Series",
-        valueField: "sales",
-        categoryField: "country",
+        valueField: "value",
+        categoryField: "text",
         alignLabels: false,
       })
     );

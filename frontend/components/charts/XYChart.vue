@@ -8,7 +8,7 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 export default {
-  props: ['receivedPackages', 'sentPackages'],
+  props: ['receivedPackages', 'sentPackages', 'receivedPackagesText', 'sentPackagesText'],
 
   mounted() {
     let root = am5.Root.new(this.$refs.chartdiv);
@@ -25,11 +25,11 @@ export default {
     // Define data
     let data = [
       {
-        category: "Received Packages",
+        category: this.receivedPackagesText,
         value: this.receivedPackages,
       },
       {
-        category: "Sent Packages",
+        category: this.sentPackagesText,
         value: this.sentPackages,
       },
     ];

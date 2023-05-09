@@ -1,35 +1,35 @@
 <template>
   <section class="container" :class="{ 'pointer-events-none': showModal }">
-    <h1>Warehouses by Fluffy Stone</h1>
+    <h1>{{ $t("archive.title") }}</h1>
 
     <ArchivePageStatusColorHelper />
 
     <div class="filter-wrapper">
       <div class="select-wrapper">
-        <span>Sort by</span>
+        <span>{{ $t("archive.sortby") }}</span>
 
         <select v-model="sortValue">
-          <option value="newest">Newest</option>
-          <option value="name">Name</option>
-          <option value="freecapacity-asc">Free capacity ASC</option>
-          <option value="freecapacity-desc">Free capacity DESC</option>
+          <option value="newest">{{ $t("archive.sortbyVal.newest") }}</option>
+          <option value="name">{{ $t("archive.sortbyVal.name") }}</option>
+          <option value="freecapacity-asc">{{ $t("archive.sortbyVal.free-cap-asc") }}</option>
+          <option value="freecapacity-desc">{{ $t("archive.sortbyVal.free-cap-desc") }}</option>
         </select>
       </div>
 
       <div class="select-wrapper">
-        <span>Filter by status</span>
+        <span>{{ $t("archive.filterby") }}</span>
 
         <select v-model="filterByStatusValue">
-          <option value="all">all</option>
-          <option value="open">open</option>
-          <option value="full">full</option>
-          <option value="closed">closed</option>
-          <option value="empty">empty</option>
+          <option value="all">{{ $t("archive.filterbyVal.all") }}</option>
+          <option value="open">{{ $t("archive.filterbyVal.open") }}</option>
+          <option value="full">{{ $t("archive.filterbyVal.full") }}</option>
+          <option value="closed">{{ $t("archive.filterbyVal.closed") }}</option>
+          <option value="empty">{{ $t("archive.filterbyVal.empty") }}</option>
         </select>
       </div>
     </div>
 
-    <div v-if="data.data.length === 0">There are no warehouse yet</div>
+    <div v-if="data.data.length === 0">{{ $t("archive.no-wh") }}</div>
     <div class="grid-list" v-if="data.data.length > 0">
       <ArchivePageWarehouseCard
         v-for="warehouse in filteredWarehouses"
@@ -47,7 +47,7 @@
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
     <div class="modal__form" :class="{ 'modal__form--active': showModal }">
       <div class="modal__top">
-        <h2>Create new Warehouse</h2>
+        <h2>{{ $t("archive.create-wh") }}</h2>
 
         <button @click="closeModal">
           <IconClose />

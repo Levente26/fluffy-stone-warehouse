@@ -1,0 +1,130 @@
+{
+  "header": {
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "auth": {
+    "email": "Email Address",
+    "emailError": "Please enter a valid email address",
+    "password": "Password",
+    "passwordError": "Password not correct",
+    "loginBtn": "Log in",
+    "signupInstead": "Don't have an account? Sign up now!",
+    "signupBtn": "Sign up",
+    "username": "Username",
+    "usernameError": "Username can not be empty",
+    "passwordTwice": "Repeat Password",
+    "passwordTwiceError": "Passwords not match",
+    "phone": "Phone Number",
+    "phoneError": "Phone number can not be empty",
+    "loginInstead": "Already have an account? Log in now!"
+  },
+  "serverError": "Server error happened, please try again later!",
+  "archive": {
+    "title": "Warehouse Managment",
+    "sortby": "Sort by",
+    "sortbyVal": {
+      "newest": "Newest",
+      "name": "Name",
+      "free-cap-asc": "Free Capacity Ascending",
+      "free-cap-desc": "Free Capacity Descending"
+    },
+    "filterby": "Filter by status",
+    "filterbyVal": {
+      "all": "All",
+      "open": "Open",
+      "closed": "Closed",
+      "empty": "Empty",
+      "full": "Full"
+    },
+    "no-wh": "It seems that you don't have any warehouse yet, create one now!",
+    "create-wh": "Create new warehouse"
+  },
+  "status": {
+    "color": "Status Colors",
+    "description": "The status colors are used to indicate the status of a warehouse. The colors are used in the warehouse list.",
+    "open": "Open",
+    "closed": "Closed",
+    "empty": "Empty",
+    "full": "Full"
+  },
+  "create": {
+    "automatically": "Create automatically",
+    "manually": "Create manually",
+    "name": "Name",
+    "nameError": "Name can not be empty",
+    "address": "Address",
+    "addressError": "Address can not be empty",
+    "max-cap": "Maximum Capacity",
+    "max-capError": "Maximum capacity can not be 0",
+    "used-cap": "Used Capacity",
+    "used-capError": "Used capacity can not be smaller than maximum capacity",
+    "status": "Status",
+    "statusError": "Please select a status",
+    "secondaryWh": "Secondary Warehouse",
+    "secondaryWhError": "Please select a secondary warehouse",
+    "btn": "Create"
+  },
+  "warehouse": {
+    "usedCapacity": "Used Capacity",
+    "maximumCapacity": "Maximum Capacity",
+    "receivedPackages": "Received Packages",
+    "sentPackages": "Sent Packages"
+  },
+  "backToBtn": "Back to Warehouses",
+  "wh-data": {
+    "title": "Warehouse Data",
+    "address": "Address",
+    "status": "Status",
+    "max-cap": "Maximum Capacity",
+    "used-cap": "Used Capacity",
+    "received-packages": "Received Packages",
+    "sent-packages": "Sent Packages"
+  },
+  "wh-btns": {
+    "wh-data": "Warehouse Data",
+    "packages": "Packages"
+  },
+  "package": {
+    "id": "Package code",
+    "price": "Price",
+    "category": "Category",
+    "update": "Update Package",
+    "delete": "Delete Package",
+    "deleteText": "Are you sure you want to delete this package?",
+    "deleteBtn": "Delete",
+    "cancelBtn": "Cancel"
+  },
+  "list": {
+    "sortby": "Sort by",
+    "sortbyVal": {
+      "newest": "Newest",
+      "name": "Name",
+      "id": "ID",
+      "price-asc": "Price Ascending",
+      "price-desc": "Price Descending"
+    },
+    "filterby": "Filter by category",
+    "filterbyVal": {
+      "all": "All"
+    },
+    "search": "Search by name or ID",
+    "noPackages": "It seems that you don't have any package yet, create one now!",
+    "prev": "Previous",
+    "next": "Next",
+    "addPackage": "Add new package",
+    "quantity": "Quantity",
+    "quantityError": "Quantity can not be smaller than 0 and can not be greater than 20",
+    "addBtn": "Add"
+  },
+  "update": {
+    "name": "Name",
+    "nameError": "Name can not be empty",
+    "price": "Price",
+    "priceError": "Price can not be empty",
+    "category": "Category",
+    "categoryError": "Category can not be empty",
+    "updateBtn": "Update"
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <div class="toggle-btn-holder">
-    <button @click="$emit('togglePackages', false)">Warehouse Data</button>
-    <button @click="$emit('togglePackages', true)">Packages</button>
+    <button @click="$emit('togglePackages', false)">{{ $t("wh-btns.wh-data") }}</button>
+    <button @click="$emit('togglePackages', true)">{{ $t("wh-btns.packages") }}</button>
   </div>
 </template>
 

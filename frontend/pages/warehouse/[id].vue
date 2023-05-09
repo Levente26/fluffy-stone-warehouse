@@ -6,7 +6,7 @@
 
     <button class="back-btn" @click="backToWarehouses">
       <IconBack />
-      <span> Back to warehouses </span>
+      <span>{{ $t("backToBtn") }}</span>
     </button>
 
     <div v-if="!showPackages">
@@ -25,6 +25,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: ["auth"],
+});
 const { findOne } = useStrapi();
 const route = useRoute();
 const router = useRouter();

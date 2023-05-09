@@ -2,14 +2,14 @@
   <div class="package-card" :class="{ 'package-card--even': index % 2 === 0 }">
     <div class="package-card__info">
       <div>
-        <p class="mb-2">ID: {{ singlePackage.id }}</p>
+        <p class="mb-2">{{ $t("package.id") }}: {{ singlePackage.id }}</p>
         <h2>{{ singlePackage.attributes.name }}</h2>
         <div>
-          <span>Price</span>
+          <span>{{ $t("package.price") }}</span>
           <span>{{ singlePackage.attributes.price }} €</span>
         </div>
         <div>
-          <span>Category</span>
+          <span>{{ $t("package.category") }}</span>
           <span>{{ singlePackage.attributes.category }}</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
     <div class="modal__form" :class="{ 'modal__form--active': showModal }">
       <div class="modal__top">
-        <h2>Update Package</h2>
+        <h2>{{ $t("package.update") }}</h2>
 
         <button @click="closeModal">
           <IconClose />
@@ -45,16 +45,22 @@
   >
     <div class="popup__content-del">
       <div class="popup__header">
-        <h2>Delete Package</h2>
+        <h2>{{ $t("package.delete") }}</h2>
         <button @click="forceClosePopup">
           <IconClose />
         </button>
       </div>
       <div class="popup__body">
-        <p>Are you sure you want to delete the selected package?</p>
+        <p>{{ $t("package.deleteText") }}</p>
+
         <div class="popup__body__buttons">
-          <button @click="forceClosePopup">Cancel</button>
-          <button @click="deletePackage" class="delete-btn">Delete</button>
+          <button @click="forceClosePopup">
+            {{ $t("package.cancelBtn") }}
+          </button>
+
+          <button @click="deletePackage" class="delete-btn">
+            {{ $t("package.deleteBtn") }}
+          </button>
         </div>
       </div>
     </div>
@@ -82,7 +88,7 @@ const showDeletePopup = () => {
 };
 
 const deletePackage = async () => {
-  await _delete("packages", singlePackage.id)
+  await _delete("packages", singlePackage.id);
   deletePopupIsShown.value = false;
   document.body.style.overflow = "auto";
   emit("refresh");
