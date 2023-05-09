@@ -169,7 +169,7 @@ const sendPackage = async (wh) => {
       await update("warehouses", wh.id, {
         usedCapacity: wh.attributes.usedCapacity - randomPackage,
         packagesSent: wh.attributes.packagesSent + randomPackage,
-        status: wh.attributes.usedCapacity > 0 ? "open" : "empty",
+        status: wh.attributes.usedCapacity === 0 ? "empty" : "open",
       });
       emit("refresh");
     } catch (error) {
@@ -181,7 +181,6 @@ const sendPackage = async (wh) => {
 const intervalId = ref(null);
 const simulateWarehouseOperations = () => {
   intervalId.value = setInterval(() => {
-    // const randomWarehouse = getRandomWarehouse();
 
     const randomOperation = Math.floor(Math.random() * 2);
     if (randomOperation === 0) {
