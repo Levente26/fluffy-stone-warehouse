@@ -25,6 +25,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: ["auth"],
+});
 const { findOne } = useStrapi();
 const route = useRoute();
 const router = useRouter();
