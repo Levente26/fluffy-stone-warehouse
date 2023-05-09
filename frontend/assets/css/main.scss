@@ -40,6 +40,15 @@ body {
   @apply border-red-500 #{!important};
 }
 
-input, select {
-    @apply outline-none;
+input,
+select {
+  @apply outline-none;
+}
+
+.vue-notification {
+  height: 60px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  @apply text-base font-montserratMedium #{!important};
 }

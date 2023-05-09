@@ -10,7 +10,7 @@
     </button>
 
     <div v-if="!showPackages">
-      <SinglePageWarehouseData :data="data.data" />
+      <SinglePageWarehouseData :data="data.data" @refresh="refresh" />
     </div>
 
     <div v-if="showPackages">

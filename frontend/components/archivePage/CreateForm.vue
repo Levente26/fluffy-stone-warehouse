@@ -81,8 +81,7 @@
         addressError ||
         maximumCapacityError ||
         usedCapacityError ||
-        statusError ||
-        secondaryWarehouseError
+        statusError 
       "
     >
     {{ $t("create.btn") }}
@@ -154,14 +153,6 @@ const checkStatus = () => {
   }
 };
 
-const checkSecondaryWarehouse = () => {
-  if (secondaryWarehouse.value === null) {
-    secondaryWarehouseError.value = true;
-  } else {
-    secondaryWarehouseError.value = false;
-  }
-};
-
 const createWarehouseObject = () => {
   const obj = {
     name: name.value,
@@ -194,14 +185,12 @@ const onSubmit = () => {
   checkMaximumCapacity();
   checkUsedCapacity();
   checkStatus();
-  checkSecondaryWarehouse();
   if (
     nameError.value ||
     addressError.value ||
     maximumCapacityError.value ||
     usedCapacityError.value ||
-    statusError.value ||
-    secondaryWarehouseError.value
+    statusError.value 
   ) {
     return;
   }

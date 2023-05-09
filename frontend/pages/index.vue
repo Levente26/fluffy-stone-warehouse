@@ -10,9 +10,14 @@
 
         <select v-model="sortValue">
           <option value="newest">{{ $t("archive.sortbyVal.newest") }}</option>
+          <option value="oldest">{{ $t("archive.sortbyVal.oldest") }}</option>
           <option value="name">{{ $t("archive.sortbyVal.name") }}</option>
-          <option value="freecapacity-asc">{{ $t("archive.sortbyVal.free-cap-asc") }}</option>
-          <option value="freecapacity-desc">{{ $t("archive.sortbyVal.free-cap-desc") }}</option>
+          <option value="freecapacity-asc">
+            {{ $t("archive.sortbyVal.free-cap-asc") }}
+          </option>
+          <option value="freecapacity-desc">
+            {{ $t("archive.sortbyVal.free-cap-desc") }}
+          </option>
         </select>
       </div>
 
@@ -69,7 +74,9 @@ const router = useRouter();
 const route = useRoute();
 
 const { data, pending, refresh, error } = await useAsyncData("warehouse", () =>
-  find("warehouses")
+  find("warehouses", {
+    populate: ["packages"],
+  })
 );
 
 const showModal = ref(false);
@@ -101,6 +108,13 @@ const sortedWarehouses = computed(() => {
       return data.value.data.sort((a, b) => {
         return (
           new Date(b.attributes.createdAt) - new Date(a.attributes.createdAt)
+        );
+      });
+
+    case "oldest":
+      return data.value.data.sort((a, b) => {
+        return (
+          new Date(a.attributes.createdAt) - new Date(b.attributes.createdAt)
         );
       });
 
