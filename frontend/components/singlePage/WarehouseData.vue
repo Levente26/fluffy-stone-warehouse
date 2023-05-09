@@ -11,7 +11,7 @@
         </div>
         <div>
           <span> {{ $t("wh-data.status") }} </span>
-          <span :key="data.data.attributes.status">
+          <span>
             <div class="warehouse__status" :class="dynamicStatusClass"></div>
           </span>
         </div>
@@ -105,8 +105,8 @@ const i18n = useI18n();
 const usedCapacityRef = ref(data.data.attributes.usedCapacity);
 const packagesReceivedRef = ref(data.data.attributes.packagesReceived);
 const packagesSentRef = ref(data.data.attributes.packagesSent);
+const statusRef = ref(data.data.attributes.status);
 const isSimulating = ref(false);
-
 
 const receivePackage = async (wh) => {
   const freeCapacity = wh.attributes.maximumCapacity - usedCapacityRef.value;
@@ -222,6 +222,16 @@ const simulateWarehouseOperations = () => {
       console.log(error);
     }
 
+    switch (usedCapacityRef.value) {
+      case usedCapacityRef.value === 0:
+        statusRef.value = "empty";
+      case usedCapacityRef.value === data.data.attributes.maximumCapacity:
+        statusRef.value = "full";
+      case usedCapacityRef.value > 0 &&
+        usedCapacityRef.value < data.data.attributes.maximumCapacity:
+        statusRef.value = "open";
+    }
+
     emit("refresh");
   }, 1000);
 };
@@ -232,7 +242,7 @@ const stopSimulateWarehouseOperations = () => {
 };
 
 const dynamicStatusClass = computed(() => {
-  switch (data.data.attributes.status) {
+  switch (statusRef.value) {
     case "open":
       return "warehouse__status--green";
 
