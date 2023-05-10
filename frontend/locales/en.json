@@ -65,7 +65,8 @@
     "statusError": "Please select a status",
     "secondaryWh": "Secondary Warehouse",
     "secondaryWhError": "Please select a secondary warehouse",
-    "btn": "Create"
+    "btn": "Create",
+    "notification": "Warehouse created"
   },
   "warehouse": {
     "usedCapacity": "Used Capacity",
@@ -97,7 +98,9 @@
     "delete": "Delete Package",
     "deleteText": "Are you sure you want to delete this package?",
     "deleteBtn": "Delete",
-    "cancelBtn": "Cancel"
+    "cancelBtn": "Cancel",
+    "deleteNotification": "Package deleted",
+    "updateNotification": "Package updated"
   },
   "list": {
     "sortby": "Sort by",

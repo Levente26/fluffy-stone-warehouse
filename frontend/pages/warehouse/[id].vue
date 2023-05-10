@@ -21,6 +21,7 @@
         :key="data"
       />
     </div>
+    <notifications position="bottom right" />
   </section>
 </template>
 

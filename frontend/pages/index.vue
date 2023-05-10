@@ -62,6 +62,8 @@
       <ArchivePageCreateForm @closeModal="closeModal" :warehouses="data" />
     </div>
   </section>
+
+  <notifications position="bottom right" />
 </template>
 
 <script setup>

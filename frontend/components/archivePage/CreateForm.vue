@@ -1,6 +1,8 @@
 <template>
   <div class="btn-holder">
-    <button @click="createAutomatically"> {{ $t("create.automatically") }}</button>
+    <button @click="createAutomatically">
+      {{ $t("create.automatically") }}
+    </button>
     <button @click="createManually">{{ $t("create.manually") }}</button>
   </div>
   <form v-if="selectedOption === 2" @submit.prevent="onSubmit">
@@ -22,7 +24,9 @@
       @focusout="checkAddress"
       :class="{ 'form-field-error': addressError }"
     />
-    <div v-if="addressError" class="form-error">{{ $t("create.addressError") }}</div>
+    <div v-if="addressError" class="form-error">
+      {{ $t("create.addressError") }}
+    </div>
 
     <label>{{ $t("create.max-cap") }}</label>
     <input
@@ -32,7 +36,9 @@
       @focusout="checkMaximumCapacity"
       :class="{ 'form-field-error': maximumCapacityError }"
     />
-    <div v-if="maximumCapacityError" class="form-error">{{ $t("create.max-capError") }}</div>
+    <div v-if="maximumCapacityError" class="form-error">
+      {{ $t("create.max-capError") }}
+    </div>
 
     <label>{{ $t("create.used-cap") }}</label>
     <input
@@ -42,7 +48,9 @@
       @focusout="checkUsedCapacity"
       :class="{ 'form-field-error': usedCapacityError }"
     />
-    <div v-if="usedCapacityError" class="form-error">{{ $t("create.used-capError") }}</div>
+    <div v-if="usedCapacityError" class="form-error">
+      {{ $t("create.used-capError") }}
+    </div>
 
     <label>{{ $t("create.status") }}</label>
     <select
@@ -50,12 +58,20 @@
       @focusout="checkStatus"
       :class="{ 'form-field-error': statusError }"
     >
-      <option value="open" v-if="usedCapacity < maximumCapacity">{{ $t("status.open") }}</option>
-      <option value="full" v-if="usedCapacity === maximumCapacity">{{ $t("status.full") }}</option>
+      <option value="open" v-if="usedCapacity < maximumCapacity">
+        {{ $t("status.open") }}
+      </option>
+      <option value="full" v-if="usedCapacity === maximumCapacity">
+        {{ $t("status.full") }}
+      </option>
       <option value="closed">{{ $t("status.closed") }}</option>
-      <option value="empty" v-if="usedCapacity < 1">{{ $t("status.empty") }}</option>
+      <option value="empty" v-if="usedCapacity < 1">
+        {{ $t("status.empty") }}
+      </option>
     </select>
-    <div v-if="statusError" class="form-error">{{ $t("create.statusError") }}</div>
+    <div v-if="statusError" class="form-error">
+      {{ $t("create.statusError") }}
+    </div>
 
     <label>{{ $t("create.secondaryWh") }}</label>
     <select
@@ -71,7 +87,9 @@
         {{ warehouse.attributes.name }}
       </option>
     </select>
-    <div v-if="secondaryWarehouseError" class="form-error">{{ $t("create.secondaryWhError") }}</div>
+    <div v-if="secondaryWarehouseError" class="form-error">
+      {{ $t("create.secondaryWhError") }}
+    </div>
 
     <div v-if="serverError" class="form-error">{{ $t("serverError") }}</div>
 
@@ -81,18 +99,22 @@
         addressError ||
         maximumCapacityError ||
         usedCapacityError ||
-        statusError 
+        statusError
       "
     >
-    {{ $t("create.btn") }}
+      {{ $t("create.btn") }}
     </button>
   </form>
 </template>
 
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+
+const { notify } = useNotification();
 const { warehouses } = defineProps(["warehouses"]);
 const { create } = useStrapi();
 const emit = defineEmits(["closeModal"]);
+const i18n = useI18n();
 
 const selectedOption = ref(null);
 
@@ -128,7 +150,11 @@ const checkAddress = () => {
 };
 
 const checkMaximumCapacity = () => {
-  if (maximumCapacity.value === null || maximumCapacity.value === "" || maximumCapacity.value < 1) {
+  if (
+    maximumCapacity.value === null ||
+    maximumCapacity.value === "" ||
+    maximumCapacity.value < 1
+  ) {
     maximumCapacityError.value = true;
   } else {
     maximumCapacityError.value = false;
@@ -165,7 +191,7 @@ const createWarehouseObject = () => {
     packagesSent: 0,
     secondaryWarehouse: secondaryWarehouse.value,
   };
-  
+
   clearFormData();
   createNewWarehouse(obj);
 };
@@ -190,7 +216,7 @@ const onSubmit = () => {
     addressError.value ||
     maximumCapacityError.value ||
     usedCapacityError.value ||
-    statusError.value 
+    statusError.value
   ) {
     return;
   }
@@ -235,6 +261,12 @@ const createNewWarehouse = async (obj) => {
     console.log(error);
     serverError.value = true;
   }
+
+  notify({
+    text: i18n.t("create.notification"),
+    type: "success",
+    duration: 1500,
+  });
 };
 </script>
 

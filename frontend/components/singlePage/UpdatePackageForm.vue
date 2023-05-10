@@ -38,6 +38,10 @@
 </template>
 
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+
+const { notify } = useNotification();
+const i18n = useI18n();
 const { update } = useStrapi();
 const emit = defineEmits(["closeModal"]);
 const { singlePackage } = defineProps(["singlePackage"]);
@@ -93,6 +97,12 @@ const onSubmit = async () => {
   } catch (error) {
     serverError.value = true;
   }
+
+  notify({
+    text: i18n.t("package.updateNotification"),
+    type: "success",
+    duration: 1500,
+  });
 };
 </script>
 
