@@ -3,7 +3,7 @@
     <div class="container__header">
       <h1>{{ data.data.attributes.name }}</h1>
 
-      <IconDelete @click="showDeletePopup" />
+      <IconDelete @click="showDeletePopup" class="cursor-pointer" />
     </div>
 
     <SinglePageToggleButtons @togglePackages="togglePackages" />

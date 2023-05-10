@@ -45,6 +45,10 @@ select {
   @apply outline-none;
 }
 
+select {
+  @apply cursor-pointer;
+}
+
 .vue-notification {
   height: 60px;
   display: flex !important;
