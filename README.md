@@ -86,4 +86,7 @@ On the Single Pages you have two options:
 - see the warehouse data & edit warehouse data & you can run **Automatized Warehouse Traffic Simulation**
 - see the packages what is inside the warehouse & edit or delete the packages & sort them / filter them / search inside them and also you can add more packages
 
+### Important note
+If you want to close a warehouse which doesn't have secondary warehouse by default, then you should update the warehouse's secodary warehouse field, save it, and after that you can close the warehouse without any issue.
+
 
