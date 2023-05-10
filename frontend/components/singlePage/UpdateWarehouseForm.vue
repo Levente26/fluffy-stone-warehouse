@@ -84,7 +84,7 @@ import { useNotification } from "@kyvg/vue3-notification";
 
 const { notify } = useNotification();
 const i18n = useI18n();
-const { update, find } = useStrapi();
+const { update, find, findOne } = useStrapi();
 const emit = defineEmits(["closeModal"]);
 const { warehouse } = defineProps(["warehouse"]);
 const route = useRoute();
@@ -112,7 +112,7 @@ const serverError = ref(false);
 
 const { data, pending, refresh, error } = await useAsyncData(
   "warehousesUpdateWarehouseForm",
-  () => find("warehouses")
+  () => find("warehouses", { populate: ["packages"] })
 );
 
 const checkName = () => {
@@ -170,12 +170,22 @@ const onSubmit = async () => {
       status.value === "closed" &&
       warehouse.attributes.secondaryWarehouse.data !== null
     ) {
-      const secondaryWarehouse = warehouse.attributes.secondaryWarehouse.data;
+      const secondaryWarehouseId =
+        warehouse.attributes.secondaryWarehouse.data.id;
+
+      const secondaryWarehouseOption = await findOne(
+        "warehouses",
+        secondaryWarehouseId,
+        {
+          populate: ["packages"],
+        }
+      );
 
       if (
-        secondaryWarehouse.attributes.usedCapacity + usedCapacity.value <=
-          secondaryWarehouse.attributes.maximumCapacity &&
-        secondaryWarehouse.attributes.status !== "closed"
+        secondaryWarehouseOption.data.attributes.usedCapacity +
+          usedCapacity.value <=
+          secondaryWarehouseOption.data.attributes.maximumCapacity &&
+        secondaryWarehouseOption.data.attributes.status !== "closed"
       ) {
         await update("warehouses", warehouse.id, {
           name: name.value,
@@ -188,29 +198,32 @@ const onSubmit = async () => {
           secondaryWarehouse: secondaryWarehouse.value,
         });
 
-        await update("warehouses", secondaryWarehouse.id, {
+        await update("warehouses", secondaryWarehouseOption.data.id, {
           usedCapacity:
-            secondaryWarehouse.attributes.usedCapacity + usedCapacity.value,
+            secondaryWarehouseOption.data.attributes.usedCapacity +
+            usedCapacity.value,
           packagesReceived:
-            secondaryWarehouse.attributes.packagesReceived + usedCapacity.value,
-          // packages: [
-          //   ...secondaryWarehouse.attributes.packages,
-          //   ...warehouse.attributes.packages,
-          // ],
+            secondaryWarehouseOption.data.attributes.packagesReceived +
+            usedCapacity.value,
+          packages: [
+            ...secondaryWarehouseOption.data.attributes.packages.data,
+            ...warehouse.attributes.packages.data,
+          ],
           status:
-            secondaryWarehouse.attributes.usedCapacity + usedCapacity.value ===
+            secondaryWarehouseOption.data.attributes.usedCapacity +
+              usedCapacity.value ===
             0
               ? "empty"
-              : secondaryWarehouse.attributes.usedCapacity +
+              : secondaryWarehouseOption.data.attributes.usedCapacity +
                   usedCapacity.value ===
-                secondaryWarehouse.attributes.maximumCapacity
+                secondaryWarehouseOption.data.attributes.maximumCapacity
               ? "full"
-              : secondaryWarehouse.attributes.usedCapacity +
+              : secondaryWarehouseOption.data.attributes.usedCapacity +
                   usedCapacity.value >
                   0 &&
-                secondaryWarehouse.attributes.usedCapacity +
+                secondaryWarehouseOption.data.attributes.usedCapacity +
                   usedCapacity.value <
-                  secondaryWarehouse.attributes.maximumCapacity
+                  secondaryWarehouseOption.data.attributes.maximumCapacity
               ? "open"
               : "closed",
         });
