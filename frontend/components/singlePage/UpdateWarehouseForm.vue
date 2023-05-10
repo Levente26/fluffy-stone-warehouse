@@ -215,7 +215,6 @@ const onSubmit = async () => {
               : "closed",
         });
 
-        console.log("if");
         router.push(localePath("/", locale.value));
       } else {
         notify({
@@ -224,7 +223,6 @@ const onSubmit = async () => {
           duration: 1500,
         });
         emit("closeModal");
-        console.log("else inside if GOOD");
       }
     } else if (
       status.value === "closed" &&
@@ -236,11 +234,9 @@ const onSubmit = async () => {
         duration: 1500,
       });
       emit("closeModal");
-      console.log("else if");
 
       return;
     } else {
-      console.log("alsó else", secondaryWarehouse.value);
       await update("warehouses", warehouse.id, {
         name: name.value,
         address: address.value,
