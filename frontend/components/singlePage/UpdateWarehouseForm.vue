@@ -58,7 +58,10 @@
     <label>{{ $t("create.secondaryWh") }}</label>
     <select v-model="secondaryWarehouse">
       <template v-for="warehouseItem in data.data" :key="warehouse.id">
-        <option v-if="warehouse.id !== warehouseItem.id" :value="warehouseItem.id">
+        <option
+          v-if="warehouse.id !== warehouseItem.id"
+          :value="warehouseItem.id"
+        >
           {{ warehouseItem.attributes.name }}
         </option>
       </template>
@@ -90,8 +93,11 @@ const address = ref(warehouse.attributes.address);
 const maximumCapacity = ref(warehouse.attributes.maximumCapacity);
 const usedCapacity = ref(warehouse.attributes.usedCapacity);
 const status = ref(warehouse.attributes.status);
-const secondaryWarehouse = ref(warehouse.attributes.secondaryWarehouse.data !== null ? warehouse.attributes.secondaryWarehouse.data.id : null);
-
+const secondaryWarehouse = ref(
+  warehouse.attributes.secondaryWarehouse.data !== null
+    ? warehouse.attributes.secondaryWarehouse.data.id
+    : null
+);
 
 const nameError = ref(false);
 const addressError = ref(false);
@@ -155,24 +161,75 @@ const onSubmit = async () => {
   }
 
   try {
-    await update("warehouses", warehouse.id, {
-      name: name.value,
-      address: address.value,
-      maximumCapacity: maximumCapacity.value,
-      usedCapacity: usedCapacity.value,
-      status: status.value,
-      secondaryWarehouse: secondaryWarehouse.value,
-    });
+    if (status.value === "closed") {
+      const secondaryWarehouse = warehouse.attributes.secondaryWarehouse.data;
+
+      await update("warehouses", warehouse.id, {
+        name: name.value,
+        address: address.value,
+        maximumCapacity: maximumCapacity.value,
+        usedCapacity: 0,
+        packages: [],
+        packagesSent: warehouse.attributes.packagesSent + usedCapacity.value,
+        status: status.value,
+        secondaryWarehouse: secondaryWarehouse.value,
+      });
+
+      if (
+        secondaryWarehouse !== null &&
+        secondaryWarehouse.attributes.usedCapacity +
+          warehouse.attributes.usedCapacity <=
+          secondaryWarehouse.attributes.maximumCapacity
+      ) {
+        await update("warehouses", secondaryWarehouse.id, {
+          usedCapacity:
+            secondaryWarehouse.attributes.usedCapacity +
+            warehouse.attributes.usedCapacity,
+          packagesReceived:
+            secondaryWarehouse.attributes.packagesReceived +
+            warehouse.attributes.usedCapacity,
+          packages: [
+            ...secondaryWarehouse.attributes.packages,
+            ...warehouse.attributes.packages,
+          ],
+          status:
+            secondaryWarehouse.attributes.usedCapacity + usedCapacity.value ===
+            0
+              ? "empty"
+              : secondaryWarehouse.attributes.usedCapacity +
+                  usedCapacity.value ===
+                secondaryWarehouse.attributes.maximumCapacity
+              ? "full"
+              : secondaryWarehouse.attributes.usedCapacity +
+                  usedCapacity.value >
+                  0 &&
+                secondaryWarehouse.attributes.usedCapacity +
+                  usedCapacity.value <
+                  secondaryWarehouse.attributes.maximumCapacity
+              ? "open"
+              : "closed",
+        });
+      }
+    } else {
+      await update("warehouses", warehouse.id, {
+        name: name.value,
+        address: address.value,
+        maximumCapacity: maximumCapacity.value,
+        usedCapacity: usedCapacity.value,
+        status: status.value,
+        secondaryWarehouse: secondaryWarehouse.value,
+      });
+
+      notify({
+        text: i18n.t("wh-data.updateNotification"),
+        type: "success",
+        duration: 1500,
+      });
+    }
     emit("closeModal");
   } catch (error) {
     serverError.value = true;
   }
-
-  notify({
-    text: i18n.t("wh-data.updateNotification"),
-    type: "success",
-    duration: 1500,
-  });
 };
 </script>
 
