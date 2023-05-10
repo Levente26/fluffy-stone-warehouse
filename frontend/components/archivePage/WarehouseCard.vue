@@ -48,7 +48,10 @@ const dynamicStatusClass = computed(() => {
 });
 
 const goToSingleWarehouse = () => {
-  router.push(localePath(`/warehouse/${warehouse.id}`, locale.value));
+  router.push({
+    path: localePath(`/warehouse/${warehouse.id}`, locale.value),
+    query: { warehouse: warehouse.attributes.name },
+  });
 };
 </script>
 
