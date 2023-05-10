@@ -66,3 +66,24 @@ yarn dev
 #npm
 npm run dev
 ```
+
+# About the project
+## Sign up & Login
+If you are ready with the installations and with the Strapi configuration and both server runs, then you will see the login screen.
+If you don't have an account yet, then you have to create one account, to log in to the application.
+
+After logging in you will see the Archive page.
+
+## Archive Page
+On this page you will see all of the warehouses.
+If you don't have any warehouse at the moment you can add easily by clicking on the plus button.
+You can add new warehouses automatically with random filled data or by manually.
+On the Archive Page you can sort the warehouses by some value, and filter by status.
+If you click on the warehouse card you will see the Single Warehouse Page
+
+## Single Page
+On the Single Pages you have two options:
+- see the warehouse data & edit warehouse data & you can run automatized warehouse traffic simulation
+- see the packages what is inside the warehouse & edit or delete the packages & sort them / filter them / search inside them and also you can add more packages
+
+
