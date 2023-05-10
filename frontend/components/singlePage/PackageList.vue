@@ -60,17 +60,32 @@
     <button class="pagination__button" @click="handlePaginationValue.backPage">
       {{ $t("list.prev") }}
     </button>
-    <button
+    <template
       v-for="item in Math.ceil(
         handlePaginationValue.data.length / handlePaginationValue.perPage
       )"
       :key="item"
-      :class="{ 'pagination__item--active': item === pageNum }"
-      class="pagination__item"
-      @click="() => handlePaginationValue.goToPage(item)"
     >
-      {{ item }}
-    </button>
+      <button
+        v-if="
+          item === pageNum ||
+          item === pageNum - 1 ||
+          item === pageNum + 1 ||
+          item === pageNum - 2 ||
+          item === pageNum + 2 ||
+          item === 1 ||
+          item ===
+            Math.ceil(
+              handlePaginationValue.data.length / handlePaginationValue.perPage
+            )
+        "
+        :class="{ 'pagination__item--active': item === pageNum }"
+        class="pagination__item"
+        @click="() => handlePaginationValue.goToPage(item)"
+      >
+        {{ item }}
+      </button>
+    </template>
     <button class="pagination__button" @click="handlePaginationValue.nextPage">
       {{ $t("list.next") }}
     </button>
