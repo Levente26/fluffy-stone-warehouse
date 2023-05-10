@@ -65,9 +65,15 @@
       </div>
     </div>
   </div>
+
+  
 </template>
 
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+
+const { notify } = useNotification();
+const i18n = useI18n();
 const { singlePackage, index } = defineProps(["singlePackage", "index"]);
 const emit = defineEmits(["refresh"]);
 const { delete: _delete } = useStrapi();
@@ -92,6 +98,12 @@ const deletePackage = async () => {
   deletePopupIsShown.value = false;
   document.body.style.overflow = "auto";
   emit("refresh");
+
+  notify({
+    text: i18n.t("package.deleteNotification"),
+    type: "error",
+    duration: 1500,
+  });
 };
 
 const closePopup = ($event) => {

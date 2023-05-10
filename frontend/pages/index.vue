@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div v-if="data.data.length === 0">{{ $t("archive.no-wh") }}</div>
+    <div v-if="data.data.length === 0" class="mt-10 text-2xl lg:text-3xl max-w-xl mx-auto font-montserratBold text-center">{{ $t("archive.no-wh") }}</div>
     <div class="grid-list" v-if="data.data.length > 0">
       <ArchivePageWarehouseCard
         v-for="warehouse in filteredWarehouses"
@@ -62,6 +62,8 @@
       <ArchivePageCreateForm @closeModal="closeModal" :warehouses="data" />
     </div>
   </section>
+
+  <notifications position="bottom right" />
 </template>
 
 <script setup>

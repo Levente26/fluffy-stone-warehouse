@@ -17,7 +17,9 @@
         </div>
       </article>
 
-      <button v-if="!isSimulating" @click="simulateWarehouseOperations">
+      <button v-if="!isSimulating" @click="updateWarehouseData">{{ $t("wh-data.updateFormTitle") }}</button>
+
+      <button v-if="!isSimulating && data.data.attributes.status !== 'closed'" @click="simulateWarehouseOperations">
         {{ $t("simulate.start") }}
       </button>
       <button
@@ -89,6 +91,21 @@
     </section>
   </div>
 
+  <section class="modal" :class="{ 'modal--active': showModal }">
+    <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
+    <div class="modal__form" :class="{ 'modal__form--active': showModal }">
+      <div class="modal__top">
+        <h2>{{ $t("wh-data.updateFormTitle") }}</h2>
+
+        <button @click="closeModal">
+          <IconClose />
+        </button>
+      </div>
+
+      <SinglePageUpdateWarehouseForm @closeModal="closeModal" :key="data.data" :warehouse="data.data" />
+    </div>
+  </section>
+
   <notifications position="bottom right" />
 </template>
 
@@ -107,6 +124,19 @@ const packagesReceivedRef = ref(data.data.attributes.packagesReceived);
 const packagesSentRef = ref(data.data.attributes.packagesSent);
 const statusRef = ref(data.data.attributes.status);
 const isSimulating = ref(false);
+
+const updateWarehouseData = () => {
+  showModal.value = true;
+  document.body.style.overflow = "hidden";
+};
+
+const showModal = ref(false);
+
+const closeModal = () => {
+  showModal.value = false;
+  document.body.style.overflow = "auto";
+  emit("refresh");
+};
 
 const receivePackage = async (wh) => {
   const freeCapacity = wh.attributes.maximumCapacity - usedCapacityRef.value;
@@ -190,11 +220,14 @@ const sendPackage = async (wh) => {
 };
 
 const updateStatus = () => {
-  if(usedCapacityRef.value === 0) {
+  if (usedCapacityRef.value === 0) {
     statusRef.value = "empty";
-  } else if(usedCapacityRef.value === data.data.attributes.maximumCapacity) {
+  } else if (usedCapacityRef.value === data.data.attributes.maximumCapacity) {
     statusRef.value = "full";
-  } else if(usedCapacityRef.value > 0 && usedCapacityRef.value < data.data.attributes.maximumCapacity) {
+  } else if (
+    usedCapacityRef.value > 0 &&
+    usedCapacityRef.value < data.data.attributes.maximumCapacity
+  ) {
     statusRef.value = "open";
   }
 };
@@ -239,6 +272,7 @@ const simulateWarehouseOperations = () => {
 };
 
 const stopSimulateWarehouseOperations = () => {
+  emit("refresh");
   isSimulating.value = false;
   clearInterval(intervalId.value);
 };
@@ -272,6 +306,70 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.modal {
+  @apply bg-gray-800 bg-opacity-70;
+  @apply opacity-0 pointer-events-none transition-all duration-300;
+  @apply flex justify-end;
+  @apply fixed top-0 left-0 w-full h-full z-40;
+
+  &--active {
+    @apply translate-x-0 opacity-100 pointer-events-auto;
+  }
+
+  &--hidden-div {
+    @apply opacity-0 w-[20%];
+
+    @screen lg {
+      @apply w-[50%];
+    }
+
+    @screen xl {
+      @apply w-[55%];
+    }
+  }
+
+  &__top {
+    @apply flex items-center justify-between;
+    @apply mb-8;
+
+    h2 {
+      @apply text-2xl font-montserratMedium;
+    }
+  }
+
+  &__form {
+    @apply overflow-y-auto;
+    @apply bg-white;
+    @apply w-[80%] h-full p-8;
+    @apply flex flex-col;
+
+    button {
+      @apply ml-auto;
+    }
+
+    @screen lg {
+      @apply w-[50%];
+    }
+
+    @screen xl {
+      @apply w-[45%];
+    }
+
+    &--active {
+      animation: slideIn 0.4s ease-in-out forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
 h2 {
   @apply text-2xl font-montserratMedium mb-10;
 }

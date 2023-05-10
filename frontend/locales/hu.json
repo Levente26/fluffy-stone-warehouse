@@ -65,7 +65,8 @@
     "statusError": "Kérlek válassz egy státuszt",
     "secondaryWh": "Másodlagos raktár",
     "secondaryWhError": "Kérlek válassz egy másodlagos raktárat",
-    "btn": "Létrehozás"
+    "btn": "Létrehozás",
+    "notification": "Raktár létrehozva"
   },
   "warehouse": {
     "usedCapacity": "Használt kapacitás",
@@ -83,7 +84,14 @@
     "received-packages": "Kapott csomagok",
     "sent-packages": "Elküldött csomagok",
     "packageReceivedNotification": "Csomag érkezett",
-    "packageSentNotification": "Csomag elküldve"
+    "packageSentNotification": "Csomag elküldve",
+    "updateFormTitle": "Raktár adatok frissítése",
+    "updateNotification": "Raktár adatok frissítve",
+    "deleteNotification": "Raktár törölve",
+    "delete": "Raktár törlése",
+    "deleteText": "Biztosan törölni szeretnéd a raktárat?",
+    "notEnoughSpace": "Nincs elég hely a raktárban",
+    "noSecondaryWarehouse": "Nincs megadva másodlagos raktár"
   },
   "wh-btns": {
     "wh-data": "Raktár adatok",
@@ -97,7 +105,9 @@
     "delete": "Csomag törlése",
     "deleteText": "Biztosan törölni szeretnéd a csomagot?",
     "deleteBtn": "Törlés",
-    "cancelBtn": "Mégse"
+    "cancelBtn": "Mégse",
+    "deleteNotification": "Csomag törölve",
+    "updateNotification": "Csomag frissítve"
   },
   "list": {
     "sortby": "Rendezés",
