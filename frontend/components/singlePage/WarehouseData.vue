@@ -95,7 +95,6 @@
     <div :class="{ 'modal--hidden-div': showModal }" @click="closeModal"></div>
     <div class="modal__form" :class="{ 'modal__form--active': showModal }">
       <div class="modal__top">
-        <!-- UPDATE -->
         <h2>{{ $t("wh-data.updateFormTitle") }}</h2>
 
         <button @click="closeModal">

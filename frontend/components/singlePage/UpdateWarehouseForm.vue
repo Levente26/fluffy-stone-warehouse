@@ -90,7 +90,7 @@ const address = ref(warehouse.attributes.address);
 const maximumCapacity = ref(warehouse.attributes.maximumCapacity);
 const usedCapacity = ref(warehouse.attributes.usedCapacity);
 const status = ref(warehouse.attributes.status);
-const secondaryWarehouse = ref(warehouse.attributes.secondaryWarehouse.data.id);
+const secondaryWarehouse = ref(warehouse.attributes.secondaryWarehouse.data !== null ? warehouse.attributes.secondaryWarehouse.data.id : null);
 
 
 const nameError = ref(false);
