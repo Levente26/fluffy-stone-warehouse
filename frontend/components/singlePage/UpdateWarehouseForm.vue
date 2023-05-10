@@ -169,7 +169,7 @@ const onSubmit = async () => {
   }
 
   notify({
-    text: i18n.t("package.updateNotification"),
+    text: i18n.t("wh-data.updateNotification"),
     type: "success",
     duration: 1500,
   });

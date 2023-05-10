@@ -85,7 +85,11 @@
     "sent-packages": "Elküldött csomagok",
     "packageReceivedNotification": "Csomag érkezett",
     "packageSentNotification": "Csomag elküldve",
-    "updateFormTitle": "Raktár adatok frissítése"
+    "updateFormTitle": "Raktár adatok frissítése",
+    "updateNotification": "Raktár adatok frissítve",
+    "deleteNotification": "Raktár törölve",
+    "delete": "Raktár törlése",
+    "deleteText": "Biztosan törölni szeretnéd a raktárat?"
   },
   "wh-btns": {
     "wh-data": "Raktár adatok",
