@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div v-if="packages.length === 0">{{ $t("list.noPackages") }}</div>
+  <div v-if="packages.length === 0" class="mt-10 text-2xl lg:text-3xl max-w-xl mx-auto font-montserratBold text-center">{{ $t("list.noPackages") }}</div>
   <div v-if="packages.length > 0" class="packages-grid">
     <SinglePagePackageCard
       v-for="(singlePackage, index) in handlePaginationValue.paginatedData
