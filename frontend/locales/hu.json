@@ -84,7 +84,8 @@
     "received-packages": "Kapott csomagok",
     "sent-packages": "Elküldött csomagok",
     "packageReceivedNotification": "Csomag érkezett",
-    "packageSentNotification": "Csomag elküldve"
+    "packageSentNotification": "Csomag elküldve",
+    "updateFormTitle": "Raktár adatok frissítése"
   },
   "wh-btns": {
     "wh-data": "Raktár adatok",

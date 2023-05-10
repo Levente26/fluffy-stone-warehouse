@@ -10,7 +10,7 @@
     </button>
 
     <div v-if="!showPackages">
-      <SinglePageWarehouseData :data="data.data" @refresh="refresh" />
+      <SinglePageWarehouseData :key="data" :data="data.data" @refresh="refresh" />
     </div>
 
     <div v-if="showPackages">
@@ -39,7 +39,7 @@ const { data, pending, refresh, error } = await useAsyncData(
   "singleWarehouse",
   () =>
     findOne("warehouses", route.params.id, {
-      populate: ["packages"],
+      populate: ["packages", "secondaryWarehouse"],
     })
 );
 

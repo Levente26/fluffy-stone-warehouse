@@ -84,7 +84,8 @@
     "received-packages": "Received Packages",
     "sent-packages": "Sent Packages",
     "packageReceivedNotification": "Package received",
-    "packageSentNotification": "Package sent"
+    "packageSentNotification": "Package sent",
+    "updateFormTitle": "Update Warehouse Data"
   },
   "wh-btns": {
     "wh-data": "Warehouse Data",
