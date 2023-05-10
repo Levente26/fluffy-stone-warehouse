@@ -28,7 +28,7 @@ yarn develop
 npm run develop
 ```
 
-# Second step: Configure Strapi IMPORTANT!
+# Second step: Configure Strapi **IMPORTANT**!
 Go to Settings -> Users & Permission Plugin -> Roles -> Authenticated
 
 -> Select Package:
@@ -39,7 +39,7 @@ Go to Settings -> Users & Permission Plugin -> Roles -> Authenticated
 -> Enable all actions (create, find, update, delete, findOne)
 -> Save
 
-(This may cause server error if not configured properly)
+**This may cause server error if not configured properly**
 
 # Third step
 If Strapi Configuration is done then open up a new terminal and follow these steps:
