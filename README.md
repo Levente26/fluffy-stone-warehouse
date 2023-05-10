@@ -83,7 +83,7 @@ If you click on the warehouse card you will see the Single Warehouse Page
 
 ## Single Page
 On the Single Pages you have two options:
-- see the warehouse data & edit warehouse data & you can run **automatized warehouse traffic simulation**
+- see the warehouse data & edit warehouse data & you can run **Automatized Warehouse Traffic Simulation**
 - see the packages what is inside the warehouse & edit or delete the packages & sort them / filter them / search inside them and also you can add more packages
 
 
