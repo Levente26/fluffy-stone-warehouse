@@ -15,7 +15,6 @@
 
     <div v-if="!showPackages">
       <SinglePageWarehouseData
-        :key="data"
         :data="data.data"
         @refresh="refresh"
       />
