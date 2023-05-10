@@ -160,7 +160,7 @@ const createWarehouseObject = () => {
     maximumCapacity: maximumCapacity.value,
     usedCapacity: usedCapacity.value,
     packages: [],
-    status: "open",
+    status: status.value,
     packagesReceived: usedCapacity.value,
     packagesSent: 0,
     secondaryWarehouse: secondaryWarehouse.value,
