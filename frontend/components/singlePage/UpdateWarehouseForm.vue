@@ -231,7 +231,7 @@ const onSubmit = async () => {
         router.push(localePath("/", locale.value));
       } else {
         notify({
-          text: i18n.t("wh-data.updateNotification"),
+          text: i18n.t("wh-data.notEnoughSpace"),
           type: "error",
           duration: 1500,
         });
@@ -242,7 +242,7 @@ const onSubmit = async () => {
       warehouse.attributes.secondaryWarehouse.data === null
     ) {
       notify({
-        text: i18n.t("wh-data.updateNotification"),
+        text: i18n.t("wh-data.noSecondaryWarehouse"),
         type: "error",
         duration: 1500,
       });

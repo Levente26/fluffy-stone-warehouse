@@ -89,7 +89,9 @@
     "updateNotification": "Raktár adatok frissítve",
     "deleteNotification": "Raktár törölve",
     "delete": "Raktár törlése",
-    "deleteText": "Biztosan törölni szeretnéd a raktárat?"
+    "deleteText": "Biztosan törölni szeretnéd a raktárat?",
+    "notEnoughSpace": "Nincs elég hely a raktárban",
+    "noSecondaryWarehouse": "Nincs megadva másodlagos raktár"
   },
   "wh-btns": {
     "wh-data": "Raktár adatok",
