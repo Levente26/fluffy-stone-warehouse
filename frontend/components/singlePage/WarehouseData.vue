@@ -17,9 +17,9 @@
         </div>
       </article>
 
-      <button @click="updateWarehouseData">{{ $t("wh-data.updateFormTitle") }}</button>
+      <button v-if="!isSimulating" @click="updateWarehouseData">{{ $t("wh-data.updateFormTitle") }}</button>
 
-      <button v-if="!isSimulating" @click="simulateWarehouseOperations">
+      <button v-if="!isSimulating && data.data.attributes.status !== 'closed'" @click="simulateWarehouseOperations">
         {{ $t("simulate.start") }}
       </button>
       <button
@@ -102,7 +102,7 @@
         </button>
       </div>
 
-      <SinglePageUpdateWarehouseForm @closeModal="closeModal" :warehouse="data.data" />
+      <SinglePageUpdateWarehouseForm @closeModal="closeModal" :key="data.data" :warehouse="data.data" />
     </div>
   </section>
 
@@ -126,8 +126,6 @@ const statusRef = ref(data.data.attributes.status);
 const isSimulating = ref(false);
 
 const updateWarehouseData = () => {
-  stopSimulateWarehouseOperations();
-
   showModal.value = true;
   document.body.style.overflow = "hidden";
 };
@@ -274,6 +272,7 @@ const simulateWarehouseOperations = () => {
 };
 
 const stopSimulateWarehouseOperations = () => {
+  emit("refresh");
   isSimulating.value = false;
   clearInterval(intervalId.value);
 };

@@ -87,6 +87,10 @@ const i18n = useI18n();
 const { update, find } = useStrapi();
 const emit = defineEmits(["closeModal"]);
 const { warehouse } = defineProps(["warehouse"]);
+const route = useRoute();
+const router = useRouter();
+const { locale } = useI18n();
+const localePath = useLocalePath();
 
 const name = ref(warehouse.attributes.name);
 const address = ref(warehouse.attributes.address);
@@ -98,6 +102,7 @@ const secondaryWarehouse = ref(
     ? warehouse.attributes.secondaryWarehouse.data.id
     : null
 );
+const initStatus = ref(warehouse.attributes.status);
 
 const nameError = ref(false);
 const addressError = ref(false);
@@ -161,37 +166,37 @@ const onSubmit = async () => {
   }
 
   try {
-    if (status.value === "closed") {
+    if (
+      status.value === "closed" &&
+      warehouse.attributes.secondaryWarehouse.data !== null
+    ) {
       const secondaryWarehouse = warehouse.attributes.secondaryWarehouse.data;
 
-      await update("warehouses", warehouse.id, {
-        name: name.value,
-        address: address.value,
-        maximumCapacity: maximumCapacity.value,
-        usedCapacity: 0,
-        packages: [],
-        packagesSent: warehouse.attributes.packagesSent + usedCapacity.value,
-        status: status.value,
-        secondaryWarehouse: secondaryWarehouse.value,
-      });
-
       if (
-        secondaryWarehouse !== null &&
-        secondaryWarehouse.attributes.usedCapacity +
-          warehouse.attributes.usedCapacity <=
-          secondaryWarehouse.attributes.maximumCapacity
+        secondaryWarehouse.attributes.usedCapacity + usedCapacity.value <=
+          secondaryWarehouse.attributes.maximumCapacity &&
+        secondaryWarehouse.attributes.status !== "closed"
       ) {
+        await update("warehouses", warehouse.id, {
+          name: name.value,
+          address: address.value,
+          maximumCapacity: maximumCapacity.value,
+          usedCapacity: 0,
+          packages: [],
+          packagesSent: warehouse.attributes.packagesSent + usedCapacity.value,
+          status: status.value,
+          secondaryWarehouse: secondaryWarehouse.value,
+        });
+
         await update("warehouses", secondaryWarehouse.id, {
           usedCapacity:
-            secondaryWarehouse.attributes.usedCapacity +
-            warehouse.attributes.usedCapacity,
+            secondaryWarehouse.attributes.usedCapacity + usedCapacity.value,
           packagesReceived:
-            secondaryWarehouse.attributes.packagesReceived +
-            warehouse.attributes.usedCapacity,
-          packages: [
-            ...secondaryWarehouse.attributes.packages,
-            ...warehouse.attributes.packages,
-          ],
+            secondaryWarehouse.attributes.packagesReceived + usedCapacity.value,
+          // packages: [
+          //   ...secondaryWarehouse.attributes.packages,
+          //   ...warehouse.attributes.packages,
+          // ],
           status:
             secondaryWarehouse.attributes.usedCapacity + usedCapacity.value ===
             0
@@ -209,8 +214,33 @@ const onSubmit = async () => {
               ? "open"
               : "closed",
         });
+
+        console.log("if");
+        router.push(localePath("/", locale.value));
+      } else {
+        notify({
+          text: i18n.t("wh-data.updateNotification"),
+          type: "error",
+          duration: 1500,
+        });
+        emit("closeModal");
+        console.log("else inside if GOOD");
       }
+    } else if (
+      status.value === "closed" &&
+      warehouse.attributes.secondaryWarehouse.data === null
+    ) {
+      notify({
+        text: i18n.t("wh-data.updateNotification"),
+        type: "error",
+        duration: 1500,
+      });
+      emit("closeModal");
+      console.log("else if");
+
+      return;
     } else {
+      console.log("alsó else", secondaryWarehouse.value);
       await update("warehouses", warehouse.id, {
         name: name.value,
         address: address.value,
@@ -220,6 +250,10 @@ const onSubmit = async () => {
         secondaryWarehouse: secondaryWarehouse.value,
       });
 
+      if (status.value !== initStatus.value) {
+        router.push(localePath("/", locale.value));
+      }
+
       notify({
         text: i18n.t("wh-data.updateNotification"),
         type: "success",
@@ -228,6 +262,7 @@ const onSubmit = async () => {
     }
     emit("closeModal");
   } catch (error) {
+    console.log(error);
     serverError.value = true;
   }
 };
